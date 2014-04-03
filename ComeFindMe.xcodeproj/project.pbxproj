@@ -20,6 +20,7 @@
 		675E8C9C18EDF73F00978B50 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 675E8C9A18EDF73F00978B50 /* InfoPlist.strings */; };
 		675E8C9E18EDF73F00978B50 /* ComeFindMeTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 675E8C9D18EDF73F00978B50 /* ComeFindMeTests.m */; };
 		675E8CAA18EDFE9C00978B50 /* FacebookSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 675E8CA918EDFE9C00978B50 /* FacebookSDK.framework */; };
+		675E8CAD18EE03AC00978B50 /* CFMLoginView.m in Sources */ = {isa = PBXBuildFile; fileRef = 675E8CAC18EE03AC00978B50 /* CFMLoginView.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -50,6 +51,8 @@
 		675E8C9B18EDF73F00978B50 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		675E8C9D18EDF73F00978B50 /* ComeFindMeTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ComeFindMeTests.m; sourceTree = "<group>"; };
 		675E8CA918EDFE9C00978B50 /* FacebookSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FacebookSDK.framework; path = ../FacebookSDK/FacebookSDK.framework; sourceTree = "<group>"; };
+		675E8CAB18EE03AC00978B50 /* CFMLoginView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CFMLoginView.h; path = Classes/Views/CFMLoginView.h; sourceTree = "<group>"; };
+		675E8CAC18EE03AC00978B50 /* CFMLoginView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CFMLoginView.m; path = Classes/Views/CFMLoginView.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -160,6 +163,8 @@
 		675E8CA818EDF78300978B50 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				675E8CAB18EE03AC00978B50 /* CFMLoginView.h */,
+				675E8CAC18EE03AC00978B50 /* CFMLoginView.m */,
 			);
 			name = Views;
 			sourceTree = "<group>";
@@ -261,6 +266,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				675E8C8518EDF73E00978B50 /* main.m in Sources */,
+				675E8CAD18EE03AC00978B50 /* CFMLoginView.m in Sources */,
 				675E8C8918EDF73F00978B50 /* CFMAppDelegate.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
