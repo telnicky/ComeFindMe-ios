@@ -8,7 +8,10 @@
 
 #import "CFMAppDelegate.h"
 #import "CFMLoginView.h"
+#import "CFMSelectLocationView.h"
+
 #import <FacebookSDK/FacebookSDK.h>
+#import <GoogleMaps/GoogleMaps.h>
 
 @implementation CFMAppDelegate
 
@@ -18,9 +21,16 @@
     // Override point for customization after application launch.
     self.window.backgroundColor = [UIColor whiteColor];
     [self.window makeKeyAndVisible];
+
+    // GOOGLE MAPS api key
+    [GMSServices provideAPIKey:@"AIzaSyAYgMPaex070NBehtAKlzoAXMYTqrLNK2c"];
     
-    CFMLoginView* loginView = [[CFMLoginView alloc] initWithFrame:self.window.bounds];
-    [[self window] addSubview:loginView];
+//    CFMLoginView* loginView = [[CFMLoginView alloc] initWithFrame:self.window.bounds];
+//    [[self window] addSubview:loginView];
+    CFMSelectLocationView* selectLocationView = [[CFMSelectLocationView alloc] initWithFrame:self.window.bounds];
+    [self.window addSubview:selectLocationView];
+    
+
     
     return YES;
 }

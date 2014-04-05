@@ -33,8 +33,9 @@
                                       frame.size.width,
                                       30);
         [self.nameLabel setFrame:nameLabelFrame];
-        [self.nameLabel setText:@"Not Yet.."];
+        [self.nameLabel setText:@"Come Find Me"];
         [self.nameLabel setAdjustsFontSizeToFitWidth:true];
+//        [self.nameLabel setTextColor:[UIColor whiteColor]];
         [self.nameLabel setTextAlignment:NSTextAlignmentCenter];
         [self addSubview:self.nameLabel];
         
