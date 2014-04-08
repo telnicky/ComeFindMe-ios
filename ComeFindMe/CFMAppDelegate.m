@@ -9,6 +9,8 @@
 #import "CFMAppDelegate.h"
 #import "CFMLoginView.h"
 #import "CFMSelectLocationView.h"
+#import "CFMReceiveRequestView.h"
+#import "CFMRestService.h"
 
 #import <FacebookSDK/FacebookSDK.h>
 #import <GoogleMaps/GoogleMaps.h>
@@ -27,8 +29,18 @@
     
 //    CFMLoginView* loginView = [[CFMLoginView alloc] initWithFrame:self.window.bounds];
 //    [[self window] addSubview:loginView];
-    CFMSelectLocationView* selectLocationView = [[CFMSelectLocationView alloc] initWithFrame:self.window.bounds];
-    [self.window addSubview:selectLocationView];
+//    CFMSelectLocationView* selectLocationView = [[CFMSelectLocationView alloc] initWithFrame:self.window.bounds];
+//    [self.window addSubview:selectLocationView];
+    CFMReceiveRequestView* receivedRequestView = [[CFMReceiveRequestView alloc] initWithFrame:self.window.bounds];
+    [self.window addSubview:receivedRequestView];
+    
+    CFMRestService* service = [CFMRestService instance];
+    [service readResource:@"locations"
+        completionHandler:^(NSURLResponse* response, NSData* data, NSError* err)
+    {
+
+    }];
+    
     
 
     

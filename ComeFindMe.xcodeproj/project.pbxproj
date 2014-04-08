@@ -36,6 +36,8 @@
 		67A9D4AD18EFBD820017373B /* OpenGLES.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 67A9D4AC18EFBD820017373B /* OpenGLES.framework */; };
 		67A9D4B018EFBD900017373B /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 67A9D4AE18EFBD900017373B /* QuartzCore.framework */; };
 		67A9D4B118EFBD900017373B /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 67A9D4AF18EFBD900017373B /* SystemConfiguration.framework */; };
+		67BCEF4918F24926000853B6 /* CFMReceiveRequestView.m in Sources */ = {isa = PBXBuildFile; fileRef = 67BCEF4818F24926000853B6 /* CFMReceiveRequestView.m */; };
+		67BCEF4D18F38F63000853B6 /* CFMRestService.m in Sources */ = {isa = PBXBuildFile; fileRef = 67BCEF4C18F38F63000853B6 /* CFMRestService.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -84,6 +86,10 @@
 		67A9D4AC18EFBD820017373B /* OpenGLES.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGLES.framework; path = System/Library/Frameworks/OpenGLES.framework; sourceTree = SDKROOT; };
 		67A9D4AE18EFBD900017373B /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		67A9D4AF18EFBD900017373B /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
+		67BCEF4718F24926000853B6 /* CFMReceiveRequestView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CFMReceiveRequestView.h; path = Classes/Views/CFMReceiveRequestView.h; sourceTree = "<group>"; };
+		67BCEF4818F24926000853B6 /* CFMReceiveRequestView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CFMReceiveRequestView.m; path = Classes/Views/CFMReceiveRequestView.m; sourceTree = "<group>"; };
+		67BCEF4B18F38F63000853B6 /* CFMRestService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CFMRestService.h; path = Classes/Utilities/CFMRestService.h; sourceTree = "<group>"; };
+		67BCEF4C18F38F63000853B6 /* CFMRestService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CFMRestService.m; path = Classes/Utilities/CFMRestService.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -214,6 +220,7 @@
 			isa = PBXGroup;
 			children = (
 				675E8CA818EDF78300978B50 /* Views */,
+				67BCEF4A18F38F0A000853B6 /* Utilities */,
 			);
 			name = Classes;
 			sourceTree = "<group>";
@@ -225,8 +232,19 @@
 				675E8CAC18EE03AC00978B50 /* CFMLoginView.m */,
 				67A9D49318EFBB9B0017373B /* CFMSelectLocationView.h */,
 				67A9D49418EFBB9B0017373B /* CFMSelectLocationView.m */,
+				67BCEF4718F24926000853B6 /* CFMReceiveRequestView.h */,
+				67BCEF4818F24926000853B6 /* CFMReceiveRequestView.m */,
 			);
 			name = Views;
+			sourceTree = "<group>";
+		};
+		67BCEF4A18F38F0A000853B6 /* Utilities */ = {
+			isa = PBXGroup;
+			children = (
+				67BCEF4B18F38F63000853B6 /* CFMRestService.h */,
+				67BCEF4C18F38F63000853B6 /* CFMRestService.m */,
+			);
+			name = Utilities;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -327,8 +345,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				67A9D49518EFBB9B0017373B /* CFMSelectLocationView.m in Sources */,
+				67BCEF4918F24926000853B6 /* CFMReceiveRequestView.m in Sources */,
 				675E8C8518EDF73E00978B50 /* main.m in Sources */,
 				675E8CAD18EE03AC00978B50 /* CFMLoginView.m in Sources */,
+				67BCEF4D18F38F63000853B6 /* CFMRestService.m in Sources */,
 				675E8C8918EDF73F00978B50 /* CFMAppDelegate.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
