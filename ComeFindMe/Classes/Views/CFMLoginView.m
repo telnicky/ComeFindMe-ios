@@ -18,34 +18,40 @@
         [self setBackgroundColor:[UIColor yellowColor]];
 
         [self setLoginView:[[FBLoginView alloc] init]];
-        
-        CGRect loginFrame = self.loginView.frame;
-        loginFrame.origin.x = CGRectGetMidX(frame) - loginFrame.size.width * 0.5f;
-        loginFrame.origin.y = CGRectGetMidY(frame) + loginFrame.size.height;
-        
-        [self.loginView setFrame:loginFrame];
         [self.loginView setDelegate:self];
         [self addSubview:self.loginView];
         
         self.nameLabel = [[UILabel alloc] init];
-        CGRect nameLabelFrame = CGRectMake(frame.origin.x + 50,
-                                      frame.origin.y + 100,
-                                      frame.size.width,
-                                      30);
-        [self.nameLabel setFrame:nameLabelFrame];
         [self.nameLabel setText:@"Come Find Me"];
         [self.nameLabel setAdjustsFontSizeToFitWidth:true];
-//        [self.nameLabel setTextColor:[UIColor whiteColor]];
         [self.nameLabel setTextAlignment:NSTextAlignmentCenter];
         [self addSubview:self.nameLabel];
-        
 
     }
     return self;
 }
 
-- (void) loginViewFetchedUserInfo:(FBLoginView *)loginView user:(id<FBGraphUser>)user
+- (void)layoutSubviews
 {
+    CGRect frame = [self bounds];
+    
+    CGRect loginFrame = self.loginView.frame;
+    loginFrame.origin.x = CGRectGetMidX(frame) - loginFrame.size.width * 0.5f;
+    loginFrame.origin.y = CGRectGetMidY(frame) + loginFrame.size.height;
+    
+    [self.loginView setFrame:loginFrame];
+    
+    CGRect nameLabelFrame = CGRectMake(frame.origin.x + 50,
+                                       frame.origin.y + 100,
+                                       frame.size.width,
+                                       30);
+    [self.nameLabel setFrame:nameLabelFrame];
+}
+
+#pragma mark FBLoginViewDelegate
+- (void)loginViewFetchedUserInfo:(FBLoginView *)loginView user:(id<FBGraphUser>)user
+{
+    [self.delegate loginView:self loggedInUser:user];
     self.nameLabel.text = user.name;
 }
 

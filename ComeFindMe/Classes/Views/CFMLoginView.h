@@ -9,7 +9,16 @@
 #import <UIKit/UIKit.h>
 #import <FacebookSDK/FacebookSDK.h>
 
+@class CFMLoginView;
+
+@protocol CFMLoginViewDelegate <NSObject>
+
+- (void) loginView:(CFMLoginView*)loginView loggedInUser:(id< FBGraphUser >)user;
+
+@end
+
 @interface CFMLoginView : UIView < FBLoginViewDelegate >
+@property (nonatomic, assign) id< CFMLoginViewDelegate > delegate;
 @property (nonatomic) UILabel* nameLabel;
 @property (nonatomic) FBLoginView* loginView;
 @end

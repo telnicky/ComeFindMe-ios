@@ -38,6 +38,11 @@
 		67A9D4B118EFBD900017373B /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 67A9D4AF18EFBD900017373B /* SystemConfiguration.framework */; };
 		67BCEF4918F24926000853B6 /* CFMReceiveRequestView.m in Sources */ = {isa = PBXBuildFile; fileRef = 67BCEF4818F24926000853B6 /* CFMReceiveRequestView.m */; };
 		67BCEF4D18F38F63000853B6 /* CFMRestService.m in Sources */ = {isa = PBXBuildFile; fileRef = 67BCEF4C18F38F63000853B6 /* CFMRestService.m */; };
+		67EF031618FA297500D2A40C /* CFMNavigationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 67EF031518FA297500D2A40C /* CFMNavigationViewController.m */; };
+		67EF031918FA2BD100D2A40C /* CFMLoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 67EF031818FA2BD100D2A40C /* CFMLoginViewController.m */; };
+		67EF031C18FB321F00D2A40C /* CFMSelectLocationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 67EF031B18FB321F00D2A40C /* CFMSelectLocationViewController.m */; };
+		67EF031F18FB3A1000D2A40C /* CFMSelectFriendsView.m in Sources */ = {isa = PBXBuildFile; fileRef = 67EF031E18FB3A1000D2A40C /* CFMSelectFriendsView.m */; };
+		67EF032218FB406A00D2A40C /* CFMSelectFriendsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 67EF032118FB406A00D2A40C /* CFMSelectFriendsViewController.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -90,6 +95,16 @@
 		67BCEF4818F24926000853B6 /* CFMReceiveRequestView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CFMReceiveRequestView.m; path = Classes/Views/CFMReceiveRequestView.m; sourceTree = "<group>"; };
 		67BCEF4B18F38F63000853B6 /* CFMRestService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CFMRestService.h; path = Classes/Utilities/CFMRestService.h; sourceTree = "<group>"; };
 		67BCEF4C18F38F63000853B6 /* CFMRestService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CFMRestService.m; path = Classes/Utilities/CFMRestService.m; sourceTree = "<group>"; };
+		67EF031418FA297500D2A40C /* CFMNavigationViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CFMNavigationViewController.h; path = Classes/Controllers/CFMNavigationViewController.h; sourceTree = "<group>"; };
+		67EF031518FA297500D2A40C /* CFMNavigationViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CFMNavigationViewController.m; path = Classes/Controllers/CFMNavigationViewController.m; sourceTree = "<group>"; };
+		67EF031718FA2BD100D2A40C /* CFMLoginViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CFMLoginViewController.h; path = Classes/Controllers/CFMLoginViewController.h; sourceTree = "<group>"; };
+		67EF031818FA2BD100D2A40C /* CFMLoginViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CFMLoginViewController.m; path = Classes/Controllers/CFMLoginViewController.m; sourceTree = "<group>"; };
+		67EF031A18FB321F00D2A40C /* CFMSelectLocationViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CFMSelectLocationViewController.h; path = Classes/Controllers/CFMSelectLocationViewController.h; sourceTree = "<group>"; };
+		67EF031B18FB321F00D2A40C /* CFMSelectLocationViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CFMSelectLocationViewController.m; path = Classes/Controllers/CFMSelectLocationViewController.m; sourceTree = "<group>"; };
+		67EF031D18FB3A1000D2A40C /* CFMSelectFriendsView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CFMSelectFriendsView.h; path = Classes/Views/CFMSelectFriendsView.h; sourceTree = "<group>"; };
+		67EF031E18FB3A1000D2A40C /* CFMSelectFriendsView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CFMSelectFriendsView.m; path = Classes/Views/CFMSelectFriendsView.m; sourceTree = "<group>"; };
+		67EF032018FB406A00D2A40C /* CFMSelectFriendsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CFMSelectFriendsViewController.h; path = Classes/Controllers/CFMSelectFriendsViewController.h; sourceTree = "<group>"; };
+		67EF032118FB406A00D2A40C /* CFMSelectFriendsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CFMSelectFriendsViewController.m; path = Classes/Controllers/CFMSelectFriendsViewController.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -219,6 +234,7 @@
 		675E8CA718EDF77800978B50 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
+				67EF031318FA290000D2A40C /* Controllers */,
 				675E8CA818EDF78300978B50 /* Views */,
 				67BCEF4A18F38F0A000853B6 /* Utilities */,
 			);
@@ -234,6 +250,8 @@
 				67A9D49418EFBB9B0017373B /* CFMSelectLocationView.m */,
 				67BCEF4718F24926000853B6 /* CFMReceiveRequestView.h */,
 				67BCEF4818F24926000853B6 /* CFMReceiveRequestView.m */,
+				67EF031D18FB3A1000D2A40C /* CFMSelectFriendsView.h */,
+				67EF031E18FB3A1000D2A40C /* CFMSelectFriendsView.m */,
 			);
 			name = Views;
 			sourceTree = "<group>";
@@ -245,6 +263,21 @@
 				67BCEF4C18F38F63000853B6 /* CFMRestService.m */,
 			);
 			name = Utilities;
+			sourceTree = "<group>";
+		};
+		67EF031318FA290000D2A40C /* Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				67EF031418FA297500D2A40C /* CFMNavigationViewController.h */,
+				67EF031518FA297500D2A40C /* CFMNavigationViewController.m */,
+				67EF031718FA2BD100D2A40C /* CFMLoginViewController.h */,
+				67EF031818FA2BD100D2A40C /* CFMLoginViewController.m */,
+				67EF031A18FB321F00D2A40C /* CFMSelectLocationViewController.h */,
+				67EF031B18FB321F00D2A40C /* CFMSelectLocationViewController.m */,
+				67EF032018FB406A00D2A40C /* CFMSelectFriendsViewController.h */,
+				67EF032118FB406A00D2A40C /* CFMSelectFriendsViewController.m */,
+			);
+			name = Controllers;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -345,11 +378,16 @@
 			buildActionMask = 2147483647;
 			files = (
 				67A9D49518EFBB9B0017373B /* CFMSelectLocationView.m in Sources */,
+				67EF031918FA2BD100D2A40C /* CFMLoginViewController.m in Sources */,
 				67BCEF4918F24926000853B6 /* CFMReceiveRequestView.m in Sources */,
+				67EF031C18FB321F00D2A40C /* CFMSelectLocationViewController.m in Sources */,
 				675E8C8518EDF73E00978B50 /* main.m in Sources */,
+				67EF031618FA297500D2A40C /* CFMNavigationViewController.m in Sources */,
 				675E8CAD18EE03AC00978B50 /* CFMLoginView.m in Sources */,
 				67BCEF4D18F38F63000853B6 /* CFMRestService.m in Sources */,
 				675E8C8918EDF73F00978B50 /* CFMAppDelegate.m in Sources */,
+				67EF032218FB406A00D2A40C /* CFMSelectFriendsViewController.m in Sources */,
+				67EF031F18FB3A1000D2A40C /* CFMSelectFriendsView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -7,10 +7,11 @@
 //
 
 #import "CFMAppDelegate.h"
-#import "CFMLoginView.h"
+#import "CFMLoginViewController.h"
 #import "CFMSelectLocationView.h"
 #import "CFMReceiveRequestView.h"
 #import "CFMRestService.h"
+#import "CFMNavigationViewController.h"
 
 #import <FacebookSDK/FacebookSDK.h>
 #import <GoogleMaps/GoogleMaps.h>
@@ -26,21 +27,30 @@
 
     // GOOGLE MAPS api key
     [GMSServices provideAPIKey:@"AIzaSyAYgMPaex070NBehtAKlzoAXMYTqrLNK2c"];
+
+    CFMNavigationViewController* navController = [[CFMNavigationViewController alloc] init];
+    [self.window setRootViewController:navController];
     
-//    CFMLoginView* loginView = [[CFMLoginView alloc] initWithFrame:self.window.bounds];
-//    [[self window] addSubview:loginView];
+//    CFMSelectLocationViewController* selectController = [[CFMSelectLocationViewController alloc] init];
+//    [self.window setRootViewController:selectController];
+    
+    
 //    CFMSelectLocationView* selectLocationView = [[CFMSelectLocationView alloc] initWithFrame:self.window.bounds];
 //    [self.window addSubview:selectLocationView];
-    CFMReceiveRequestView* receivedRequestView = [[CFMReceiveRequestView alloc] initWithFrame:self.window.bounds];
-    [self.window addSubview:receivedRequestView];
+//    CFMReceiveRequestView* receivedRequestView = [[CFMReceiveRequestView alloc] initWithFrame:self.window.bounds];
+//    [self.window addSubview:receivedRequestView];
     
-    CFMRestService* service = [CFMRestService instance];
-    [service readResource:@"locations"
-        completionHandler:^(NSURLResponse* response, NSData* data, NSError* err)
-    {
-
-    }];
-    
+//    CFMRestService* service = [CFMRestService instance];
+//    [service readResource:@"locations"
+//        completionHandler:^(NSURLResponse* response, NSData* data, NSError* err)
+//    {
+//        NSError* error;
+//        id JSONObject = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:&error];
+//        NSLog(@"foo");
+//        
+//        
+//    }];
+//    
     
 
     
