@@ -9,7 +9,14 @@
 #import <UIKit/UIKit.h>
 #import <GoogleMaps/GoogleMaps.h>
 
+@class CFMSelectLocationView;
+
+@protocol CFMSelectLocationViewDelegate <NSObject>
+- (void)selectFriendsPressedFromSelectLocationView:(CFMSelectLocationView*)selectLocation;
+@end
+
 @interface CFMSelectLocationView : UIView< CLLocationManagerDelegate, GMSMapViewDelegate, UITextViewDelegate >
+@property (nonatomic, assign) id< CFMSelectLocationViewDelegate > delegate;
 @property (nonatomic) float latitude;
 @property (nonatomic) float longitude;
 @property (nonatomic) GMSMapView* mapView;

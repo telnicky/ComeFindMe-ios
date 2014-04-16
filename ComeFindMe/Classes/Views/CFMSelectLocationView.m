@@ -17,13 +17,15 @@
     CGRect _descriptionViewFrame;
     CGRect _selectFriendsButtonFrame;
     NSString* _placeHolderText;
+    float _originalY;
 }
 
 - (id)initWithFrame:(CGRect)frame
 {
     self = [super initWithFrame:frame];
     if (self) {
-        // Initialization code
+        _originalY = 0;
+
         self.latitude = -33.86;
         self.longitude = 151.20;
 
@@ -34,7 +36,7 @@
 
         // Keyboard events
         _keyboardIsVisible = false;
-        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardDidShow:) name:UIKeyboardDidShowNotification object:nil];
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillShow:) name:UIKeyboardWillShowNotification object:nil];
 
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillHide) name:UIKeyboardWillHideNotification object:nil];
 
@@ -112,19 +114,21 @@
 
 - (void)keyboardWillHide
 {
+    CGRect newFrame = self.frame;
+    newFrame.origin.y = _originalY;
+    [self setFrame:newFrame];
     [self layoutSubviews];
     _keyboardIsVisible = false;
 }
 
-- (void)keyboardDidShow:(NSNotification*)notification
+- (void)keyboardWillShow:(NSNotification*)notification
 {
-//    Get the size of the keyboard.
-    NSDictionary* keyboardInfo = [notification userInfo];
-    NSValue* keyboardFrameEnd = [keyboardInfo valueForKey:UIKeyboardFrameEndUserInfoKey];
-    CGRect keyboardFrameEndRect = [keyboardFrameEnd CGRectValue];
+    _originalY = self.frame.origin.y;
     
-    _descriptionViewFrame.origin.y = keyboardFrameEndRect.origin.y - _descriptionViewFrame.size.height;
-    self.descriptionView.frame = _descriptionViewFrame;
+    float scrollY = -self.descriptionView.frame.size.height;
+    CGRect newFrame = self.frame;
+    newFrame.origin.y = scrollY;
+    [self setFrame:newFrame];
 
     _keyboardIsVisible = true;
 }
@@ -132,6 +136,7 @@
 -(void)onSelectFriendsPressed
 {
     NSLog(@"Select Friends!!");
+    [self.delegate selectFriendsPressedFromSelectLocationView:self];
 }
 
 - (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event

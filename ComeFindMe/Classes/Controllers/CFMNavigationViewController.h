@@ -12,7 +12,7 @@
 #import "CFMSelectLocationViewController.h"
 #import "CFMSelectFriendsViewController.h"
 
-@interface CFMNavigationViewController : UINavigationController < CFMLoginViewControllerDelegate >
+@interface CFMNavigationViewController : UINavigationController < CFMLoginViewControllerDelegate, CFMSelectLocationViewControllerDelegate >
 @property (nonatomic) CFMLoginViewController* loginViewController;
 @property (nonatomic) CFMSelectLocationViewController* selectLocationController;
 @property (nonatomic) CFMSelectFriendsViewController* selectFriendsController;

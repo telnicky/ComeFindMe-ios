@@ -39,6 +39,7 @@
     [self.loginViewController setDelegate:self];
 
     self.selectLocationController = [[CFMSelectLocationViewController alloc] init];
+    [self.selectLocationController setDelegate:self];
     
     self.selectFriendsController = [[CFMSelectFriendsViewController alloc] init];
 }
@@ -67,6 +68,12 @@
 {
     [self setNavigationBarHidden:false];
     [self setViewControllers:@[ self.selectLocationController ] animated:false];
+}
+
+#pragma mark CFMSelectLocationViewControllerDelegate
+- (void) selectFriendsPressedFromSelectLocationViewController:(CFMSelectLocationViewController *)selectLocationViewController
+{
+    [self pushViewController:self.selectFriendsController animated:false];
 }
 
 @end

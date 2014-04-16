@@ -8,7 +8,18 @@
 
 #import <UIKit/UIKit.h>
 #import "CFMSelectLocationView.h"
+#import "CFMMessagesButton.h"
 
-@interface CFMSelectLocationViewController : UIViewController
+@class CFMSelectLocationViewController;
+
+@protocol CFMSelectLocationViewControllerDelegate <NSObject>
+
+- (void)selectFriendsPressedFromSelectLocationViewController:(CFMSelectLocationViewController*)selectLocationViewController;
+
+@end
+
+@interface CFMSelectLocationViewController : UIViewController< CFMSelectLocationViewDelegate >
+@property (nonatomic, assign) id< CFMSelectLocationViewControllerDelegate > delegate;
 @property (nonatomic) CFMSelectLocationView* selectLocationView;
+@property (nonatomic) CFMMessagesButton* messagesButton;
 @end

@@ -7,9 +7,12 @@
 //
 
 #import <UIKit/UIKit.h>
+#import <FacebookSDK/FacebookSDK.h>
 
 #import "CFMSelectFriendsView.h"
+#import "CFMFriends.h"
 
-@interface CFMSelectFriendsViewController : UIViewController
+@interface CFMSelectFriendsViewController : UIViewController <CFMFriendsDelegate >
 @property (nonatomic) CFMSelectFriendsView* selectFriendsView;
+@property (nonatomic) CFMFriends* friends;
 @end

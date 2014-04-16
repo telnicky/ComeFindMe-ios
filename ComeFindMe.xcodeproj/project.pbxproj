@@ -43,6 +43,10 @@
 		67EF031C18FB321F00D2A40C /* CFMSelectLocationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 67EF031B18FB321F00D2A40C /* CFMSelectLocationViewController.m */; };
 		67EF031F18FB3A1000D2A40C /* CFMSelectFriendsView.m in Sources */ = {isa = PBXBuildFile; fileRef = 67EF031E18FB3A1000D2A40C /* CFMSelectFriendsView.m */; };
 		67EF032218FB406A00D2A40C /* CFMSelectFriendsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 67EF032118FB406A00D2A40C /* CFMSelectFriendsViewController.m */; };
+		67EF032618FCD74200D2A40C /* CFMBadgeView.m in Sources */ = {isa = PBXBuildFile; fileRef = 67EF032518FCD74200D2A40C /* CFMBadgeView.m */; };
+		67EF032C18FCEAD100D2A40C /* CFMMessagesButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 67EF032B18FCEAD100D2A40C /* CFMMessagesButton.m */; };
+		67EF032F18FCEE5900D2A40C /* glyphicons_114_list.png in Resources */ = {isa = PBXBuildFile; fileRef = 67EF032E18FCEE5900D2A40C /* glyphicons_114_list.png */; };
+		67EF033318FDF75C00D2A40C /* CFMFriends.m in Sources */ = {isa = PBXBuildFile; fileRef = 67EF033218FDF75C00D2A40C /* CFMFriends.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -105,6 +109,13 @@
 		67EF031E18FB3A1000D2A40C /* CFMSelectFriendsView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CFMSelectFriendsView.m; path = Classes/Views/CFMSelectFriendsView.m; sourceTree = "<group>"; };
 		67EF032018FB406A00D2A40C /* CFMSelectFriendsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CFMSelectFriendsViewController.h; path = Classes/Controllers/CFMSelectFriendsViewController.h; sourceTree = "<group>"; };
 		67EF032118FB406A00D2A40C /* CFMSelectFriendsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CFMSelectFriendsViewController.m; path = Classes/Controllers/CFMSelectFriendsViewController.m; sourceTree = "<group>"; };
+		67EF032418FCD74200D2A40C /* CFMBadgeView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CFMBadgeView.h; path = Classes/Controls/CFMBadgeView.h; sourceTree = "<group>"; };
+		67EF032518FCD74200D2A40C /* CFMBadgeView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CFMBadgeView.m; path = Classes/Controls/CFMBadgeView.m; sourceTree = "<group>"; };
+		67EF032A18FCEAD100D2A40C /* CFMMessagesButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CFMMessagesButton.h; path = Classes/Controls/CFMMessagesButton.h; sourceTree = "<group>"; };
+		67EF032B18FCEAD100D2A40C /* CFMMessagesButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CFMMessagesButton.m; path = Classes/Controls/CFMMessagesButton.m; sourceTree = "<group>"; };
+		67EF032E18FCEE5900D2A40C /* glyphicons_114_list.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = glyphicons_114_list.png; sourceTree = "<group>"; };
+		67EF033118FDF75C00D2A40C /* CFMFriends.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CFMFriends.h; path = Classes/Models/CFMFriends.h; sourceTree = "<group>"; };
+		67EF033218FDF75C00D2A40C /* CFMFriends.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CFMFriends.m; path = Classes/Models/CFMFriends.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -205,6 +216,7 @@
 		675E8C7F18EDF73E00978B50 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				67EF032D18FCEE5900D2A40C /* glyphicons */,
 				675E8C8018EDF73E00978B50 /* ComeFindMe-Info.plist */,
 				675E8C8118EDF73E00978B50 /* InfoPlist.strings */,
 				675E8C8418EDF73E00978B50 /* main.m */,
@@ -234,6 +246,8 @@
 		675E8CA718EDF77800978B50 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
+				67EF033018FDF74400D2A40C /* Models */,
+				67EF032318FCD6BA00D2A40C /* Controls */,
 				67EF031318FA290000D2A40C /* Controllers */,
 				675E8CA818EDF78300978B50 /* Views */,
 				67BCEF4A18F38F0A000853B6 /* Utilities */,
@@ -278,6 +292,34 @@
 				67EF032118FB406A00D2A40C /* CFMSelectFriendsViewController.m */,
 			);
 			name = Controllers;
+			sourceTree = "<group>";
+		};
+		67EF032318FCD6BA00D2A40C /* Controls */ = {
+			isa = PBXGroup;
+			children = (
+				67EF032418FCD74200D2A40C /* CFMBadgeView.h */,
+				67EF032518FCD74200D2A40C /* CFMBadgeView.m */,
+				67EF032A18FCEAD100D2A40C /* CFMMessagesButton.h */,
+				67EF032B18FCEAD100D2A40C /* CFMMessagesButton.m */,
+			);
+			name = Controls;
+			sourceTree = "<group>";
+		};
+		67EF032D18FCEE5900D2A40C /* glyphicons */ = {
+			isa = PBXGroup;
+			children = (
+				67EF032E18FCEE5900D2A40C /* glyphicons_114_list.png */,
+			);
+			path = glyphicons;
+			sourceTree = "<group>";
+		};
+		67EF033018FDF74400D2A40C /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				67EF033118FDF75C00D2A40C /* CFMFriends.h */,
+				67EF033218FDF75C00D2A40C /* CFMFriends.m */,
+			);
+			name = Models;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -358,6 +400,7 @@
 			files = (
 				67A9D49918EFBCCA0017373B /* GoogleMaps.bundle in Resources */,
 				675E8C8318EDF73E00978B50 /* InfoPlist.strings in Resources */,
+				67EF032F18FCEE5900D2A40C /* glyphicons_114_list.png in Resources */,
 				675E8C8B18EDF73F00978B50 /* Images.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -379,9 +422,12 @@
 			files = (
 				67A9D49518EFBB9B0017373B /* CFMSelectLocationView.m in Sources */,
 				67EF031918FA2BD100D2A40C /* CFMLoginViewController.m in Sources */,
+				67EF033318FDF75C00D2A40C /* CFMFriends.m in Sources */,
 				67BCEF4918F24926000853B6 /* CFMReceiveRequestView.m in Sources */,
 				67EF031C18FB321F00D2A40C /* CFMSelectLocationViewController.m in Sources */,
+				67EF032C18FCEAD100D2A40C /* CFMMessagesButton.m in Sources */,
 				675E8C8518EDF73E00978B50 /* main.m in Sources */,
+				67EF032618FCD74200D2A40C /* CFMBadgeView.m in Sources */,
 				67EF031618FA297500D2A40C /* CFMNavigationViewController.m in Sources */,
 				675E8CAD18EE03AC00978B50 /* CFMLoginView.m in Sources */,
 				67BCEF4D18F38F63000853B6 /* CFMRestService.m in Sources */,

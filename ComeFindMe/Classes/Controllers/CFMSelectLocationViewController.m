@@ -21,6 +21,13 @@
         // Custom initialization
         self.selectLocationView = [[CFMSelectLocationView alloc] init];
         [self setTitle:@"Come Find Me"];
+        [self.selectLocationView setDelegate:self];
+        
+        self.messagesButton = [[CFMMessagesButton alloc] initWithFrame:CGRectMake(0, 0, 40, 40)];
+        [self.messagesButton.badge setCount:22];
+        UIBarButtonItem* messages = [[UIBarButtonItem alloc] initWithCustomView:self.messagesButton];
+
+        [self.navigationItem setRightBarButtonItems: @[ messages ]];
     }
     return self;
 }
@@ -40,6 +47,12 @@
 - (void)loadView
 {
     [self setView:self.selectLocationView];
+}
+
+#pragma mark CFMSelectLocationViewController
+- (void)selectFriendsPressedFromSelectLocationView:(CFMSelectLocationView *)selectLocation
+{
+    [self.delegate selectFriendsPressedFromSelectLocationViewController:self];
 }
 
 @end

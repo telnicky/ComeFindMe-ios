@@ -18,7 +18,10 @@
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
+        self.friends = [[CFMFriends alloc] init];
+        [self.friends loadData];
         self.selectFriendsView = [[CFMSelectFriendsView alloc] init];
+        [self.selectFriendsView.friendsTable setDataSource:self.friends];
     }
     return self;
 }
@@ -38,6 +41,12 @@
 - (void)loadView
 {
     [self setView:self.selectFriendsView];
+}
+
+#pragma mark CFMFriendsDelegate
+- (void)friendsDidLoad:(CFMFriends *)friends
+{
+    [self.selectFriendsView setNeedsDisplay];
 }
 
 @end

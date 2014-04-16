@@ -12,6 +12,8 @@
 #import "CFMReceiveRequestView.h"
 #import "CFMRestService.h"
 #import "CFMNavigationViewController.h"
+#import "CFMBadgeView.h"
+#import "CFMMessagesButton.h"
 
 #import <FacebookSDK/FacebookSDK.h>
 #import <GoogleMaps/GoogleMaps.h>
@@ -50,9 +52,15 @@
 //        
 //        
 //    }];
-//    
-    
+//
 
+    
+//    CFMBadgeView* badge = [[CFMBadgeView alloc] initWithFrame:CGRectMake(20, 20, 15, 15)];
+//    [self.window addSubview:badge];
+//    CFMMessagesButton* messagesButton = [[CFMMessagesButton alloc] initWithFrame:CGRectMake(20, 20, 40, 40)];
+//    [self.window addSubview:messagesButton];
+//    [self.window setBackgroundColor:[UIColor yellowColor]];
+    
     
     return YES;
 }
