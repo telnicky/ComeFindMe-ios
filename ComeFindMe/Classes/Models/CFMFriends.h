@@ -16,7 +16,9 @@
 
 @interface CFMFriends : NSObject < UITableViewDataSource >
 @property (nonatomic, assign) id< CFMFriendsDelegate > delegate;
-@property (nonatomic) NSMutableDictionary* friends;
+@property (nonatomic) NSMutableArray* friends;
+@property (nonatomic) NSMutableDictionary* sectionsWithFriends;
 @property (nonatomic) NSMutableArray* sections;
+@property (nonatomic) NSMutableDictionary* imagesWithFriends;
 - (void)loadData;
 @end

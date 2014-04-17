@@ -14,7 +14,7 @@
 {
     self = [super init];
     if (self) {
-        self.friends = [[NSMutableDictionary alloc] init];
+        self.sectionsWithFriends = [[NSMutableDictionary alloc] init];
         self.sections = [[NSMutableArray alloc] init];
     }
     return self;
@@ -28,18 +28,30 @@
        NSDictionary* result,
        NSError *error)
     {
-        NSMutableArray* friends = [result objectForKey:@"data"];
+        self.friends = [result objectForKey:@"data"];
 
-        NSLog(@"Found: %i friends", friends.count);
-        for (NSDictionary<FBGraphUser>* friend in friends) {
+        NSLog(@"Found: %i friends", self.friends.count);
+        for (NSDictionary<FBGraphUser>* friend in self.friends) {
             NSLog(@"I have a friend named %@ with id %@", friend.name, friend.id);
         }
         
         
-        [self buildSectionsWithFriends:friends];
-
+        [self buildSectionsWithFriends:self.friends];
+//        [self fetchImages];
         [self.delegate friendsDidLoad:self];
     }];
+}
+
+- (void)fetchImages
+{
+    for (NSMutableDictionary<FBGraphUser>* friend in self.friends) {
+        NSString* urlString = [NSString stringWithFormat:@"https://graph.facebook.com/%@/picture", friend.id];
+        NSURL* url = [NSURL URLWithString:urlString];
+        NSData* data = [NSData dataWithContentsOfURL:url];
+        UIImage* image = [UIImage imageWithData:data];
+        
+        [friend setValue:image forKey:@"image"];
+    }
 }
 
 - (void)buildSectionsWithFriends:(NSMutableArray*)friends
@@ -58,16 +70,16 @@
         }
         
         if ( !sectionIsPresent ) {
-            [self.friends setValue:[[NSMutableArray alloc] init] forKey:character];
+            [self.sectionsWithFriends setValue:[[NSMutableArray alloc] init] forKey:character];
             [self.sections addObject:character];
         }
         
-        [[self.friends objectForKey:character] addObject:friend];
+        [[self.sectionsWithFriends objectForKey:character] addObject:friend];
     }
     
     [self.sections sortUsingSelector:@selector(localizedCaseInsensitiveCompare:)];
     
-    for ( NSString* key in self.friends.allKeys ) {
+    for ( NSString* key in self.sectionsWithFriends.allKeys ) {
         NSSortDescriptor* lastDescriptor =
         [[NSSortDescriptor alloc] initWithKey:@"last_name"
                                     ascending:true
@@ -79,27 +91,40 @@
         
         NSArray *descriptors = [NSArray arrayWithObjects:lastDescriptor, firstDescriptor, nil];
         
-        [[self.friends objectForKey:key] sortUsingDescriptors:descriptors];
+        [[self.sectionsWithFriends objectForKey:key] sortUsingDescriptors:descriptors];
     }
 }
 
 #pragma mark UITableViewDataSource
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return [[self.friends objectForKey:[self.sections objectAtIndex:section]] count];
+    return [[self.sectionsWithFriends objectForKey:[self.sections objectAtIndex:section]] count];
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     NSString* section = [self.sections objectAtIndex:[indexPath section]];
-    NSDictionary<FBGraphUser>* friend = [[self.friends objectForKey:section] objectAtIndex:[indexPath row]];
+    NSDictionary<FBGraphUser>* friend = [[self.sectionsWithFriends objectForKey:section] objectAtIndex:[indexPath row]];
     NSString* title = friend.name;
     UITableViewCell* cell = [tableView dequeueReusableCellWithIdentifier:NSStringFromClass([CFMFriends class])];
     
     if (cell == nil) {
-        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:NSStringFromClass([CFMFriends class])];
+        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault  reuseIdentifier:NSStringFromClass([CFMFriends class])];
     }
     
+    if ([cell isSelected]) {
+        [cell setAccessoryType:UITableViewCellAccessoryCheckmark];
+    } else {
+        [cell setAccessoryType:UITableViewCellAccessoryNone];
+    }
+    
+//    NSString* urlString = [NSString stringWithFormat:@"https://graph.facebook.com/%@/picture", friend.id];
+//    NSURL* url = [NSURL URLWithString:urlString];
+//    NSData* data = [NSData dataWithContentsOfURL:url];
+//    UIImage* image = [UIImage imageWithData:data];
+//    
+//    [cell.imageView setImage:image];
+    [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
     [[cell textLabel] setText:title];
     return cell;
 }

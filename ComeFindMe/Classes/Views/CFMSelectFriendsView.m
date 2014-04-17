@@ -24,6 +24,8 @@
 - (void)initFriendsTable
 {
     self.friendsTable = [[UITableView alloc] init];
+    [self.friendsTable setAllowsMultipleSelection:true];
+    [self.friendsTable setDelegate:self];
     [self addSubview:self.friendsTable];
 }
 
@@ -63,5 +65,19 @@
 {
     NSLog(@"Send!!");
 }
+
+#pragma mark UITableViewDelegate
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    UITableViewCell* cell = [tableView cellForRowAtIndexPath:indexPath];
+    [cell setAccessoryType:UITableViewCellAccessoryCheckmark];
+}
+
+- (void)tableView:(UITableView *)tableView didDeselectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    UITableViewCell* cell = [tableView cellForRowAtIndexPath:indexPath];
+    [cell setAccessoryType:UITableViewCellAccessoryNone];
+}
+
 
 @end

@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface CFMSelectFriendsView : UIView
+@interface CFMSelectFriendsView : UIView < UITableViewDelegate >
 @property (nonatomic) UITableView* friendsTable;
 @property (nonatomic) UIButton* sendButton;
 @end
