@@ -10,6 +10,23 @@
 
 @implementation CFMFriends
 
+static CFMFriends* instance;
+static BOOL initialized = false;
+
++ (void)initialize
+{
+    if (!initialized) {
+        initialized = true;
+        instance = [[CFMFriends alloc] init];
+        [instance loadData];
+    }
+}
+
++ (CFMFriends*)instance
+{
+    return instance;
+}
+
 - (id)init
 {
     self = [super init];
@@ -30,14 +47,13 @@
     {
         self.friends = [result objectForKey:@"data"];
 
-        NSLog(@"Found: %i friends", self.friends.count);
-        for (NSDictionary<FBGraphUser>* friend in self.friends) {
-            NSLog(@"I have a friend named %@ with id %@", friend.name, friend.id);
-        }
+//        NSLog(@"Found: %i friends", self.friends.count);
+//        for (NSDictionary<FBGraphUser>* friend in self.friends) {
+//            NSLog(@"I have a friend named %@ with id %@", friend.name, friend.id);
+//        }
         
         
         [self buildSectionsWithFriends:self.friends];
-//        [self fetchImages];
         [self.delegate friendsDidLoad:self];
     }];
 }

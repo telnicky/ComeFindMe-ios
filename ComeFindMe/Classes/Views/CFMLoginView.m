@@ -26,6 +26,9 @@
         [self.nameLabel setAdjustsFontSizeToFitWidth:true];
         [self.nameLabel setTextAlignment:NSTextAlignmentCenter];
         [self addSubview:self.nameLabel];
+        
+        self.spinner = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
+        [self addSubview:self.spinner];
 
     }
     return self;
@@ -34,6 +37,7 @@
 - (void)layoutSubviews
 {
     CGRect frame = [self bounds];
+    [self.spinner setFrame:frame];
     
     CGRect loginFrame = self.loginView.frame;
     loginFrame.origin.x = CGRectGetMidX(frame) - loginFrame.size.width * 0.5f;
@@ -46,6 +50,12 @@
                                        frame.size.width,
                                        30);
     [self.nameLabel setFrame:nameLabelFrame];
+}
+
+- (void)hideLoginView
+{
+    [self.loginView setFrame:CGRectMake(0, 0, 0, 0)];
+    [self setNeedsDisplay];
 }
 
 #pragma mark FBLoginViewDelegate

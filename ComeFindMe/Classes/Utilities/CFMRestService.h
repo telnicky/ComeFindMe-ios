@@ -7,12 +7,27 @@
 //
 
 #import <Foundation/Foundation.h>
+#import <FacebookSDK/FacebookSDK.h>
 
-@interface CFMRestService : NSObject < NSURLConnectionDataDelegate >
+@class CFMRestService;
+
+@protocol CFMRestServiceDelegate <NSObject>
+
+- (void)restService:(CFMRestService*)service successfullyLoggedInUser:(NSDictionary<FBGraphUser>*)user;
+- (void)restService:(CFMRestService*)service failedLoginWithError:(NSError*)error;
+
+@end
+
+@interface CFMRestService : NSObject
+@property (nonatomic, assign) id < CFMRestServiceDelegate > delegate;
 @property (nonatomic) NSString* baseUrl;
+@property (nonatomic) NSMutableDictionary* headers;
+@property (nonatomic) NSDictionary<FBGraphUser>* user;
 
 + (CFMRestService*)instance;
 - (id)init;
+
+- (void)loginUser:(NSDictionary<FBGraphUser>*)user;
 
 - (BOOL)createResource:(NSString*)resource
                   body:(NSData*)body
@@ -32,4 +47,5 @@
 - (void)destroyResource:(NSString*)resource
                    guid:(NSString*)guid
       completionHandler:(void (^)(NSURLResponse*, NSData*, NSError*))handler;
+
 @end

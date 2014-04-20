@@ -13,7 +13,7 @@
 
 @protocol CFMLoginViewControllerDelegate <NSObject>
 
-- (void)loginViewController:(CFMLoginViewController*)viewController loggedInUser:(id<FBGraphUser>)user;
+- (void)loginViewController:(CFMLoginViewController*)viewController loggedInUser:(NSDictionary<FBGraphUser>*)user;
 
 @end
 

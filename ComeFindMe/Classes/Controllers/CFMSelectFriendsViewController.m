@@ -18,8 +18,8 @@
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
-        self.friends = [[CFMFriends alloc] init];
-        [self.friends loadData];
+        [self setTitle:@"Select Friends"];
+        self.friends = [CFMFriends instance];
         self.selectFriendsView = [[CFMSelectFriendsView alloc] init];
         [self.selectFriendsView.friendsTable setDataSource:self.friends];
     }

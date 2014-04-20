@@ -39,7 +39,7 @@
 }
 
 #pragma mark CFMLoginViewDelegate
-- (void)loginView:(CFMLoginView *)loginView loggedInUser:(id<FBGraphUser>)user
+- (void)loginView:(CFMLoginView *)loginView loggedInUser:(NSDictionary<FBGraphUser>*)user
 {
     [self.delegate loginViewController:self loggedInUser:user];
 }

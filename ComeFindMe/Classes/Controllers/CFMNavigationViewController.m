@@ -27,6 +27,7 @@
         // Custom initialization
         [self initNavbar];
         [self initControllers];
+        [[CFMRestService instance] setDelegate:self];
 
         [self pushViewController:self.loginViewController animated:false];
     }
@@ -42,6 +43,8 @@
     [self.selectLocationController setDelegate:self];
     
     self.selectFriendsController = [[CFMSelectFriendsViewController alloc] init];
+    
+    self.messagesViewController = [[CFMMessagesViewController alloc] init];
 }
 
 - (void)initNavbar
@@ -64,16 +67,34 @@
 }
 
 #pragma mark CFMLoginViewControllerDelegate
-- (void) loginViewController:(CFMLoginViewController *)viewController loggedInUser:(id<FBGraphUser>)user
+- (void)loginViewController:(CFMLoginViewController *)viewController loggedInUser:(NSDictionary<FBGraphUser>*)user
+{
+    [self.loginViewController.loginView hideLoginView];
+    [[self.loginViewController.loginView spinner] startAnimating];
+    [[CFMRestService instance] loginUser:user];
+}
+
+#pragma mark CFMRestServiceDelegate
+- (void)restService:(CFMRestService *)service successfullyLoggedInUser:(NSDictionary<FBGraphUser> *)user
 {
     [self setNavigationBarHidden:false];
     [self setViewControllers:@[ self.selectLocationController ] animated:false];
 }
 
+- (void)restService:(CFMRestService*)service failedLoginWithError:(NSError*)error
+{
+    // TODO: Implement failed state
+}
+
 #pragma mark CFMSelectLocationViewControllerDelegate
-- (void) selectFriendsPressedFromSelectLocationViewController:(CFMSelectLocationViewController *)selectLocationViewController
+- (void)selectFriendsPressedFromSelectLocationViewController:(CFMSelectLocationViewController *)selectLocationViewController
 {
     [self pushViewController:self.selectFriendsController animated:false];
+}
+
+- (void)messagesPressedFromSelectLocationViewController:(CFMSelectLocationViewController *)selectLocationViewController
+{
+    [self pushViewController:self.messagesViewController animated:false];
 }
 
 @end

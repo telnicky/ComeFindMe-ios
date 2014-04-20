@@ -20,5 +20,8 @@
 @property (nonatomic) NSMutableDictionary* sectionsWithFriends;
 @property (nonatomic) NSMutableArray* sections;
 @property (nonatomic) NSMutableDictionary* imagesWithFriends;
+
++ (CFMFriends*)instance;
+
 - (void)loadData;
 @end

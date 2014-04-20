@@ -21,4 +21,6 @@
 @property (nonatomic, assign) id< CFMLoginViewDelegate > delegate;
 @property (nonatomic) UILabel* nameLabel;
 @property (nonatomic) FBLoginView* loginView;
+@property (nonatomic) UIActivityIndicatorView* spinner;
+- (void)hideLoginView;
 @end
