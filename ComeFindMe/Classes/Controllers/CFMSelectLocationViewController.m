@@ -34,8 +34,7 @@
 
 - (void)initNavButtons
 {
-    [[CFMMessages instance] setDelegate:self];
-    [[CFMMessages instance] loadData];
+    [[[CFMMessages instance] delegates] addObject:self];
     self.messagesButton = [[CFMMessagesButton alloc] initWithFrame:CGRectMake(0, 0, 40, 40)];
     [self.messagesButton addTarget:self action:@selector(messagesButtonPressed) forControlEvents:UIControlEventTouchDown];
     UIBarButtonItem* messages = [[UIBarButtonItem alloc] initWithCustomView:self.messagesButton];
@@ -76,9 +75,6 @@
 {
     NSLog(@"count: %d", messages.count);
     [self.messagesButton.badge setCount:messages.count];
-
-    // TODO: ask Matt about this not refreshing...
-    [self.messagesButton setNeedsDisplay];
 }
 
 @end

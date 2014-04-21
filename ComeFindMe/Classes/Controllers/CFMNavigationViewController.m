@@ -8,6 +8,8 @@
 
 #import "CFMNavigationViewController.h"
 
+
+// TODO: use this to define the colors we want
 #define UIColorFromRGB(rgbValue) \
 [UIColor colorWithRed:((float)((rgbValue & 0xFF0000) >> 16))/255.0 \
                 green:((float)((rgbValue & 0xFF00) >> 8))/255.0 \
@@ -24,10 +26,11 @@
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
-        // Custom initialization
         [self initNavbar];
         [self initControllers];
-        [[CFMRestService instance] setDelegate:self];
+        
+        self.user = [CFMUser instance];
+        [self.user setDelegate:self];
 
         [self pushViewController:self.loginViewController animated:false];
     }
@@ -36,9 +39,10 @@
 
 - (void)initControllers
 {
+    
     self.loginViewController = [[CFMLoginViewController alloc] init];
     [self.loginViewController setDelegate:self];
-
+    
     self.selectLocationController = [[CFMSelectLocationViewController alloc] init];
     [self.selectLocationController setDelegate:self];
     
@@ -71,17 +75,30 @@
 {
     [self.loginViewController.loginView hideLoginView];
     [[self.loginViewController.loginView spinner] startAnimating];
-    [[CFMRestService instance] loginUser:user];
+    [self.user setFacebookUser:user];
+    [self.user loadData];
 }
 
-#pragma mark CFMRestServiceDelegate
-- (void)restService:(CFMRestService *)service successfullyLoggedInUser:(NSDictionary<FBGraphUser> *)user
+#pragma mark CFMUserDelegate
+
+- (void)userDidFinishLoading:(CFMUser *)user
 {
+    [self.user login];
+}
+
+- (void)user:(CFMUser *)user DidFailLoadingWithError:(NSError *)error
+{
+    // TODO: implement failed state
+}
+
+- (void)userSuccessfullyLoggedIn:(CFMUser *)user
+{
+//    [self initControllers];
     [self setNavigationBarHidden:false];
     [self setViewControllers:@[ self.selectLocationController ] animated:false];
 }
 
-- (void)restService:(CFMRestService*)service failedLoginWithError:(NSError*)error
+- (void)userFailedLogin:(CFMUser *)user
 {
     // TODO: Implement failed state
 }
@@ -95,6 +112,17 @@
 - (void)messagesPressedFromSelectLocationViewController:(CFMSelectLocationViewController *)selectLocationViewController
 {
     [self pushViewController:self.messagesViewController animated:false];
+}
+
+#pragma mark CFMMessagesViewControllerDelegate
+- (void)messagesViewController:(CFMMessagesViewController *)messagesViewController didSelectSentMessage:(NSDictionary *)message
+{
+    // TODO: push on sent message view controller
+}
+
+- (void)messagesViewController:(CFMMessagesViewController *)messagesViewController didSelectReceivedMessage:(NSDictionary *)message
+{
+    // TODO: push on received message view controller
 }
 
 @end

@@ -18,7 +18,6 @@ static BOOL initialized = false;
     if (!initialized) {
         initialized = true;
         instance = [[CFMFriends alloc] init];
-        [instance loadData];
     }
 }
 
@@ -46,12 +45,6 @@ static BOOL initialized = false;
        NSError *error)
     {
         self.friends = [result objectForKey:@"data"];
-
-//        NSLog(@"Found: %i friends", self.friends.count);
-//        for (NSDictionary<FBGraphUser>* friend in self.friends) {
-//            NSLog(@"I have a friend named %@ with id %@", friend.name, friend.id);
-//        }
-        
         
         [self buildSectionsWithFriends:self.friends];
         [self.delegate friendsDidLoad:self];

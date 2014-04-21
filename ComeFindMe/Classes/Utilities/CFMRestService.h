@@ -22,12 +22,9 @@
 @property (nonatomic, assign) id < CFMRestServiceDelegate > delegate;
 @property (nonatomic) NSString* baseUrl;
 @property (nonatomic) NSMutableDictionary* headers;
-@property (nonatomic) NSDictionary<FBGraphUser>* user;
 
 + (CFMRestService*)instance;
 - (id)init;
-
-- (void)loginUser:(NSDictionary<FBGraphUser>*)user;
 
 - (BOOL)createResource:(NSString*)resource
                   body:(NSData*)body

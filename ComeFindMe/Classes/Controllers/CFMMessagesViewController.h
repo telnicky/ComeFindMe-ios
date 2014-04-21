@@ -9,9 +9,19 @@
 #import <UIKit/UIKit.h>
 
 #import "CFMMessagesView.h"
-#import "CFMMessages.h"
+#import "CFMUser.h"
 
-@interface CFMMessagesViewController : UIViewController
+@class CFMMessagesViewController;
+
+@protocol CFMMessagesViewControllerDelegate <NSObject>
+
+- (void)messagesViewController:(CFMMessagesViewController*)messagesViewController didSelectSentMessage:(NSDictionary*)message;
+
+- (void)messagesViewController:(CFMMessagesViewController*)messagesViewController didSelectReceivedMessage:(NSDictionary*)message;
+
+@end
+
+@interface CFMMessagesViewController : UIViewController < UITableViewDelegate >
+@property (nonatomic, assign) id < CFMMessagesViewControllerDelegate > delegate;
 @property (nonatomic) CFMMessagesView* messagesView;
-@property (nonatomic) CFMMessages* messages;
 @end

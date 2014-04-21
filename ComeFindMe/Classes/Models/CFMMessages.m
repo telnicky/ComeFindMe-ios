@@ -7,6 +7,7 @@
 //
 
 #import "CFMMessages.h"
+#import "CFMUser.h"
 
 @implementation CFMMessages
 
@@ -18,6 +19,7 @@ static BOOL initialized = false;
     if (!initialized) {
         initialized = true;
         instance = [[CFMMessages alloc] init];
+        instance.delegates = [[NSMutableArray alloc] init];
     }
 }
 
@@ -30,9 +32,7 @@ static BOOL initialized = false;
 {
     self = [super init];
     if (self) {
-        self.friends = [CFMFriends instance];
         self.messages = [[NSMutableArray alloc] init];
-        self.restService = [CFMRestService instance];
     }
     return self;
 }
@@ -44,7 +44,7 @@ static BOOL initialized = false;
 
 - (void)loadData
 {
-    [self.restService readResource:@"messages" completionHandler:^(NSURLResponse* response, NSData* data, NSError* error) {
+    [[CFMRestService instance] readResource:@"messages" completionHandler:^(NSURLResponse* response, NSData* data, NSError* error) {
         [self loadDataFinishedWithResponse:response data:data error:error];
     }];
 }
@@ -64,7 +64,51 @@ static BOOL initialized = false;
         return;
     }
     
-    [self.delegate messagesDidLoad:self];
+    [self aggregateMessages];
+    
+    for (id< CFMMessagesDelegate > delegate in self.delegates)
+    {
+        [delegate messagesDidLoad:self];
+    }
+}
+
+// this will set didSend and sender -> facebook_user
+- (void)aggregateMessages
+{
+    for (NSDictionary* message in self.messages)
+    {
+        NSDictionary* sender = [[message objectForKey:@"message"] objectForKey:@"sender"];
+        NSString* senderId = [sender objectForKey:@"facebook_id"];
+        NSString* userId = [[CFMUser instance] facebookUser].id;
+        if ([senderId isEqualToString:userId])
+        {
+            NSNumber* boolNumber = [NSNumber numberWithBool:true];
+            [[message objectForKey:@"message"] setValue:boolNumber forKey:@"didSend"];
+            [sender setValue:[[CFMUser instance] facebookUser] forKey:@"facebook_user"];
+        }
+        else
+        {
+            NSNumber* boolNumber = [NSNumber numberWithBool:false];
+            [[message objectForKey:@"message"] setValue:boolNumber forKey:@"didSend"];
+            NSDictionary<FBGraphUser>* user = [self findSenderFacebookUserForMessage:message];
+            [sender setValue:user forKey:@"facebook_user"];
+        }
+    }
+}
+
+- (NSDictionary<FBGraphUser>*)findSenderFacebookUserForMessage:(NSDictionary*)message
+{
+    NSDictionary* senderJson = [[message objectForKey:@"message"] objectForKey:@"sender"];
+    NSDictionary<FBGraphUser>* sender;
+    for (NSDictionary<FBGraphUser>* friend in [[CFMFriends instance] friends])
+    {
+        if ([friend.id isEqualToString:[senderJson objectForKey:@"facebook_id"]])
+        {
+            sender = friend;
+            break;
+        }
+    }
+    return sender;
 }
 
 #pragma mark UITableViewDataSource
@@ -77,29 +121,21 @@ static BOOL initialized = false;
 {
 
     NSDictionary* message = [[self.messages objectAtIndex:[indexPath row]] objectForKey:@"message"];
-    NSDictionary* senderJson = [message objectForKey:@"sender"];
-    NSString* facebookId = [senderJson objectForKey:@"facebook_id"];
     
     NSDictionary<FBGraphUser>* sender;
     UIImage* image;
-    if ([facebookId isEqualToString:[[CFMRestService instance] user].id])
+    if ([[message objectForKey:@"didSend"] boolValue])
     {
         // this is one of our messages
-        sender = [[CFMRestService instance] user];
+        sender = [[CFMUser instance] facebookUser];
         image = [UIImage imageNamed:@"glyphicons_346_hand_left"];
     }
     else
     {
         // this is a message we have received
-        for (NSDictionary<FBGraphUser>* friend in self.friends.friends)
-        {
-            if ([friend.id isEqualToString:facebookId])
-            {
-                sender = friend;
-                break;
-            }
-        }
+        NSDictionary* senderJson = [message objectForKey:@"sender"];
 
+        sender = [senderJson objectForKey:@"facebook_user"];
         image = [UIImage imageNamed:@"glyphicons_345_hand_right"];
     }
 

@@ -20,10 +20,8 @@
 @end
 
 @interface CFMMessages : NSObject < UITableViewDataSource >
-@property (nonatomic, assign) id < CFMMessagesDelegate > delegate;
+@property (nonatomic) NSMutableArray* delegates;
 @property (nonatomic) NSMutableArray* messages;
-@property (nonatomic) CFMRestService* restService;
-@property (nonatomic) CFMFriends* friends;
 
 + (CFMMessages*)instance;
 

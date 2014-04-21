@@ -64,37 +64,6 @@ static BOOL initialized = false;
     return true;
 }
 
-- (void)loginUser:(NSDictionary<FBGraphUser>*)user
-{
-    self.user = user;
-    if (!self.user) {
-        return;
-    }
-    
-    NSString* accessToken = [[[FBSession activeSession] accessTokenData] accessToken];
-    NSString* requestBody = [NSString stringWithFormat:@"{\"facebook_id\": %@, \"facebook_access_token\": \"%@\"}\n", self.user.id, accessToken];
-    
-    [self createResource:@"sessions"
-                    body:[requestBody dataUsingEncoding:NSUTF8StringEncoding]
-       completionHandler:^(NSURLResponse* response, NSData* data, NSError* error)
-     {
-         if (error) {
-             return;
-         }
-         
-         id jsonObject = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:&error];
-         NSString* facebookId = [[jsonObject objectForKey:@"user"] objectForKey:@"facebook_id"];
-         if ([facebookId isEqualToString:self.user.id])
-         {
-             [self.delegate restService:self successfullyLoggedInUser:self.user];
-         }
-         else
-         {
-             [self.delegate restService:self failedLoginWithError:error];
-         }
-     }];
-}
-
 - (BOOL)readResource:(NSString*)resource
    completionHandler:(void (^)(NSURLResponse*, NSData*, NSError*))handler
 {

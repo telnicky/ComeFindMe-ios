@@ -66,10 +66,12 @@
     CGRect countFrame = innerFillFrame;
     
 
-    [[UIColor redColor] setFill];
-    CGContextFillEllipseInRect(context, frame);
-    
-    [_countLabel setFrame:countFrame];
+    if (self.count > 0) {
+        [[UIColor redColor] setFill];
+        CGContextFillEllipseInRect(context, frame);
+        
+        [_countLabel setFrame:countFrame];
+    }
 }
 
 

@@ -80,6 +80,22 @@
     _marker.map = self.mapView;
 }
 
+- (void)setLatitude:(float)latitude
+{
+    _latitude = latitude;
+    _marker.position = CLLocationCoordinate2DMake(self.latitude,
+                                                  self.longitude);
+    [self setNeedsDisplay];
+}
+
+- (void)setLongitude:(float)longitude
+{
+    _longitude = longitude;
+    _marker.position = CLLocationCoordinate2DMake(self.latitude,
+                                                  self.longitude);
+    [self setNeedsDisplay];
+}
+
 - (void)layoutSubviews
 {
     CGRect frame = self.bounds;

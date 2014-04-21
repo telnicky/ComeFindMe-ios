@@ -16,6 +16,7 @@
     if (self) {
         // Initialization code
         [self setBackgroundColor:[UIColor yellowColor]];
+        self.loggedIn = false;
 
         [self setLoginView:[[FBLoginView alloc] init]];
         [self.loginView setDelegate:self];
@@ -61,8 +62,11 @@
 #pragma mark FBLoginViewDelegate
 - (void)loginViewFetchedUserInfo:(FBLoginView *)loginView user:(id<FBGraphUser>)user
 {
-    [self.delegate loginView:self loggedInUser:user];
-    self.nameLabel.text = user.name;
+    if (!self.loggedIn) {
+        self.loggedIn = true;
+        [self.delegate loginView:self loggedInUser:user];
+    }
+
 }
 
 @end

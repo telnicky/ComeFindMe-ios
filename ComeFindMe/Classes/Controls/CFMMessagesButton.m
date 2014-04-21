@@ -26,9 +26,7 @@
 {
     [super layoutSubviews];
     CGRect badgeFrame = CGRectMake(0, 0, 15, 15);
-    if (self.badge.count > 0) {
-        [self.badge setFrame:badgeFrame];
-    }
+    [self.badge setFrame:badgeFrame];
 
 }
 

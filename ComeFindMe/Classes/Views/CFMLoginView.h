@@ -22,5 +22,6 @@
 @property (nonatomic) UILabel* nameLabel;
 @property (nonatomic) FBLoginView* loginView;
 @property (nonatomic) UIActivityIndicatorView* spinner;
+@property (nonatomic) bool loggedIn;
 - (void)hideLoginView;
 @end

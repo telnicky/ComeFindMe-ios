@@ -27,9 +27,9 @@
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
         [self setTitle:@"Come Find Me"];
-        self.messages = [CFMMessages instance];
         self.messagesView = [[CFMMessagesView alloc] init];
-        [self.messagesView.messagesTable setDataSource:self.messages];
+        [self.messagesView.messagesTable setDelegate:self];
+        [self.messagesView.messagesTable setDataSource:[[CFMUser instance] messages]];
     }
     return self;
 }
@@ -49,6 +49,22 @@
 - (void)loadView
 {
     [self setView:self.messagesView];
+}
+
+#pragma mark UITableViewDelegate
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    NSArray* messages = [[CFMUser instance] messages].messages;
+    NSDictionary* message = [[messages objectAtIndex:[indexPath row]] objectForKey:@"message"];
+    if ([[message objectForKey:@"didSend"] boolValue])
+    {
+        [self.delegate messagesViewController:self didSelectSentMessage:message];
+    }
+    else
+    {
+        [self.delegate messagesViewController:self didSelectReceivedMessage:message];
+    }
+    
 }
 
 
