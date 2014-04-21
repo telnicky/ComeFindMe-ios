@@ -49,7 +49,7 @@
 
 - (void)initDescriptionView
 {
-    self.description = @"Lorem Ipsum foobar...";
+    self.description = @"No description...";
     self.descriptionView = [[UITextView alloc] init];
     self.descriptionView.editable = false;
     self.descriptionView.layer.borderWidth = 2.0f;
@@ -80,20 +80,32 @@
     _marker.map = self.mapView;
 }
 
+- (void)setDescription:(NSString *)description
+{
+    _description = description;
+    if (description && ![description isEqualToString:@""]) {
+        [self.descriptionView setText:description];
+        [self.descriptionView setNeedsDisplay];
+    }
+
+}
+
 - (void)setLatitude:(float)latitude
 {
     _latitude = latitude;
-    _marker.position = CLLocationCoordinate2DMake(self.latitude,
-                                                  self.longitude);
-    [self setNeedsDisplay];
+    CLLocationCoordinate2D coordinate = CLLocationCoordinate2DMake(self.latitude, self.longitude);
+    _marker.position = coordinate;
+    _camera = [GMSCameraPosition cameraWithTarget:coordinate zoom:_camera.zoom];
+    [self.mapView setCamera:_camera];
 }
 
 - (void)setLongitude:(float)longitude
 {
     _longitude = longitude;
-    _marker.position = CLLocationCoordinate2DMake(self.latitude,
-                                                  self.longitude);
-    [self setNeedsDisplay];
+    CLLocationCoordinate2D coordinate = CLLocationCoordinate2DMake(self.latitude, self.longitude);
+    _marker.position = coordinate;
+    _camera = [GMSCameraPosition cameraWithTarget:coordinate zoom:_camera.zoom];
+    [self.mapView setCamera:_camera];
 }
 
 - (void)layoutSubviews

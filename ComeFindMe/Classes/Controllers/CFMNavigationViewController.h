@@ -12,6 +12,9 @@
 #import "CFMSelectLocationViewController.h"
 #import "CFMSelectFriendsViewController.h"
 #import "CFMMessagesViewController.h"
+#import "CFMReceiveRequestViewController.h"
+#import "CFMSettingsViewController.h"
+
 #import "CFMRestService.h"
 #import "CFMUser.h"
 
@@ -21,4 +24,6 @@
 @property (nonatomic) CFMSelectLocationViewController* selectLocationController;
 @property (nonatomic) CFMSelectFriendsViewController* selectFriendsController;
 @property (nonatomic) CFMMessagesViewController* messagesViewController;
+@property (nonatomic) CFMReceiveRequestViewController* receiveRequestViewController;
+@property (nonatomic) CFMSettingsViewController* settingsViewController;
 @end

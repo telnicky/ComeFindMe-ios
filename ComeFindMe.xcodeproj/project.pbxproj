@@ -54,6 +54,9 @@
 		67EF034019039AA000D2A40C /* glyphicons_346_hand_left.png in Resources */ = {isa = PBXBuildFile; fileRef = 67EF033E19039AA000D2A40C /* glyphicons_346_hand_left.png */; };
 		67EF03431904A85A00D2A40C /* CFMReceiveRequestViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 67EF03421904A85A00D2A40C /* CFMReceiveRequestViewController.m */; };
 		67EF03461904ADD300D2A40C /* CFMUser.m in Sources */ = {isa = PBXBuildFile; fileRef = 67EF03451904ADD300D2A40C /* CFMUser.m */; };
+		67EF03491904DAA000D2A40C /* CFMSettingsView.m in Sources */ = {isa = PBXBuildFile; fileRef = 67EF03481904DAA000D2A40C /* CFMSettingsView.m */; };
+		67EF034C1904DC3700D2A40C /* CFMSettingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 67EF034B1904DC3700D2A40C /* CFMSettingsViewController.m */; };
+		67EF034E1904DE3300D2A40C /* glyphicons_070_umbrella.png in Resources */ = {isa = PBXBuildFile; fileRef = 67EF034D1904DE3300D2A40C /* glyphicons_070_umbrella.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -135,6 +138,11 @@
 		67EF03421904A85A00D2A40C /* CFMReceiveRequestViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CFMReceiveRequestViewController.m; path = Classes/Controllers/CFMReceiveRequestViewController.m; sourceTree = "<group>"; };
 		67EF03441904ADD300D2A40C /* CFMUser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CFMUser.h; path = Classes/Models/CFMUser.h; sourceTree = "<group>"; };
 		67EF03451904ADD300D2A40C /* CFMUser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CFMUser.m; path = Classes/Models/CFMUser.m; sourceTree = "<group>"; };
+		67EF03471904DAA000D2A40C /* CFMSettingsView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CFMSettingsView.h; path = Classes/Views/CFMSettingsView.h; sourceTree = "<group>"; };
+		67EF03481904DAA000D2A40C /* CFMSettingsView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CFMSettingsView.m; path = Classes/Views/CFMSettingsView.m; sourceTree = "<group>"; };
+		67EF034A1904DC3700D2A40C /* CFMSettingsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CFMSettingsViewController.h; path = Classes/Controllers/CFMSettingsViewController.h; sourceTree = "<group>"; };
+		67EF034B1904DC3700D2A40C /* CFMSettingsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CFMSettingsViewController.m; path = Classes/Controllers/CFMSettingsViewController.m; sourceTree = "<group>"; };
+		67EF034D1904DE3300D2A40C /* glyphicons_070_umbrella.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = glyphicons_070_umbrella.png; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -287,6 +295,8 @@
 				67EF031E18FB3A1000D2A40C /* CFMSelectFriendsView.m */,
 				67EF03341902A15000D2A40C /* CFMMessagesView.h */,
 				67EF03351902A15000D2A40C /* CFMMessagesView.m */,
+				67EF03471904DAA000D2A40C /* CFMSettingsView.h */,
+				67EF03481904DAA000D2A40C /* CFMSettingsView.m */,
 			);
 			name = Views;
 			sourceTree = "<group>";
@@ -315,6 +325,8 @@
 				67EF03381902A31200D2A40C /* CFMMessagesViewController.m */,
 				67EF03411904A85A00D2A40C /* CFMReceiveRequestViewController.h */,
 				67EF03421904A85A00D2A40C /* CFMReceiveRequestViewController.m */,
+				67EF034A1904DC3700D2A40C /* CFMSettingsViewController.h */,
+				67EF034B1904DC3700D2A40C /* CFMSettingsViewController.m */,
 			);
 			name = Controllers;
 			sourceTree = "<group>";
@@ -333,6 +345,7 @@
 		67EF032D18FCEE5900D2A40C /* glyphicons */ = {
 			isa = PBXGroup;
 			children = (
+				67EF034D1904DE3300D2A40C /* glyphicons_070_umbrella.png */,
 				67EF033D19039AA000D2A40C /* glyphicons_345_hand_right.png */,
 				67EF033E19039AA000D2A40C /* glyphicons_346_hand_left.png */,
 				67EF032E18FCEE5900D2A40C /* glyphicons_114_list.png */,
@@ -435,6 +448,7 @@
 				67EF032F18FCEE5900D2A40C /* glyphicons_114_list.png in Resources */,
 				675E8C8B18EDF73F00978B50 /* Images.xcassets in Resources */,
 				67EF034019039AA000D2A40C /* glyphicons_346_hand_left.png in Resources */,
+				67EF034E1904DE3300D2A40C /* glyphicons_070_umbrella.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -458,6 +472,7 @@
 				67EF033318FDF75C00D2A40C /* CFMFriends.m in Sources */,
 				67EF03431904A85A00D2A40C /* CFMReceiveRequestViewController.m in Sources */,
 				67EF03391902A31200D2A40C /* CFMMessagesViewController.m in Sources */,
+				67EF034C1904DC3700D2A40C /* CFMSettingsViewController.m in Sources */,
 				67BCEF4918F24926000853B6 /* CFMReceiveRequestView.m in Sources */,
 				67EF031C18FB321F00D2A40C /* CFMSelectLocationViewController.m in Sources */,
 				67EF032C18FCEAD100D2A40C /* CFMMessagesButton.m in Sources */,
@@ -467,6 +482,7 @@
 				67EF032618FCD74200D2A40C /* CFMBadgeView.m in Sources */,
 				67EF031618FA297500D2A40C /* CFMNavigationViewController.m in Sources */,
 				675E8CAD18EE03AC00978B50 /* CFMLoginView.m in Sources */,
+				67EF03491904DAA000D2A40C /* CFMSettingsView.m in Sources */,
 				67BCEF4D18F38F63000853B6 /* CFMRestService.m in Sources */,
 				675E8C8918EDF73F00978B50 /* CFMAppDelegate.m in Sources */,
 				67EF03461904ADD300D2A40C /* CFMUser.m in Sources */,

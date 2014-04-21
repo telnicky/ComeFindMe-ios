@@ -30,8 +30,17 @@
         self.messagesView = [[CFMMessagesView alloc] init];
         [self.messagesView.messagesTable setDelegate:self];
         [self.messagesView.messagesTable setDataSource:[[CFMUser instance] messages]];
+        
+        UIImage* settingsImage = [UIImage imageNamed:@"glyphicons_070_umbrella"];
+        UIBarButtonItem* settingsButton = [[UIBarButtonItem alloc] initWithImage:settingsImage style:UIBarButtonItemStylePlain target:self action:@selector(settingsButtonPressed)];
+        [self.navigationItem setRightBarButtonItem:settingsButton];
     }
     return self;
+}
+
+- (void)settingsButtonPressed
+{
+    [self.delegate settingsButtonPressedForMessagesViewController:self];
 }
 
 - (void)viewDidLoad

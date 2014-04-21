@@ -39,7 +39,6 @@
 
 - (void)initControllers
 {
-    
     self.loginViewController = [[CFMLoginViewController alloc] init];
     [self.loginViewController setDelegate:self];
     
@@ -49,6 +48,11 @@
     self.selectFriendsController = [[CFMSelectFriendsViewController alloc] init];
     
     self.messagesViewController = [[CFMMessagesViewController alloc] init];
+    [self.messagesViewController setDelegate:self];
+    
+    self.receiveRequestViewController = [[CFMReceiveRequestViewController alloc] init];
+    
+    self.settingsViewController = [[CFMSettingsViewController alloc] init];
 }
 
 - (void)initNavbar
@@ -76,14 +80,15 @@
     [self.loginViewController.loginView hideLoginView];
     [[self.loginViewController.loginView spinner] startAnimating];
     [self.user setFacebookUser:user];
-    [self.user loadData];
+    [self.user login];
 }
 
 #pragma mark CFMUserDelegate
 
 - (void)userDidFinishLoading:(CFMUser *)user
 {
-    [self.user login];
+    [self setNavigationBarHidden:false];
+    [self setViewControllers:@[ self.selectLocationController ] animated:false];
 }
 
 - (void)user:(CFMUser *)user DidFailLoadingWithError:(NSError *)error
@@ -93,9 +98,7 @@
 
 - (void)userSuccessfullyLoggedIn:(CFMUser *)user
 {
-//    [self initControllers];
-    [self setNavigationBarHidden:false];
-    [self setViewControllers:@[ self.selectLocationController ] animated:false];
+    [self.user loadData];
 }
 
 - (void)userFailedLogin:(CFMUser *)user
@@ -122,7 +125,13 @@
 
 - (void)messagesViewController:(CFMMessagesViewController *)messagesViewController didSelectReceivedMessage:(NSDictionary *)message
 {
-    // TODO: push on received message view controller
+    [self.receiveRequestViewController setMessage:message];
+    [self pushViewController:self.receiveRequestViewController animated:false];
+}
+
+- (void)settingsButtonPressedForMessagesViewController:(CFMMessagesViewController *)messagesViewController
+{
+    [self pushViewController:self.settingsViewController animated:false];
 }
 
 @end

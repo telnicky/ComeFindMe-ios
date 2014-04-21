@@ -19,6 +19,8 @@
 
 - (void)messagesViewController:(CFMMessagesViewController*)messagesViewController didSelectReceivedMessage:(NSDictionary*)message;
 
+- (void)settingsButtonPressedForMessagesViewController:(CFMMessagesViewController*)messagesViewController;
+
 @end
 
 @interface CFMMessagesViewController : UIViewController < UITableViewDelegate >
