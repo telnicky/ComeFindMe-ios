@@ -32,6 +32,7 @@ static BOOL initialized = false;
     if (self) {
         self.sectionsWithFriends = [[NSMutableDictionary alloc] init];
         self.sections = [[NSMutableArray alloc] init];
+        self.friends = [[NSMutableDictionary alloc] init];
     }
     return self;
 }
@@ -44,29 +45,17 @@ static BOOL initialized = false;
        NSDictionary* result,
        NSError *error)
     {
-        self.friends = [result objectForKey:@"data"];
-        
-        [self buildSectionsWithFriends:self.friends];
+        NSArray* friends = [result objectForKey:@"data"];
+        [self buildSectionsWithFriends:friends];
         [self.delegate friendsDidLoad:self];
     }];
 }
 
-- (void)fetchImages
-{
-    for (NSMutableDictionary<FBGraphUser>* friend in self.friends) {
-        NSString* urlString = [NSString stringWithFormat:@"https://graph.facebook.com/%@/picture", friend.id];
-        NSURL* url = [NSURL URLWithString:urlString];
-        NSData* data = [NSData dataWithContentsOfURL:url];
-        UIImage* image = [UIImage imageWithData:data];
-        
-        [friend setValue:image forKey:@"image"];
-    }
-}
-
-- (void)buildSectionsWithFriends:(NSMutableArray*)friends
+- (void)buildSectionsWithFriends:(NSArray*)friends
 {
     for ( NSDictionary<FBGraphUser>* friend in friends )
     {
+        [self.friends setValue:friend forKey:friend.id];
         NSString* character = [friend.name substringToIndex:1];
         bool sectionIsPresent = false;
         
@@ -121,18 +110,12 @@ static BOOL initialized = false;
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault  reuseIdentifier:NSStringFromClass([CFMFriends class])];
     }
     
-    if ([cell isSelected]) {
+    if([[tableView indexPathsForSelectedRows] containsObject:indexPath]) {
         [cell setAccessoryType:UITableViewCellAccessoryCheckmark];
     } else {
         [cell setAccessoryType:UITableViewCellAccessoryNone];
     }
     
-//    NSString* urlString = [NSString stringWithFormat:@"https://graph.facebook.com/%@/picture", friend.id];
-//    NSURL* url = [NSURL URLWithString:urlString];
-//    NSData* data = [NSData dataWithContentsOfURL:url];
-//    UIImage* image = [UIImage imageWithData:data];
-//    
-//    [cell.imageView setImage:image];
     [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
     [[cell textLabel] setText:title];
     return cell;

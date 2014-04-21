@@ -10,6 +10,7 @@
 #import <FacebookSDK/FacebookSDK.h>
 
 #import "CFMReceiveRequestView.h"
+#import "CFMUser.h"
 
 @interface CFMReceiveRequestViewController : UIViewController
 @property (nonatomic) NSDictionary* message;

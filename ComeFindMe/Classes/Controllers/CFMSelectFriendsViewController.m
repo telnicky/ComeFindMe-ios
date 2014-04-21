@@ -20,6 +20,7 @@
     if (self) {
         [self setTitle:@"Select Friends"];
         self.selectFriendsView = [[CFMSelectFriendsView alloc] init];
+        [self.selectFriendsView setDelegate:self];
         [self.selectFriendsView.friendsTable setDataSource:[[CFMUser instance] friends]];
     }
     return self;
@@ -40,6 +41,23 @@
 - (void)loadView
 {
     [self setView:self.selectFriendsView];
+}
+
+#pragma mark CFMSelectFriendsDelegate
+- (void)sendButtonPressedOnSelecFriendsView:(CFMSelectFriendsView *)selectFriendsView
+{
+    NSArray* friendIndexes = [[self.selectFriendsView friendsTable] indexPathsForSelectedRows];
+    NSMutableArray* friends = [[NSMutableArray alloc] initWithCapacity:friendIndexes.count];
+
+    for (NSIndexPath* friendIndex in friendIndexes)
+    {
+        NSString* section = [[[[CFMUser instance] friends] sections] objectAtIndex:[friendIndex section]];
+        NSDictionary* friend = [[[[[CFMUser instance] friends] sectionsWithFriends] objectForKey:section] objectAtIndex:[friendIndex row]];
+
+        [friends addObject:friend];
+    }
+    
+    [self.delegate selectFriendsViewController:self sendMessagesToFriends:friends];
 }
 
 #pragma mark CFMFriendsDelegate

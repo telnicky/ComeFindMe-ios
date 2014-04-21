@@ -64,7 +64,7 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     NSArray* messages = [[CFMUser instance] messages].messages;
-    NSDictionary* message = [[messages objectAtIndex:[indexPath row]] objectForKey:@"message"];
+    NSDictionary* message = [messages objectAtIndex:[indexPath row]];
     if ([[message objectForKey:@"didSend"] boolValue])
     {
         [self.delegate messagesViewController:self didSelectSentMessage:message];

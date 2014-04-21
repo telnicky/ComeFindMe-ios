@@ -1,24 +1,27 @@
 //
-//  CFMReceiveRequestViewController.m
+//  CFMSentRequestViewController.m
 //  ComeFindMe
 //
-//  Created by travis elnicky on 4/20/14.
+//  Created by travis elnicky on 4/21/14.
 //  Copyright (c) 2014 Travis Elnicky. All rights reserved.
 //
 
-#import "CFMReceiveRequestViewController.h"
+#import "CFMSentRequestViewController.h"
 
-@interface CFMReceiveRequestViewController ()
+@interface CFMSentRequestViewController ()
 
 @end
 
-@implementation CFMReceiveRequestViewController
+@implementation CFMSentRequestViewController
+
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
+        self.friendsDataSource = [[CFMFriendsDataSource alloc] init];
         [self initRequestView];
+        
         UIBarButtonItem* date = [[UIBarButtonItem alloc] initWithTitle:@"mar 27" style:UIBarButtonItemStyleBordered target:nil action:nil];
         [date setEnabled:false];
         [self.navigationItem setRightBarButtonItem:date];
@@ -28,12 +31,13 @@
 
 - (void)initRequestView
 {
-    self.receiveRequestView = [[CFMReceiveRequestView alloc] init];
+    self.sentRequestView = [[CFMSentRequestView alloc] init];
+    [[self.sentRequestView friendsTable] setDataSource:self.friendsDataSource];
 }
 
 - (void)loadView
 {
-    [self setView:self.receiveRequestView];
+    [self setView:self.sentRequestView];
 }
 
 - (void)setMessage:(NSDictionary *)message
@@ -42,21 +46,19 @@
     
     [self updateLocation];
     [self updateNavbar];
+    [self updateDataSource];
 }
 
 - (void)updateLocation
 {
     NSDictionary* location = [self.message objectForKey:@"location"];
-    [self.receiveRequestView setLongitude:[[location objectForKey:@"longitude"] floatValue]];
-    [self.receiveRequestView setLatitude:[[location objectForKey:@"latitude"] floatValue]];
-    [self.receiveRequestView setDescription:[location objectForKey:@"description"]];
+    CLLocationCoordinate2D coordinates = CLLocationCoordinate2DMake([[location objectForKey:@"latitude"] floatValue],[[location objectForKey:@"longitude"] floatValue]);
+    [self.sentRequestView setCoordinates:coordinates];
 }
 
 - (void)updateNavbar
 {
-    
-    NSString* senderId = [[self.message objectForKey:@"sender"] objectForKey:@"facebook_id"];
-    NSDictionary<FBGraphUser>* sender = [[[[CFMUser instance] friends] friends] objectForKey:senderId];
+    NSDictionary<FBGraphUser>* sender = [[CFMUser instance] facebookUser];
     [self setTitle:[NSString stringWithFormat:@"%@", sender.first_name]];
     
     NSDateFormatter* dateFormatter = [[NSDateFormatter alloc] init];
@@ -67,6 +69,15 @@
     [dateFormatter setDateFormat:@"h:mm a M/d"];
     dateString = [dateFormatter stringFromDate:date];
     [self.navigationItem.rightBarButtonItem setTitle:dateString];
+}
+
+- (void)updateDataSource
+{
+    for (NSDictionary* receiver in [self.message objectForKey:@"receivers"])
+    {
+        NSString* facebookId = [receiver objectForKey:@"facebook_id"];
+        [[self.friendsDataSource friendIds] addObject:facebookId];
+    }
 }
 
 - (void)viewDidLoad
@@ -80,5 +91,6 @@
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
+
 
 @end

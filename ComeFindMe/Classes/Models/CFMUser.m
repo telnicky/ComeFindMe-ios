@@ -32,8 +32,11 @@ static BOOL initialized = false;
     if (self) {
         self.friends = [CFMFriends instance];
         [self.friends setDelegate:self];
+     
         self.messages = [CFMMessages instance];
         [self.messages.delegates addObject:self];
+        
+        self.location = [[CFMLocation alloc] init];
     }
     return self;
 }
@@ -56,9 +59,12 @@ static BOOL initialized = false;
          }
          
          id jsonObject = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:&error];
-         NSString* facebookId = [[jsonObject objectForKey:@"user"] objectForKey:@"facebook_id"];
+         NSString* facebookId = [jsonObject objectForKey:@"facebook_id"];
          if ([facebookId isEqualToString:self.facebookUser.id])
          {
+             [self setAttributes:jsonObject];
+             [self setId:[jsonObject objectForKey:@"id"]];
+             [[self location] setUserId:[[self attributes] objectForKey:@"id"]];
              [self.delegate userSuccessfullyLoggedIn:self];
          }
          else

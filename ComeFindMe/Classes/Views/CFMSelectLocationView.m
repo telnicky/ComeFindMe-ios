@@ -133,7 +133,20 @@
     _keyboardIsVisible = true;
 }
 
--(void)onSelectFriendsPressed
+- (NSString*)locationDescription
+{
+    if ([self.descriptionView.text isEqualToString:_placeHolderText]) {
+        return @"";
+    }
+    return self.descriptionView.text;
+}
+
+- (CLLocationCoordinate2D)markerPosition
+{
+    return _marker.position;
+}
+
+- (void)onSelectFriendsPressed
 {
     NSLog(@"Select Friends!!");
     [self.delegate selectFriendsPressedFromSelectLocationView:self];

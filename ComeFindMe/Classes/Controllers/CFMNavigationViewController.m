@@ -46,11 +46,14 @@
     [self.selectLocationController setDelegate:self];
     
     self.selectFriendsController = [[CFMSelectFriendsViewController alloc] init];
+    [self.selectFriendsController setDelegate:self];
     
     self.messagesViewController = [[CFMMessagesViewController alloc] init];
     [self.messagesViewController setDelegate:self];
     
     self.receiveRequestViewController = [[CFMReceiveRequestViewController alloc] init];
+    
+    self.sentRequestViewController = [[CFMSentRequestViewController alloc] init];
     
     self.settingsViewController = [[CFMSettingsViewController alloc] init];
 }
@@ -109,6 +112,7 @@
 #pragma mark CFMSelectLocationViewControllerDelegate
 - (void)selectFriendsPressedFromSelectLocationViewController:(CFMSelectLocationViewController *)selectLocationViewController
 {
+    [[[CFMUser instance] location] save];
     [self pushViewController:self.selectFriendsController animated:false];
 }
 
@@ -120,7 +124,8 @@
 #pragma mark CFMMessagesViewControllerDelegate
 - (void)messagesViewController:(CFMMessagesViewController *)messagesViewController didSelectSentMessage:(NSDictionary *)message
 {
-    // TODO: push on sent message view controller
+    [self.sentRequestViewController setMessage:message];
+    [self pushViewController:self.sentRequestViewController animated:false];
 }
 
 - (void)messagesViewController:(CFMMessagesViewController *)messagesViewController didSelectReceivedMessage:(NSDictionary *)message
@@ -133,5 +138,26 @@
 {
     [self pushViewController:self.settingsViewController animated:false];
 }
+
+#pragma mark CFMSelectFriendsViewControllerDelegate
+- (void)selectFriendsViewController:(CFMSelectFriendsViewController *)selectFriendsViewController sendMessagesToFriends:(NSArray *)friends
+{
+    for (NSDictionary<FBGraphUser>* friend in friends) {
+        NSString* message = [CFMMessages createJsonMessagesForSenderId:self.user.id locationId:self.user.location.id andFacebookId:friend.id];
+        [[CFMRestService instance] createResource:@"messages" body:[message dataUsingEncoding:NSUTF8StringEncoding] completionHandler:^(NSURLResponse* response, NSData* data, NSError* error)
+        {
+            if (error) {
+                NSLog(@"Something went wrong - %@", error);
+                return;
+            }
+            
+            NSLog(@"Atempted to send message to user: %@", friend.id);
+        }];
+    }
+    
+    [self popToRootViewControllerAnimated:false];
+    [self pushViewController:self.messagesViewController animated:false];
+}
+
 
 @end

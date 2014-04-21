@@ -67,6 +67,9 @@
 #pragma mark CFMSelectLocationViewDelegate
 - (void)selectFriendsPressedFromSelectLocationView:(CFMSelectLocationView *)selectLocation
 {
+    [[[CFMUser instance] location] setCoordinates:[selectLocation markerPosition]];
+    [[[CFMUser instance] location] setDescription:[self.selectLocationView locationDescription]];
+
     [self.delegate selectFriendsPressedFromSelectLocationViewController:self];
 }
 

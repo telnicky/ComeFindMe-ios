@@ -10,6 +10,7 @@
 #import <FacebookSDK/FacebookSDK.h>
 
 #import "CFMFriends.h"
+#import "CFMLocation.h"
 #import "CFMMessages.h"
 #import "CFMRestService.h"
 
@@ -29,6 +30,9 @@
 @property (nonatomic) NSDictionary<FBGraphUser>* facebookUser;
 @property (nonatomic) CFMFriends* friends;
 @property (nonatomic) CFMMessages* messages;
+@property (nonatomic) CFMLocation* location;
+@property (nonatomic) NSString* id;
+@property (nonatomic) NSDictionary* attributes;
 
 + (CFMUser*)instance;
 - (void)loadData;

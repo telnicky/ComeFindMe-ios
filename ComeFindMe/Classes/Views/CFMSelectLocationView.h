@@ -22,4 +22,8 @@
 @property (nonatomic) GMSMapView* mapView;
 @property (nonatomic) UITextView* descriptionView;
 @property (nonatomic) UIButton* selectFriendsButton;
+
+- (NSString*)locationDescription;
+- (CLLocationCoordinate2D)markerPosition;
+
 @end

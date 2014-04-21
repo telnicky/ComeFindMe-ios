@@ -33,7 +33,7 @@ static BOOL initialized = false;
 {
     self = [super init];
     if (self) {
-        self.baseUrl = @"https://www.elnicky.com";
+        self.baseUrl = @"http://localhost:3000";
         self.headers = [[NSMutableDictionary alloc] init];
         [self setDefaultHeaders];
     }
@@ -53,10 +53,13 @@ static BOOL initialized = false;
     NSString* urlString = [NSString stringWithFormat:@"%@/%@", self.baseUrl, resource];
     NSURL* url = [NSURL URLWithString:urlString];
     NSMutableURLRequest* request = [NSMutableURLRequest requestWithURL:url];
-    [request setHTTPMethod:@"POST"];
-    [request setHTTPBody:body];
+    [request setHTTPShouldHandleCookies:YES];
     [self setDefaultHeadersForRequest:request];
 
+    [request setHTTPMethod:@"POST"];
+    [request setHTTPBody:body];
+
+    NSLog(@"Request: %@", [request allHTTPHeaderFields]);
     [NSURLConnection sendAsynchronousRequest:request
                                        queue:[NSOperationQueue mainQueue]
                            completionHandler:handler];
@@ -95,7 +98,7 @@ static BOOL initialized = false;
     
     NSString* urlString = [NSString stringWithFormat:@"%@/%@/%@", self.baseUrl, resource, guid];
     NSURL* url = [NSURL URLWithString:urlString];
-    NSMutableURLRequest* request = [NSURLRequest requestWithURL:url];
+    NSMutableURLRequest* request = [NSMutableURLRequest requestWithURL:url];
     [request setHTTPMethod:@"GET"];
     
     [NSURLConnection sendAsynchronousRequest:request
@@ -108,10 +111,9 @@ static BOOL initialized = false;
 - (void)setDefaultHeaders
 {
     NSString* accessToken = [[[FBSession activeSession] accessTokenData] accessToken];
-    NSString* accessTokenCookie = [NSString stringWithFormat:@"facebook_access_token=%@; secure", accessToken];
 
     [self.headers addEntriesFromDictionary:@{
-        @"Cookie": accessTokenCookie,
+        @"facebook_access_token": accessToken,
         @"Accept": @"application/json",
         @"Content-Type": @"application/json"
      }];
@@ -126,12 +128,26 @@ static BOOL initialized = false;
 
 - (BOOL)updateResource:(NSString*)resource
                   guid:(NSString*)guid
+                  body:(NSData*)body
      completionHandler:(void (^)(NSURLResponse*, NSData*, NSError*))handler
 {
     if ([self.baseUrl isEqualToString:@""]) {
         return false;
     }
     
+    NSString* urlString = [NSString stringWithFormat:@"%@/%@/%@", self.baseUrl, resource, guid];
+    NSURL* url = [NSURL URLWithString:urlString];
+    NSMutableURLRequest* request = [NSMutableURLRequest requestWithURL:url];
+    [request setHTTPShouldHandleCookies:YES];
+    [self setDefaultHeadersForRequest:request];
+    
+    [request setHTTPMethod:@"PUT"];
+    [request setHTTPBody:body];
+    
+    NSLog(@"Request: %@", [request allHTTPHeaderFields]);
+    [NSURLConnection sendAsynchronousRequest:request
+                                       queue:[NSOperationQueue mainQueue]
+                           completionHandler:handler];
     return false;
 }
 

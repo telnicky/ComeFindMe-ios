@@ -10,6 +10,7 @@
 #import "CFMSelectLocationView.h"
 #import "CFMMessagesButton.h"
 #import "CFMMessages.h"
+#import "CFMUser.h"
 
 @class CFMSelectLocationViewController;
 

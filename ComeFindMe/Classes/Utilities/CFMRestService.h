@@ -39,6 +39,7 @@
 
 - (BOOL)updateResource:(NSString*)resource
                   guid:(NSString*)guid
+                  body:(NSData*)body
      completionHandler:(void (^)(NSURLResponse*, NSData*, NSError*))handler;
 
 - (void)destroyResource:(NSString*)resource

@@ -24,6 +24,7 @@
 @property (nonatomic) NSMutableArray* messages;
 
 + (CFMMessages*)instance;
++ (NSString*)createJsonMessagesForSenderId:(NSString*)senderId locationId:(NSString*)locationId andFacebookId:(NSString*)facebookId;
 
 - (void)loadData;
 - (int)count;

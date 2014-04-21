@@ -72,43 +72,54 @@ static BOOL initialized = false;
     }
 }
 
-// this will set didSend and sender -> facebook_user
++ (NSString*)createJsonMessagesForSenderId:(NSString*)senderId locationId:(NSString*)locationId andFacebookId:(NSString*)facebookId
+{
+    NSString* body = @"{";
+    
+    if (senderId) {
+        NSString* senderIdJson = [NSString stringWithFormat:@"\"sender_id\": %@,", senderId];
+        body = [body stringByAppendingString:senderIdJson];
+    }
+    
+    if (locationId) {
+        NSString* locationIdJson = [NSString stringWithFormat:@"\"location_id\": %@,", locationId];
+        body = [body stringByAppendingString:locationIdJson];
+    }
+    
+    if (facebookId) {
+        NSString* facebookIdJson = [NSString stringWithFormat:@"\"facebook_id\": %@,", facebookId];
+        body = [body stringByAppendingString:facebookIdJson];
+    }
+    
+    if (![body isEqualToString:@"{"]) {
+        // remove extra comma
+        body = [body substringToIndex:[body length] - 1];
+    }
+    
+    body = [body stringByAppendingString:@"}"];
+    
+    return body;
+}
+
+// this will set didSend on the message
 - (void)aggregateMessages
 {
     for (NSDictionary* message in self.messages)
     {
-        NSDictionary* sender = [[message objectForKey:@"message"] objectForKey:@"sender"];
+        NSDictionary* sender = [message objectForKey:@"sender"];
         NSString* senderId = [sender objectForKey:@"facebook_id"];
         NSString* userId = [[CFMUser instance] facebookUser].id;
         if ([senderId isEqualToString:userId])
         {
             NSNumber* boolNumber = [NSNumber numberWithBool:true];
-            [[message objectForKey:@"message"] setValue:boolNumber forKey:@"didSend"];
-            [sender setValue:[[CFMUser instance] facebookUser] forKey:@"facebook_user"];
+            [message setValue:boolNumber forKey:@"didSend"];
         }
         else
         {
             NSNumber* boolNumber = [NSNumber numberWithBool:false];
-            [[message objectForKey:@"message"] setValue:boolNumber forKey:@"didSend"];
-            NSDictionary<FBGraphUser>* user = [self findSenderFacebookUserForMessage:message];
-            [sender setValue:user forKey:@"facebook_user"];
+            [message setValue:boolNumber forKey:@"didSend"];
         }
     }
-}
-
-- (NSDictionary<FBGraphUser>*)findSenderFacebookUserForMessage:(NSDictionary*)message
-{
-    NSDictionary* senderJson = [[message objectForKey:@"message"] objectForKey:@"sender"];
-    NSDictionary<FBGraphUser>* sender;
-    for (NSDictionary<FBGraphUser>* friend in [[CFMFriends instance] friends])
-    {
-        if ([friend.id isEqualToString:[senderJson objectForKey:@"facebook_id"]])
-        {
-            sender = friend;
-            break;
-        }
-    }
-    return sender;
 }
 
 #pragma mark UITableViewDataSource
@@ -120,7 +131,7 @@ static BOOL initialized = false;
 - (UITableViewCell*)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
 
-    NSDictionary* message = [[self.messages objectAtIndex:[indexPath row]] objectForKey:@"message"];
+    NSDictionary* message = [self.messages objectAtIndex:[indexPath row]];
     
     NSDictionary<FBGraphUser>* sender;
     UIImage* image;
@@ -135,14 +146,14 @@ static BOOL initialized = false;
         // this is a message we have received
         NSDictionary* senderJson = [message objectForKey:@"sender"];
 
-        sender = [senderJson objectForKey:@"facebook_user"];
+        sender = [[[CFMFriends instance] friends] objectForKey:[senderJson objectForKey:@"facebook_id"]];
         image = [UIImage imageNamed:@"glyphicons_345_hand_right"];
     }
 
-    UITableViewCell* cell = [tableView dequeueReusableCellWithIdentifier:NSStringFromClass([CFMFriends class])];
+    UITableViewCell* cell = [tableView dequeueReusableCellWithIdentifier:NSStringFromClass([CFMMessages class])];
     
     if (cell == nil) {
-        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1  reuseIdentifier:NSStringFromClass([CFMFriends class])];
+        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1  reuseIdentifier:NSStringFromClass([CFMMessages class])];
     }
     
     // image
