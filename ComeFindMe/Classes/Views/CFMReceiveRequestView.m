@@ -68,6 +68,7 @@
                                           longitude:self.longitude
                                                zoom:15];
     self.mapView = [[GMSMapView alloc] init];
+    [self.mapView setMyLocationEnabled:true];
     [self.mapView setCamera:_camera];
     [self.mapView setDelegate:self];
     [self addSubview:self.mapView];
@@ -132,6 +133,13 @@
 -(void)onOnMyWayPressed
 {
     NSLog(@"On My Way!!");
+}
+
+#pragma mark GMSMapViewDelegate
+
+- (void)mapView:(GMSMapView *)mapView didTapAtCoordinate:(CLLocationCoordinate2D)coordinate
+{
+    [self.delegate didTapMapViewOnReceiveRequestView:self];
 }
 
 @end

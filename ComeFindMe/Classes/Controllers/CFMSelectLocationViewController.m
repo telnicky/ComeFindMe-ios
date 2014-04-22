@@ -22,13 +22,24 @@
         
         [self initLocationView];
         [self initNavButtons];
+        [self initLocationManager];
     }
     return self;
+}
+
+- (void)initLocationManager
+{
+    self.locationManager = [[CLLocationManager alloc] init];
+    [self.locationManager setDelegate:self];
+    [self.locationManager setDesiredAccuracy:kCLLocationAccuracyHundredMeters];
 }
 
 - (void)initLocationView
 {
     self.selectLocationView = [[CFMSelectLocationView alloc] init];
+    CLLocation* location = [self.locationManager location];
+    [self.selectLocationView setLatitude:location.coordinate.latitude];
+    [self.selectLocationView setLongitude:location.coordinate.longitude];
     [self.selectLocationView setDelegate:self];
 }
 
@@ -45,7 +56,7 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    // Do any additional setup after loading the view.
+    [self.locationManager startUpdatingLocation];
 }
 
 - (void)didReceiveMemoryWarning
@@ -64,6 +75,11 @@
     [self.delegate messagesPressedFromSelectLocationViewController:self];
 }
 
+- (void)startStandardLocationUpdates
+{
+    [self.locationManager startUpdatingLocation];
+}
+
 #pragma mark CFMSelectLocationViewDelegate
 - (void)selectFriendsPressedFromSelectLocationView:(CFMSelectLocationView *)selectLocation
 {
@@ -78,6 +94,15 @@
 {
     NSLog(@"count: %d", messages.count);
     [self.messagesButton.badge setCount:messages.count];
+}
+
+#pragma mark CLLocationManagerDelegate
+- (void)locationManager:(CLLocationManager *)manager
+	didUpdateToLocation:(CLLocation *)newLocation
+		   fromLocation:(CLLocation *)oldLocation
+{
+    [self.selectLocationView moveCameraToLocation:newLocation];
+    [self.locationManager stopUpdatingLocation];
 }
 
 @end

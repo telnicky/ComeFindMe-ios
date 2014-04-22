@@ -64,6 +64,8 @@ static BOOL initialized = false;
         return;
     }
     
+    // TODO: handle bad responses from server
+    
     [self aggregateMessages];
     
     for (id< CFMMessagesDelegate > delegate in self.delegates)
@@ -87,7 +89,7 @@ static BOOL initialized = false;
     }
     
     if (facebookId) {
-        NSString* facebookIdJson = [NSString stringWithFormat:@"\"facebook_id\": %@,", facebookId];
+        NSString* facebookIdJson = [NSString stringWithFormat:@"\"facebook_id\": \"%@\",", facebookId];
         body = [body stringByAppendingString:facebookIdJson];
     }
     

@@ -73,6 +73,7 @@
 
 - (void)updateDataSource
 {
+    [[self.friendsDataSource friendIds] removeAllObjects];
     for (NSDictionary* receiver in [self.message objectForKey:@"receivers"])
     {
         NSString* facebookId = [receiver objectForKey:@"facebook_id"];

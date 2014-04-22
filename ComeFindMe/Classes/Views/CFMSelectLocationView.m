@@ -26,9 +26,6 @@
     if (self) {
         _originalY = 0;
 
-        self.latitude = -33.86;
-        self.longitude = 151.20;
-
         [self initMapView];
         [self initDescriptionView];
         [self initButtonView];
@@ -81,6 +78,7 @@
     self.mapView = [[GMSMapView alloc] init];
     [self.mapView setCamera:_camera];
     [self.mapView setDelegate:self];
+    [self.mapView setMyLocationEnabled:true];
     [self addSubview:self.mapView];
     
     
@@ -110,6 +108,13 @@
     [self.mapView setFrame:upperFrame];
     [self.descriptionView setFrame:_descriptionViewFrame];
     [self.selectFriendsButton setFrame:_selectFriendsButtonFrame];
+}
+
+- (void)moveCameraToLocation:(CLLocation*)location
+{
+    GMSCameraPosition* camera = [GMSCameraPosition cameraWithTarget:location.coordinate zoom:_camera.zoom];
+    [self.mapView animateToCameraPosition:camera];
+    _camera = camera;
 }
 
 - (void)keyboardWillHide

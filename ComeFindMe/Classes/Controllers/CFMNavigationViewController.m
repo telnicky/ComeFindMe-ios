@@ -19,7 +19,7 @@
 
 @implementation CFMNavigationViewController
 {
-
+    NSMutableArray* _initialViewControllers;
 }
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
@@ -56,6 +56,9 @@
     self.sentRequestViewController = [[CFMSentRequestViewController alloc] init];
     
     self.settingsViewController = [[CFMSettingsViewController alloc] init];
+    
+    _initialViewControllers = [[NSMutableArray alloc] init];
+    [_initialViewControllers addObject:self.selectLocationController];
 }
 
 - (void)initNavbar
@@ -91,7 +94,7 @@
 - (void)userDidFinishLoading:(CFMUser *)user
 {
     [self setNavigationBarHidden:false];
-    [self setViewControllers:@[ self.selectLocationController ] animated:false];
+    [self setViewControllers:_initialViewControllers animated:false];
 }
 
 - (void)user:(CFMUser *)user DidFailLoadingWithError:(NSError *)error
@@ -157,6 +160,8 @@
     
     [self popToRootViewControllerAnimated:false];
     [self pushViewController:self.messagesViewController animated:false];
+    [_initialViewControllers addObject:self.messagesViewController];
+    [self.user.messages loadData];
 }
 
 

@@ -33,7 +33,7 @@ static BOOL initialized = false;
 {
     self = [super init];
     if (self) {
-        self.baseUrl = @"http://localhost:3000";
+        self.baseUrl = @"https://www.elnicky.com";
         self.headers = [[NSMutableDictionary alloc] init];
         [self setDefaultHeaders];
     }
@@ -113,7 +113,7 @@ static BOOL initialized = false;
     NSString* accessToken = [[[FBSession activeSession] accessTokenData] accessToken];
 
     [self.headers addEntriesFromDictionary:@{
-        @"facebook_access_token": accessToken,
+        @"AUTHORIZATION": accessToken,
         @"Accept": @"application/json",
         @"Content-Type": @"application/json"
      }];

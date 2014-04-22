@@ -29,6 +29,7 @@
 - (void)initRequestView
 {
     self.receiveRequestView = [[CFMReceiveRequestView alloc] init];
+    [self.receiveRequestView setDelegate:self];
 }
 
 - (void)loadView
@@ -79,6 +80,28 @@
 {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+#pragma mark CFMReceiveRequestViewDelegate
+- (void)didTapMapViewOnReceiveRequestView:(CFMReceiveRequestView *)receiveRequestView
+{
+    if ([[UIApplication sharedApplication] canOpenURL:
+         [NSURL URLWithString:@"comgooglemaps-x-callback://"]])
+    {
+        // google maps exists
+        NSString* path = [NSString
+                          stringWithFormat:@"comgooglemaps-x-callback://?daddr=%f,%f&directionsmode=driving&&x-success=comefindme://?resume=true&x-source=Come+Find+Me",
+                          [[self receiveRequestView] latitude],
+                          [[self receiveRequestView] longitude]];
+        
+        [[UIApplication sharedApplication] openURL:
+         [NSURL URLWithString:path]];
+        
+    }
+    else
+    {
+        // good luck having apple maps guide you
+    }
 }
 
 @end

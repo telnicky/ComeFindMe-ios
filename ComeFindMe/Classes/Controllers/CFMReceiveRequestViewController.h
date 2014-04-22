@@ -12,7 +12,8 @@
 #import "CFMReceiveRequestView.h"
 #import "CFMUser.h"
 
-@interface CFMReceiveRequestViewController : UIViewController
+@interface CFMReceiveRequestViewController : UIViewController <
+CFMReceiveRequestViewDelegate >
 @property (nonatomic) NSDictionary* message;
 @property (nonatomic) CFMReceiveRequestView* receiveRequestView;
 @end

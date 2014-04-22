@@ -22,8 +22,9 @@
 
 @end
 
-@interface CFMSelectLocationViewController : UIViewController< CFMSelectLocationViewDelegate, CFMMessagesDelegate >
+@interface CFMSelectLocationViewController : UIViewController< CFMSelectLocationViewDelegate, CFMMessagesDelegate, CLLocationManagerDelegate >
 @property (nonatomic, assign) id< CFMSelectLocationViewControllerDelegate > delegate;
 @property (nonatomic) CFMSelectLocationView* selectLocationView;
 @property (nonatomic) CFMMessagesButton* messagesButton;
+@property (nonatomic) CLLocationManager* locationManager;
 @end

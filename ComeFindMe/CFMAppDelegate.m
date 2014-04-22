@@ -33,35 +33,6 @@
     CFMNavigationViewController* navController = [[CFMNavigationViewController alloc] init];
     [self.window setRootViewController:navController];
     
-//    CFMSelectLocationViewController* selectController = [[CFMSelectLocationViewController alloc] init];
-//    [self.window setRootViewController:selectController];
-    
-    
-//    CFMSelectLocationView* selectLocationView = [[CFMSelectLocationView alloc] initWithFrame:self.window.bounds];
-//    [self.window addSubview:selectLocationView];
-//    CFMReceiveRequestView* receivedRequestView = [[CFMReceiveRequestView alloc] initWithFrame:self.window.bounds];
-//    [self.window addSubview:receivedRequestView];
-    
-//    CFMRestService* service = [CFMRestService instance];
-//    [service readResource:@"locations"
-//        completionHandler:^(NSURLResponse* response, NSData* data, NSError* err)
-//    {
-//        NSError* error;
-//        id JSONObject = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:&error];
-//        NSLog(@"foo");
-//        
-//        
-//    }];
-//
-
-    
-//    CFMBadgeView* badge = [[CFMBadgeView alloc] initWithFrame:CGRectMake(20, 20, 15, 15)];
-//    [self.window addSubview:badge];
-//    CFMMessagesButton* messagesButton = [[CFMMessagesButton alloc] initWithFrame:CGRectMake(20, 20, 40, 40)];
-//    [self.window addSubview:messagesButton];
-//    [self.window setBackgroundColor:[UIColor yellowColor]];
-    
-    
     return YES;
 }
 

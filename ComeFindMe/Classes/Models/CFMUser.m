@@ -77,7 +77,7 @@ static BOOL initialized = false;
 - (NSString*)sessionCreateBody
 {
     NSString* accessToken = [[[FBSession activeSession] accessTokenData] accessToken];
-    NSString* requestBody = [NSString stringWithFormat:@"{\"facebook_id\": %@, \"facebook_access_token\": \"%@\"}\n", self.facebookUser.id, accessToken];
+    NSString* requestBody = [NSString stringWithFormat:@"{\"facebook_id\": \"%@\", \"facebook_access_token\": \"%@\"}\n", self.facebookUser.id, accessToken];
 
     return requestBody;
 }
@@ -91,6 +91,7 @@ static BOOL initialized = false;
 #pragma mark CFMMessagesDelegate
 - (void)messagesDidLoad:(CFMMessages *)messages
 {
+    [self setMessages:messages];
     [self.delegate userDidFinishLoading:self];
 }
 

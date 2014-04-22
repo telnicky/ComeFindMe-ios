@@ -25,5 +25,6 @@
 
 - (NSString*)locationDescription;
 - (CLLocationCoordinate2D)markerPosition;
+- (void)moveCameraToLocation:(CLLocation*)location;
 
 @end

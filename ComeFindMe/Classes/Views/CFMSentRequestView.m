@@ -58,10 +58,10 @@
 {
     _camera = [GMSCameraPosition cameraWithTarget:self.coordinates zoom:15];
     self.mapView = [[GMSMapView alloc] init];
+    [self.mapView setMyLocationEnabled:true];
     [self.mapView setCamera:_camera];
     [self.mapView setDelegate:self];
     [self addSubview:self.mapView];
-    
     
     _marker = [[GMSMarker alloc] init];
     _marker.draggable = true;

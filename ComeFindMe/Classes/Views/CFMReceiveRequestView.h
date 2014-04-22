@@ -8,8 +8,16 @@
 
 #import <UIKit/UIKit.h>
 #import <GoogleMaps/GoogleMaps.h>
+@class CFMReceiveRequestView;
+
+@protocol CFMReceiveRequestViewDelegate <NSObject>
+
+- (void)didTapMapViewOnReceiveRequestView:(CFMReceiveRequestView*)receiveRequestView;
+
+@end
 
 @interface CFMReceiveRequestView : UIView< CLLocationManagerDelegate, GMSMapViewDelegate, UITextViewDelegate >
+@property (nonatomic, assign) id < CFMReceiveRequestViewDelegate     > delegate;
 @property (nonatomic) float latitude;
 @property (nonatomic) float longitude;
 @property (nonatomic) NSString* description;
