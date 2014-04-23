@@ -50,7 +50,7 @@
 - (void)initFriendsTable
 {
     _friendsTableisVisible = false;
-    self.friendsTable = [[UITableView alloc] init];
+    self.friendsTable = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, 0, 0) style:UITableViewStyleGrouped];
     [self addSubview:self.friendsTable];
 }
 

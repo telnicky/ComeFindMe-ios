@@ -10,5 +10,10 @@
 #import "CFMUser.h"
 
 @interface CFMFriendsDataSource : NSObject < UITableViewDataSource >
-@property (nonatomic) NSMutableArray* friendIds;
+@property (nonatomic) NSMutableArray* friends;
+@property (nonatomic) NSMutableArray* sections;
+@property (nonatomic) NSMutableDictionary* friendsWithSections;
+@property (nonatomic) bool shouldAllowSelection;
+@property (nonatomic) bool shouldDisplayFullName;
+@property (nonatomic) bool shouldUseSections;
 @end

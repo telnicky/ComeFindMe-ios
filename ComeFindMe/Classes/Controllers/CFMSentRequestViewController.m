@@ -20,6 +20,7 @@
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
         self.friendsDataSource = [[CFMFriendsDataSource alloc] init];
+        [self.friendsDataSource setShouldDisplayFullName:true];
         [self initRequestView];
         
         UIBarButtonItem* date = [[UIBarButtonItem alloc] initWithTitle:@"mar 27" style:UIBarButtonItemStyleBordered target:nil action:nil];
@@ -32,7 +33,8 @@
 - (void)initRequestView
 {
     self.sentRequestView = [[CFMSentRequestView alloc] init];
-    [[self.sentRequestView friendsTable] setDataSource:self.friendsDataSource];
+    [[self.sentRequestView friendsTable]
+     setDataSource:self.friendsDataSource];
 }
 
 - (void)loadView
@@ -40,7 +42,7 @@
     [self setView:self.sentRequestView];
 }
 
-- (void)setMessage:(NSDictionary *)message
+- (void)setMessage:(CFMMessage*)message
 {
     _message = message;
     
@@ -51,20 +53,17 @@
 
 - (void)updateLocation
 {
-    NSDictionary* location = [self.message objectForKey:@"location"];
-    CLLocationCoordinate2D coordinates = CLLocationCoordinate2DMake([[location objectForKey:@"latitude"] floatValue],[[location objectForKey:@"longitude"] floatValue]);
-    [self.sentRequestView setCoordinates:coordinates];
+    [self.sentRequestView setCoordinates:self.message.location.coordinates];
 }
 
 - (void)updateNavbar
 {
-    NSDictionary<FBGraphUser>* sender = [[CFMUser instance] facebookUser];
-    [self setTitle:[NSString stringWithFormat:@"%@", sender.first_name]];
+    [self setTitle:[NSString stringWithFormat:@"%@", self.message.sender.firstName]];
     
     NSDateFormatter* dateFormatter = [[NSDateFormatter alloc] init];
     [dateFormatter setTimeZone:[NSTimeZone systemTimeZone]];
     [dateFormatter setDateFormat:@"Y-MM-dd HH:mm:ss Z"];
-    NSString* dateString = [self.message objectForKey:@"created_at"];
+    NSString* dateString = self.message.createdAt;
     NSDate* date = [dateFormatter dateFromString:dateString];
     [dateFormatter setDateFormat:@"h:mm a M/d"];
     dateString = [dateFormatter stringFromDate:date];
@@ -73,12 +72,10 @@
 
 - (void)updateDataSource
 {
-    [[self.friendsDataSource friendIds] removeAllObjects];
-    for (NSDictionary* receiver in [self.message objectForKey:@"receivers"])
-    {
-        NSString* facebookId = [receiver objectForKey:@"facebook_id"];
-        [[self.friendsDataSource friendIds] addObject:facebookId];
-    }
+    [self.friendsDataSource setFriends:self.message.receivers];
+    [[self.sentRequestView friendsTable]
+     setDataSource:self.friendsDataSource];
+    [self.sentRequestView.friendsTable reloadData];
 }
 
 - (void)viewDidLoad

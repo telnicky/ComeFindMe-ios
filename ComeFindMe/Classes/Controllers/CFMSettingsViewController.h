@@ -10,6 +10,15 @@
 
 #import "CFMSettingsView.h"
 
-@interface CFMSettingsViewController : UIViewController
+@class CFMSettingsViewController;
+
+@protocol CFMSettingsViewControllerDelegate <NSObject>
+
+- (void)loggedOutUserFromSettingsViewController:(CFMSettingsViewController*)settingsViewController;
+
+@end
+
+@interface CFMSettingsViewController : UIViewController < CFMSettingsViewDelegate >
+@property (nonatomic) id < CFMSettingsViewControllerDelegate > delegate;
 @property (nonatomic) CFMSettingsView* settingsView;
 @end

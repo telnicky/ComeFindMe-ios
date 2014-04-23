@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		6750701B1906F1E400D8EFD5 /* CFMMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = 6750701A1906F1E400D8EFD5 /* CFMMessage.m */; };
 		675E8C7918EDF73E00978B50 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 675E8C7818EDF73E00978B50 /* Foundation.framework */; };
 		675E8C7B18EDF73E00978B50 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 675E8C7A18EDF73E00978B50 /* CoreGraphics.framework */; };
 		675E8C7D18EDF73E00978B50 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 675E8C7C18EDF73E00978B50 /* UIKit.framework */; };
@@ -46,10 +47,8 @@
 		67EF032618FCD74200D2A40C /* CFMBadgeView.m in Sources */ = {isa = PBXBuildFile; fileRef = 67EF032518FCD74200D2A40C /* CFMBadgeView.m */; };
 		67EF032C18FCEAD100D2A40C /* CFMMessagesButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 67EF032B18FCEAD100D2A40C /* CFMMessagesButton.m */; };
 		67EF032F18FCEE5900D2A40C /* glyphicons_114_list.png in Resources */ = {isa = PBXBuildFile; fileRef = 67EF032E18FCEE5900D2A40C /* glyphicons_114_list.png */; };
-		67EF033318FDF75C00D2A40C /* CFMFriends.m in Sources */ = {isa = PBXBuildFile; fileRef = 67EF033218FDF75C00D2A40C /* CFMFriends.m */; };
-		67EF03361902A15000D2A40C /* CFMMessagesView.m in Sources */ = {isa = PBXBuildFile; fileRef = 67EF03351902A15000D2A40C /* CFMMessagesView.m */; };
 		67EF03391902A31200D2A40C /* CFMMessagesViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 67EF03381902A31200D2A40C /* CFMMessagesViewController.m */; };
-		67EF033C1902A49000D2A40C /* CFMMessages.m in Sources */ = {isa = PBXBuildFile; fileRef = 67EF033B1902A49000D2A40C /* CFMMessages.m */; };
+		67EF033C1902A49000D2A40C /* CFMMessagesDataSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 67EF033B1902A49000D2A40C /* CFMMessagesDataSource.m */; };
 		67EF033F19039AA000D2A40C /* glyphicons_345_hand_right.png in Resources */ = {isa = PBXBuildFile; fileRef = 67EF033D19039AA000D2A40C /* glyphicons_345_hand_right.png */; };
 		67EF034019039AA000D2A40C /* glyphicons_346_hand_left.png in Resources */ = {isa = PBXBuildFile; fileRef = 67EF033E19039AA000D2A40C /* glyphicons_346_hand_left.png */; };
 		67EF03431904A85A00D2A40C /* CFMReceiveRequestViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 67EF03421904A85A00D2A40C /* CFMReceiveRequestViewController.m */; };
@@ -74,6 +73,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		675070191906F1E400D8EFD5 /* CFMMessage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CFMMessage.h; path = Classes/Models/CFMMessage.h; sourceTree = "<group>"; };
+		6750701A1906F1E400D8EFD5 /* CFMMessage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CFMMessage.m; path = Classes/Models/CFMMessage.m; sourceTree = "<group>"; };
 		675E8C7518EDF73E00978B50 /* ComeFindMe.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ComeFindMe.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		675E8C7818EDF73E00978B50 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		675E8C7A18EDF73E00978B50 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -128,14 +129,10 @@
 		67EF032A18FCEAD100D2A40C /* CFMMessagesButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CFMMessagesButton.h; path = Classes/Controls/CFMMessagesButton.h; sourceTree = "<group>"; };
 		67EF032B18FCEAD100D2A40C /* CFMMessagesButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CFMMessagesButton.m; path = Classes/Controls/CFMMessagesButton.m; sourceTree = "<group>"; };
 		67EF032E18FCEE5900D2A40C /* glyphicons_114_list.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = glyphicons_114_list.png; sourceTree = "<group>"; };
-		67EF033118FDF75C00D2A40C /* CFMFriends.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CFMFriends.h; path = Classes/Models/CFMFriends.h; sourceTree = "<group>"; };
-		67EF033218FDF75C00D2A40C /* CFMFriends.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CFMFriends.m; path = Classes/Models/CFMFriends.m; sourceTree = "<group>"; };
-		67EF03341902A15000D2A40C /* CFMMessagesView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CFMMessagesView.h; path = Classes/Views/CFMMessagesView.h; sourceTree = "<group>"; };
-		67EF03351902A15000D2A40C /* CFMMessagesView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CFMMessagesView.m; path = Classes/Views/CFMMessagesView.m; sourceTree = "<group>"; };
 		67EF03371902A31200D2A40C /* CFMMessagesViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CFMMessagesViewController.h; path = Classes/Controllers/CFMMessagesViewController.h; sourceTree = "<group>"; };
 		67EF03381902A31200D2A40C /* CFMMessagesViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CFMMessagesViewController.m; path = Classes/Controllers/CFMMessagesViewController.m; sourceTree = "<group>"; };
-		67EF033A1902A49000D2A40C /* CFMMessages.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CFMMessages.h; path = Classes/Models/CFMMessages.h; sourceTree = "<group>"; };
-		67EF033B1902A49000D2A40C /* CFMMessages.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CFMMessages.m; path = Classes/Models/CFMMessages.m; sourceTree = "<group>"; };
+		67EF033A1902A49000D2A40C /* CFMMessagesDataSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CFMMessagesDataSource.h; path = Classes/Models/CFMMessagesDataSource.h; sourceTree = "<group>"; };
+		67EF033B1902A49000D2A40C /* CFMMessagesDataSource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CFMMessagesDataSource.m; path = Classes/Models/CFMMessagesDataSource.m; sourceTree = "<group>"; };
 		67EF033D19039AA000D2A40C /* glyphicons_345_hand_right.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = glyphicons_345_hand_right.png; sourceTree = "<group>"; };
 		67EF033E19039AA000D2A40C /* glyphicons_346_hand_left.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = glyphicons_346_hand_left.png; sourceTree = "<group>"; };
 		67EF03411904A85A00D2A40C /* CFMReceiveRequestViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CFMReceiveRequestViewController.h; path = Classes/Controllers/CFMReceiveRequestViewController.h; sourceTree = "<group>"; };
@@ -305,8 +302,6 @@
 				67BCEF4818F24926000853B6 /* CFMReceiveRequestView.m */,
 				67EF031D18FB3A1000D2A40C /* CFMSelectFriendsView.h */,
 				67EF031E18FB3A1000D2A40C /* CFMSelectFriendsView.m */,
-				67EF03341902A15000D2A40C /* CFMMessagesView.h */,
-				67EF03351902A15000D2A40C /* CFMMessagesView.m */,
 				67EF03471904DAA000D2A40C /* CFMSettingsView.h */,
 				67EF03481904DAA000D2A40C /* CFMSettingsView.m */,
 				67EF034F1905525100D2A40C /* CFMSentRequestView.h */,
@@ -372,16 +367,16 @@
 		67EF033018FDF74400D2A40C /* Models */ = {
 			isa = PBXGroup;
 			children = (
-				67EF033118FDF75C00D2A40C /* CFMFriends.h */,
-				67EF033218FDF75C00D2A40C /* CFMFriends.m */,
-				67EF033A1902A49000D2A40C /* CFMMessages.h */,
-				67EF033B1902A49000D2A40C /* CFMMessages.m */,
+				67EF033A1902A49000D2A40C /* CFMMessagesDataSource.h */,
+				67EF033B1902A49000D2A40C /* CFMMessagesDataSource.m */,
 				67EF03441904ADD300D2A40C /* CFMUser.h */,
 				67EF03451904ADD300D2A40C /* CFMUser.m */,
 				67EF035519055D7000D2A40C /* CFMFriendsDataSource.h */,
 				67EF035619055D7000D2A40C /* CFMFriendsDataSource.m */,
 				67EF035819057E0C00D2A40C /* CFMLocation.h */,
 				67EF035919057E0C00D2A40C /* CFMLocation.m */,
+				675070191906F1E400D8EFD5 /* CFMMessage.h */,
+				6750701A1906F1E400D8EFD5 /* CFMMessage.m */,
 			);
 			name = Models;
 			sourceTree = "<group>";
@@ -490,7 +485,6 @@
 				67A9D49518EFBB9B0017373B /* CFMSelectLocationView.m in Sources */,
 				67EF03511905525100D2A40C /* CFMSentRequestView.m in Sources */,
 				67EF031918FA2BD100D2A40C /* CFMLoginViewController.m in Sources */,
-				67EF033318FDF75C00D2A40C /* CFMFriends.m in Sources */,
 				67EF03431904A85A00D2A40C /* CFMReceiveRequestViewController.m in Sources */,
 				67EF03391902A31200D2A40C /* CFMMessagesViewController.m in Sources */,
 				67EF034C1904DC3700D2A40C /* CFMSettingsViewController.m in Sources */,
@@ -498,10 +492,10 @@
 				67BCEF4918F24926000853B6 /* CFMReceiveRequestView.m in Sources */,
 				67EF031C18FB321F00D2A40C /* CFMSelectLocationViewController.m in Sources */,
 				67EF032C18FCEAD100D2A40C /* CFMMessagesButton.m in Sources */,
-				67EF033C1902A49000D2A40C /* CFMMessages.m in Sources */,
+				67EF033C1902A49000D2A40C /* CFMMessagesDataSource.m in Sources */,
 				675E8C8518EDF73E00978B50 /* main.m in Sources */,
 				67EF035719055D7000D2A40C /* CFMFriendsDataSource.m in Sources */,
-				67EF03361902A15000D2A40C /* CFMMessagesView.m in Sources */,
+				6750701B1906F1E400D8EFD5 /* CFMMessage.m in Sources */,
 				67EF032618FCD74200D2A40C /* CFMBadgeView.m in Sources */,
 				67EF031618FA297500D2A40C /* CFMNavigationViewController.m in Sources */,
 				675E8CAD18EE03AC00978B50 /* CFMLoginView.m in Sources */,

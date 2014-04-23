@@ -45,10 +45,10 @@
 
 - (void)initNavButtons
 {
-    [[[CFMMessages instance] delegates] addObject:self];
     self.messagesButton = [[CFMMessagesButton alloc] initWithFrame:CGRectMake(0, 0, 40, 40)];
     [self.messagesButton addTarget:self action:@selector(messagesButtonPressed) forControlEvents:UIControlEventTouchDown];
     UIBarButtonItem* messages = [[UIBarButtonItem alloc] initWithCustomView:self.messagesButton];
+    [self.messagesButton.badge setCount:[[[CFMUser currentUser] messages] count]];
     
     [self.navigationItem setRightBarButtonItems: @[ messages ]];
 }
@@ -80,20 +80,18 @@
     [self.locationManager startUpdatingLocation];
 }
 
+- (void)viewWillAppear:(BOOL)animated
+{
+    [self.messagesButton.badge setCount:[[[CFMUser currentUser] messages] count]];
+}
+
 #pragma mark CFMSelectLocationViewDelegate
 - (void)selectFriendsPressedFromSelectLocationView:(CFMSelectLocationView *)selectLocation
 {
-    [[[CFMUser instance] location] setCoordinates:[selectLocation markerPosition]];
-    [[[CFMUser instance] location] setDescription:[self.selectLocationView locationDescription]];
+    [[[CFMUser currentUser] location] setCoordinates:[selectLocation markerPosition]];
+    [[[CFMUser currentUser] location] setDescription:[self.selectLocationView locationDescription]];
 
     [self.delegate selectFriendsPressedFromSelectLocationViewController:self];
-}
-
-#pragma mark CFMMessagesDelegate
-- (void)messagesDidLoad:(CFMMessages *)messages
-{
-    NSLog(@"count: %d", messages.count);
-    [self.messagesButton.badge setCount:messages.count];
 }
 
 #pragma mark CLLocationManagerDelegate

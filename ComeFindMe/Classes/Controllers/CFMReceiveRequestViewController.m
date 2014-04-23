@@ -37,7 +37,7 @@
     [self setView:self.receiveRequestView];
 }
 
-- (void)setMessage:(NSDictionary *)message
+- (void)setMessage:(CFMMessage*)message
 {
     _message = message;
     
@@ -47,23 +47,20 @@
 
 - (void)updateLocation
 {
-    NSDictionary* location = [self.message objectForKey:@"location"];
-    [self.receiveRequestView setLongitude:[[location objectForKey:@"longitude"] floatValue]];
-    [self.receiveRequestView setLatitude:[[location objectForKey:@"latitude"] floatValue]];
-    [self.receiveRequestView setDescription:[location objectForKey:@"description"]];
+    CLLocationCoordinate2D coordinates = self.message.location.coordinates;
+    [self.receiveRequestView setLongitude:coordinates.longitude];
+    [self.receiveRequestView setLatitude:coordinates.latitude];
+    [self.receiveRequestView setDescription:self.message.location.description];
 }
 
 - (void)updateNavbar
 {
-    
-    NSString* senderId = [[self.message objectForKey:@"sender"] objectForKey:@"facebook_id"];
-    NSDictionary<FBGraphUser>* sender = [[[[CFMUser instance] friends] friends] objectForKey:senderId];
-    [self setTitle:[NSString stringWithFormat:@"%@", sender.first_name]];
+    [self setTitle:[NSString stringWithFormat:@"%@", self.message.sender.firstName]];
     
     NSDateFormatter* dateFormatter = [[NSDateFormatter alloc] init];
     [dateFormatter setTimeZone:[NSTimeZone systemTimeZone]];
     [dateFormatter setDateFormat:@"Y-MM-dd HH:mm:ss Z"];
-    NSString* dateString = [self.message objectForKey:@"created_at"];
+    NSString* dateString = self.message.createdAt;
     NSDate* date = [dateFormatter dateFromString:dateString];
     [dateFormatter setDateFormat:@"h:mm a M/d"];
     dateString = [dateFormatter stringFromDate:date];

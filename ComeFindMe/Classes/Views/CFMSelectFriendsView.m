@@ -63,8 +63,7 @@
 
 - (void) onSendPressed
 {
-    NSLog(@"Send!!");
-    [self.delegate sendButtonPressedOnSelecFriendsView:self];
+    [self.delegate sendButtonPressedOnSelectFriendsView:self];
 }
 
 #pragma mark UITableViewDelegate

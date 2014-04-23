@@ -7,19 +7,20 @@
 //
 
 #import "CFMLocation.h"
+#import "CFMUser.h"
 
 @implementation CFMLocation
 
-- (void)save
+- (void)fromJson:(NSDictionary*)json
 {
-    if (self.id)
-    {
-        [self update];
-    }
-    else
-    {
-        [self create];
-    }
+    CLLocationCoordinate2D coordinates = CLLocationCoordinate2DMake(0, 0);
+    coordinates.latitude = [[json objectForKey:@"latitude"] floatValue];
+    coordinates.longitude = [[json objectForKey:@"longitude"] floatValue];
+
+    [self setCoordinates:coordinates];
+    [self setDescription:[json objectForKey:@"description"]];
+    [self setUserId:[json objectForKey:@"user_id"]];
+    [self setId:[json objectForKey:@"id"]];
 }
 
 - (void)create
@@ -47,7 +48,7 @@
 {
     [[CFMRestService instance]
      updateResource:@"locations"
-     guid:self.id
+     guid:[self.id stringValue]
      body:[[self toJson] dataUsingEncoding:NSUTF8StringEncoding]
      completionHandler:^(NSURLResponse* response, NSData* data, NSError* error)
      {
@@ -58,6 +59,18 @@
          
          [self.delegate saveSuccessfulForLocation:self];
      }];
+}
+
+- (void)save
+{
+    if (self.id)
+    {
+        [self update];
+    }
+    else
+    {
+        [self create];
+    }
 }
 
 - (NSString*)toJson
@@ -83,7 +96,7 @@
         NSString* userIdJson = [NSString stringWithFormat:@"\"user_id\": %@,", self.userId];
         body = [body stringByAppendingString:userIdJson];
     }
-    
+
     if (![body isEqualToString:@"{"]) {
         // remove extra comma
         body = [body substringToIndex:[body length] - 1];

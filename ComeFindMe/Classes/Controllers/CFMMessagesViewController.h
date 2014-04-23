@@ -8,22 +8,30 @@
 
 #import <UIKit/UIKit.h>
 
-#import "CFMMessagesView.h"
 #import "CFMUser.h"
+#import "CFMMessagesDataSource.h"
 
 @class CFMMessagesViewController;
 
 @protocol CFMMessagesViewControllerDelegate <NSObject>
 
-- (void)messagesViewController:(CFMMessagesViewController*)messagesViewController didSelectSentMessage:(NSDictionary*)message;
+- (void)messagesViewController:(CFMMessagesViewController*)messagesViewController didSelectSentMessage:(CFMMessage*)message;
 
-- (void)messagesViewController:(CFMMessagesViewController*)messagesViewController didSelectReceivedMessage:(NSDictionary*)message;
+- (void)messagesViewController:(CFMMessagesViewController*)messagesViewController didSelectReceivedMessage:(CFMMessage*)message;
 
 - (void)settingsButtonPressedForMessagesViewController:(CFMMessagesViewController*)messagesViewController;
 
 @end
 
-@interface CFMMessagesViewController : UIViewController < UITableViewDelegate >
+@interface CFMMessagesViewController : UITableViewController < UITableViewDelegate, CFMUserMessagesDelegate >
+
+// Attributes
+@property (nonatomic) CFMMessagesDataSource* dataSource;
+
+// delegates
 @property (nonatomic, assign) id < CFMMessagesViewControllerDelegate > delegate;
-@property (nonatomic) CFMMessagesView* messagesView;
+
+// Instance Methods
+- (id)initWithStyle:(UITableViewStyle)style;
+
 @end

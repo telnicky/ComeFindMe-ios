@@ -9,7 +9,9 @@
 #import <Foundation/Foundation.h>
 #import <CoreLocation/CoreLocation.h>
 
+
 #import "CFMRestService.h"
+
 @class CFMLocation;
 
 @protocol CFMLocationDelegate <NSObject>
@@ -19,12 +21,19 @@
 @end
 
 @interface CFMLocation : NSObject
-@property (nonatomic) id < CFMLocationDelegate > delegate;
+
+// Attributes
 @property (nonatomic) CLLocationCoordinate2D coordinates;
 @property (nonatomic) NSString* description;
-@property (nonatomic) NSString* userId;
-@property (nonatomic) NSString* id;
+@property (nonatomic) NSNumber* userId;
+@property (nonatomic) NSNumber* id;
 
-- (void)save;
+// Delegates
+@property (nonatomic) id < CFMLocationDelegate > delegate;
+
+// Instance Methods
+- (void)fromJson:(NSDictionary*)json;
 - (NSString*)toJson;
+- (void)save;
+
 @end

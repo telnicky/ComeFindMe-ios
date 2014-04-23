@@ -37,20 +37,6 @@ static BOOL initialized = false;
     return self;
 }
 
-- (void)loadData
-{
-    FBRequest* friendsRequest = [FBRequest requestForMyFriends];
-    [friendsRequest startWithCompletionHandler:
-     ^(FBRequestConnection *connection,
-       NSDictionary* result,
-       NSError *error)
-    {
-        NSArray* friends = [result objectForKey:@"data"];
-        [self buildSectionsWithFriends:friends];
-        [self.delegate friendsDidLoad:self];
-    }];
-}
-
 - (void)buildSectionsWithFriends:(NSArray*)friends
 {
     for ( NSDictionary<FBGraphUser>* friend in friends )
@@ -104,6 +90,7 @@ static BOOL initialized = false;
     NSString* section = [self.sections objectAtIndex:[indexPath section]];
     NSDictionary<FBGraphUser>* friend = [[self.sectionsWithFriends objectForKey:section] objectAtIndex:[indexPath row]];
     NSString* title = friend.name;
+    
     UITableViewCell* cell = [tableView dequeueReusableCellWithIdentifier:NSStringFromClass([CFMFriends class])];
     
     if (cell == nil) {

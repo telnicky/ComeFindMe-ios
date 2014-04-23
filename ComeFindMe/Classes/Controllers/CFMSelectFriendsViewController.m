@@ -21,7 +21,16 @@
         [self setTitle:@"Select Friends"];
         self.selectFriendsView = [[CFMSelectFriendsView alloc] init];
         [self.selectFriendsView setDelegate:self];
-        [self.selectFriendsView.friendsTable setDataSource:[[CFMUser instance] friends]];
+        
+        self.friendsDataSource = [[CFMFriendsDataSource alloc] init];
+        [self.friendsDataSource setShouldAllowSelection:true];
+        [self.friendsDataSource setShouldUseSections:true];
+        [self.friendsDataSource setShouldDisplayFullName:true];
+        [self.friendsDataSource
+         setFriends:[[CFMUser currentUser] friends]];
+
+        [self.selectFriendsView.friendsTable
+         setDataSource:self.friendsDataSource];
     }
     return self;
 }
@@ -44,26 +53,39 @@
 }
 
 #pragma mark CFMSelectFriendsDelegate
-- (void)sendButtonPressedOnSelecFriendsView:(CFMSelectFriendsView *)selectFriendsView
+- (void)sendButtonPressedOnSelectFriendsView:(CFMSelectFriendsView *)selectFriendsView
 {
-    NSArray* friendIndexes = [[self.selectFriendsView friendsTable] indexPathsForSelectedRows];
-    NSMutableArray* friends = [[NSMutableArray alloc] initWithCapacity:friendIndexes.count];
+    NSArray* friendIndexes = [[self.selectFriendsView friendsTable]
+                              indexPathsForSelectedRows];
+
+    NSMutableArray* friends = [[NSMutableArray alloc]
+                               initWithCapacity:friendIndexes.count];
 
     for (NSIndexPath* friendIndex in friendIndexes)
     {
-        NSString* section = [[[[CFMUser instance] friends] sections] objectAtIndex:[friendIndex section]];
-        NSDictionary* friend = [[[[[CFMUser instance] friends] sectionsWithFriends] objectForKey:section] objectAtIndex:[friendIndex row]];
+        NSString* section = [self.friendsDataSource.sections
+                             objectAtIndex:[friendIndex section]];
+
+        CFMUser* friend = [[self.friendsDataSource.friendsWithSections
+                            objectForKey:section]
+                           objectAtIndex:[friendIndex row]];
 
         [friends addObject:friend];
     }
     
-    [self.delegate selectFriendsViewController:self sendMessagesToFriends:friends];
+    [self.delegate selectFriendsViewController:
+     self sendMessagesToFriends:friends];
 }
 
-#pragma mark CFMFriendsDelegate
-- (void)friendsDidLoad:(CFMFriends *)friends
+#pragma mark CFMUserFriendsDelegate
+- (void)successfullyLoadedFriendsForUser:(CFMUser *)user
 {
     [self.selectFriendsView setNeedsDisplay];
+}
+
+- (void)failedToLoadFriendsForUser:(CFMUser *)user
+{
+    // TODO: handle failed state
 }
 
 @end

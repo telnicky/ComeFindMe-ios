@@ -14,8 +14,7 @@
 #import "CFMFriendsDataSource.h"
 
 @interface CFMSentRequestViewController : UIViewController
-@property (nonatomic) NSDictionary* message;
+@property (nonatomic) CFMMessage* message;
 @property (nonatomic) CFMSentRequestView* sentRequestView;
-@property (nonatomic) CFMFriends* friendsTable;
 @property (nonatomic) CFMFriendsDataSource* friendsDataSource;
 @end

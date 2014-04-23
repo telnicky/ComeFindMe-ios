@@ -11,7 +11,7 @@
 
 @protocol CFMSelectFriendsView <NSObject>
 
-- (void)sendButtonPressedOnSelecFriendsView:(CFMSelectFriendsView*)selectFriendsView;
+- (void)sendButtonPressedOnSelectFriendsView:(CFMSelectFriendsView*)selectFriendsView;
 
 @end
 

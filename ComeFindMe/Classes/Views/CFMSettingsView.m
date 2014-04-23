@@ -29,7 +29,7 @@
 #pragma mark FBLoginViewDelegate
 - (void)loginViewShowingLoggedOutUser:(FBLoginView *)loginView
 {
-    NSLog(@"logged out!!!");
+    [self.delegate loggedOutUserFromSettingsView:self];
 }
 
 @end

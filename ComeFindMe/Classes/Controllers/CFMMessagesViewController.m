@@ -22,21 +22,52 @@
 
 @implementation CFMMessagesViewController
 
-- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
+- (id)initWithStyle:(UITableViewStyle)style
 {
-    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
+    self = [super initWithStyle:UITableViewStyleGrouped];
     if (self) {
+        self.dataSource = [[CFMMessagesDataSource alloc] init];
+        [self.dataSource setMessages:[[CFMUser currentUser] messages]];
+        
         [self setTitle:@"Come Find Me"];
-        self.messagesView = [[CFMMessagesView alloc] init];
-        [self.messagesView.messagesTable setDelegate:self];
-        [self.messagesView.messagesTable setDataSource:[[CFMUser instance] messages]];
+        
+        [self.tableView setDelegate:self];
+        [self.tableView setDataSource:self.dataSource];
+        
+        self.refreshControl = [[UIRefreshControl alloc] init];
+        [self.refreshControl addTarget:self action:@selector(refresh)
+                      forControlEvents:UIControlEventValueChanged];
         
         UIImage* settingsImage = [UIImage imageNamed:@"glyphicons_070_umbrella"];
         UIBarButtonItem* settingsButton = [[UIBarButtonItem alloc] initWithImage:settingsImage style:UIBarButtonItemStylePlain target:self action:@selector(settingsButtonPressed)];
         [self.navigationItem setRightBarButtonItem:settingsButton];
+
     }
     return self;
 }
+
+//- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
+//{
+//    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
+//    if (self) {
+//        self.dataSource = [[CFMMessagesDataSource alloc] init];
+//        [self.dataSource setMessages:[[CFMUser currentUser] messages]];
+//        
+//        [self setTitle:@"Come Find Me"];
+//        
+//        [self.tableView setDelegate:self];
+//        [self.tableView setDataSource:self.dataSource];
+//        
+//        self.refreshControl = [[UIRefreshControl alloc] init];
+//        [self.refreshControl addTarget:self action:@selector(refresh)
+//                 forControlEvents:UIControlEventValueChanged];
+//        
+//        UIImage* settingsImage = [UIImage imageNamed:@"glyphicons_070_umbrella"];
+//        UIBarButtonItem* settingsButton = [[UIBarButtonItem alloc] initWithImage:settingsImage style:UIBarButtonItemStylePlain target:self action:@selector(settingsButtonPressed)];
+//        [self.navigationItem setRightBarButtonItem:settingsButton];
+//    }
+//    return self;
+//}
 
 - (void)settingsButtonPressed
 {
@@ -46,7 +77,6 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    // Do any additional setup after loading the view.
 }
 
 - (void)didReceiveMemoryWarning
@@ -55,17 +85,33 @@
     // Dispose of any resources that can be recreated.
 }
 
-- (void)loadView
+- (void)refresh
 {
-    [self setView:self.messagesView];
+    NSLog(@"refresh!");
+    [self.refreshControl setAttributedTitle:[[NSAttributedString alloc] initWithString:@"Refreshing"]];
+    
+    [[CFMUser currentUser] loadMessages];
+    
+    [self.refreshControl endRefreshing];
+}
+
+#pragma mark CFMUserMessagesDelegate
+- (void)successfullyLoadedMessagesForUser:(CFMUser *)user
+{
+    [self.tableView reloadData];
+}
+
+- (void)failedToLoadMessagesForUser:(CFMUser *)user
+{
+    // TODO: handle failed state
 }
 
 #pragma mark UITableViewDelegate
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    NSArray* messages = [[CFMUser instance] messages].messages;
-    NSDictionary* message = [messages objectAtIndex:[indexPath row]];
-    if ([[message objectForKey:@"didSend"] boolValue])
+    NSArray* messages = [[CFMUser currentUser] messages];
+    CFMMessage* message = [messages objectAtIndex:[indexPath row]];
+    if ([[message senderId] isEqualToValue:[CFMUser currentUser].id])
     {
         [self.delegate messagesViewController:self didSelectSentMessage:message];
     }
@@ -75,6 +121,5 @@
     }
     
 }
-
 
 @end

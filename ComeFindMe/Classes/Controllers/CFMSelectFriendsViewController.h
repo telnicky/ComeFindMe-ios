@@ -11,6 +11,7 @@
 
 #import "CFMSelectFriendsView.h"
 #import "CFMUser.h"
+#import "CFMFriendsDataSource.h"
 
 @class CFMSelectFriendsViewController;
 
@@ -20,7 +21,8 @@
 
 @end
 
-@interface CFMSelectFriendsViewController : UIViewController <CFMFriendsDelegate, CFMSelectFriendsView >
+@interface CFMSelectFriendsViewController : UIViewController <CFMUserFriendsDelegate, CFMSelectFriendsView >
 @property (nonatomic, assign) id < CFMSelectFriendsViewControllerDelegate > delegate;
 @property (nonatomic) CFMSelectFriendsView* selectFriendsView;
+@property (nonatomic) CFMFriendsDataSource* friendsDataSource;
 @end

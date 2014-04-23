@@ -14,6 +14,6 @@
 
 @interface CFMReceiveRequestViewController : UIViewController <
 CFMReceiveRequestViewDelegate >
-@property (nonatomic) NSDictionary* message;
+@property (nonatomic) CFMMessage* message;
 @property (nonatomic) CFMReceiveRequestView* receiveRequestView;
 @end

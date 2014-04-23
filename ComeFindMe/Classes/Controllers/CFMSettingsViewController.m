@@ -19,6 +19,7 @@
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
         self.settingsView = [[CFMSettingsView alloc] init];
+        [self.settingsView setDelegate:self];
     }
     return self;
 }
@@ -40,5 +41,10 @@
     [self setView:self.settingsView];
 }
 
+#pragma mark CFMSettingsViewDelegate
+- (void)loggedOutUserFromSettingsView:(CFMSettingsView *)settingsView
+{
+    [self.delegate loggedOutUserFromSettingsViewController:self];
+}
 
 @end

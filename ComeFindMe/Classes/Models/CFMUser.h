@@ -9,32 +9,62 @@
 #import <Foundation/Foundation.h>
 #import <FacebookSDK/FacebookSDK.h>
 
-#import "CFMFriends.h"
 #import "CFMLocation.h"
-#import "CFMMessages.h"
+#import "CFMMessage.h"
 #import "CFMRestService.h"
 
 @class CFMUser;
+
+@protocol CFMUserMessagesDelegate <NSObject>
+
+- (void)successfullyLoadedMessagesForUser:(CFMUser*)user;
+- (void)failedToLoadMessagesForUser:(CFMUser*)user;
+
+@end
+
+@protocol CFMUserFriendsDelegate <NSObject>
+
+- (void)successfullyLoadedFriendsForUser:(CFMUser*)user;
+- (void)failedToLoadFriendsForUser:(CFMUser*)user;
+
+@end
 
 @protocol CFMUserDelegate <NSObject>
 
 - (void)userSuccessfullyLoggedIn:(CFMUser*)user;
 - (void)userFailedLogin:(CFMUser*)user;
-- (void)userDidFinishLoading:(CFMUser*)user;
-- (void)user:(CFMUser*)user DidFailLoadingWithError:(NSError*)error;
 
 @end
 
-@interface CFMUser : NSObject < CFMFriendsDelegate, CFMMessagesDelegate >
-@property (nonatomic) id < CFMUserDelegate > delegate;
-@property (nonatomic) NSDictionary<FBGraphUser>* facebookUser;
-@property (nonatomic) CFMFriends* friends;
-@property (nonatomic) CFMMessages* messages;
-@property (nonatomic) CFMLocation* location;
-@property (nonatomic) NSString* id;
-@property (nonatomic) NSDictionary* attributes;
+@interface CFMUser : NSObject < CFMMessageDelegate >
 
-+ (CFMUser*)instance;
-- (void)loadData;
+// Attributes
+@property (nonatomic) NSNumber* id;
+@property (nonatomic) NSString* firstName;
+@property (nonatomic) NSString* lastName;
+@property (nonatomic) NSString* facebookId;
+@property (nonatomic) NSMutableDictionary* friendsDict;
+
+// Relationships
+@property (nonatomic) NSMutableArray* friends;
+@property (nonatomic) NSMutableArray* messages;
+@property (nonatomic) CFMLocation* location;
+
+// Class Methods
++ (CFMUser*)currentUser;
+
+// Instance Methods
+- (void)fromFacebookJson:(NSDictionary<FBGraphUser>*)json;
+- (void)fromJson:(NSDictionary*)json;
+- (bool)isCurrentUser;
+- (void)loadMessages;
+- (void)loadFriends;
 - (void)login;
+- (NSString*)toJson;
+
+// Delegates
+@property (nonatomic) id < CFMUserDelegate > delegate;
+@property (nonatomic) id < CFMUserMessagesDelegate > messagesDelegate;
+@property (nonatomic) id < CFMUserFriendsDelegate > friendsDelegate;
+
 @end

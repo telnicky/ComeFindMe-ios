@@ -13,7 +13,7 @@
 
 @protocol CFMSettingsViewDelegate <NSObject>
 
-- (void) loginView:(CFMSettingsView*)loginView loggedInUser:(id< FBGraphUser >)user;
+- (void) loggedOutUserFromSettingsView:(CFMSettingsView*)settingsView;
 
 @end
 

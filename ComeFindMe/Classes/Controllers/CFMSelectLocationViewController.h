@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "CFMSelectLocationView.h"
 #import "CFMMessagesButton.h"
-#import "CFMMessages.h"
+#import "CFMMessagesDataSource.h"
 #import "CFMUser.h"
 
 @class CFMSelectLocationViewController;
@@ -22,7 +22,7 @@
 
 @end
 
-@interface CFMSelectLocationViewController : UIViewController< CFMSelectLocationViewDelegate, CFMMessagesDelegate, CLLocationManagerDelegate >
+@interface CFMSelectLocationViewController : UIViewController< CFMSelectLocationViewDelegate, CLLocationManagerDelegate >
 @property (nonatomic, assign) id< CFMSelectLocationViewControllerDelegate > delegate;
 @property (nonatomic) CFMSelectLocationView* selectLocationView;
 @property (nonatomic) CFMMessagesButton* messagesButton;
