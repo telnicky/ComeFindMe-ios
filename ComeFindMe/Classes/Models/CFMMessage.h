@@ -34,6 +34,7 @@
 @property (nonatomic) NSNumber* userId;
 @property (nonatomic) NSString* createdAt;
 @property (nonatomic) NSString* facebookId;
+@property (nonatomic) bool read;
 
 @property (nonatomic) id < CFMMessageDelegate > delegate;
 

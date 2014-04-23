@@ -8,7 +8,9 @@
 
 #import <UIKit/UIKit.h>
 
-@interface CFMAppDelegate : UIResponder <UIApplicationDelegate>
+#import "CFMNavigationViewController.h"
+
+@interface CFMAppDelegate : UIResponder <UIApplicationDelegate, CFMNavigationViewControllerDelegate>
 
 @property (strong, nonatomic) UIWindow *window;
 

@@ -19,6 +19,9 @@
 #import <GoogleMaps/GoogleMaps.h>
 
 @implementation CFMAppDelegate
+{
+    CFMNavigationViewController* _navController;
+}
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
@@ -30,9 +33,9 @@
     // GOOGLE MAPS api key
     [GMSServices provideAPIKey:@"AIzaSyAYgMPaex070NBehtAKlzoAXMYTqrLNK2c"];
 
-    CFMNavigationViewController* navController = [[CFMNavigationViewController alloc] init];
-    [self.window setRootViewController:navController];
-    
+    _navController = [[CFMNavigationViewController alloc] init];
+    [_navController setNavigationDelegate:self];
+    [self.window setRootViewController:_navController];
     return YES;
 }
 
@@ -71,8 +74,18 @@
     // Call FBAppCall's handleOpenURL:sourceApplication to handle Facebook app responses
     BOOL wasHandled = [FBAppCall handleOpenURL:url sourceApplication:sourceApplication];
     
-    
     return wasHandled;
+}
+
+#pragma mark CFMNavigationViewControllerDelegate
+- (void)logoutFromCFMNavigationController:(CFMNavigationViewController *)navigationViewController
+{
+    // wtf
+    [navigationViewController setNavigationDelegate:nil];
+    
+    _navController = [[CFMNavigationViewController alloc] init];
+    [_navController setNavigationDelegate:self];
+    [self.window setRootViewController:_navController];
 }
 
 @end

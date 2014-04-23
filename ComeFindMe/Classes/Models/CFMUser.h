@@ -31,8 +31,11 @@
 
 @protocol CFMUserDelegate <NSObject>
 
-- (void)userSuccessfullyLoggedIn:(CFMUser*)user;
-- (void)userFailedLogin:(CFMUser*)user;
+- (void)successfulLoginForUser:(CFMUser*)user;
+- (void)failedLoginForUser:(CFMUser*)user;
+
+- (void)successfulSyncForUser:(CFMUser*)user;
+- (void)failedSyncForUser:(CFMUser*)user;
 
 @end
 
@@ -44,6 +47,7 @@
 @property (nonatomic) NSString* lastName;
 @property (nonatomic) NSString* facebookId;
 @property (nonatomic) NSMutableDictionary* friendsDict;
+@property (nonatomic) NSNumber* unreadMessagesCount;
 
 // Relationships
 @property (nonatomic) NSMutableArray* friends;
@@ -60,6 +64,7 @@
 - (void)loadMessages;
 - (void)loadFriends;
 - (void)login;
+- (void)sync;
 - (NSString*)toJson;
 
 // Delegates

@@ -38,7 +38,10 @@
 {
     _count = count;
     
-    if (count < 100) {
+    if (count == 0) {
+        [_countLabel setText:[NSString stringWithFormat:@""]];
+    }
+    else if (count < 100) {
         [_countLabel setText:[NSString stringWithFormat:@"%d", count]];
     } else {
         [_countLabel setText:[NSString stringWithFormat:@"%d", 99]];

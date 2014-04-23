@@ -98,8 +98,10 @@ static BOOL initialized = false;
     
     NSString* urlString = [NSString stringWithFormat:@"%@/%@/%@", self.baseUrl, resource, guid];
     NSURL* url = [NSURL URLWithString:urlString];
-    NSMutableURLRequest* request = [NSMutableURLRequest requestWithURL:url];
+    NSMutableURLRequest* request = [NSMutableURLRequest
+                                    requestWithURL:url];
     [request setHTTPMethod:@"GET"];
+    [self setDefaultHeadersForRequest:request];
     
     [NSURLConnection sendAsynchronousRequest:request
                                        queue:[NSOperationQueue mainQueue]

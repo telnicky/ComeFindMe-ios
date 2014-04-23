@@ -33,7 +33,8 @@ static BOOL initialized = false;
 {
     // Set Attributes
     [self setId:[json objectForKey:@"id"]];
-    [self setFacebookId:[json objectForKey:@"id"]];
+    [self setFacebookId:[json objectForKey:@"facebook_id"]];
+    [self setUnreadMessagesCount:[json objectForKey:@"unread_messages_count"]];
 
     if ([json objectForKey:@"first_name"]) {
         [self setFirstName:[json objectForKey:@"first_name"]];
@@ -108,7 +109,7 @@ static BOOL initialized = false;
 {
     if (error) {
         NSLog(@"FATAL: User#loginFinishedWithResponse - Load Data Failed");
-        [self.delegate userFailedLogin:self];
+        [self.delegate failedLoginForUser:self];
         return;
     }
     
@@ -119,19 +120,19 @@ static BOOL initialized = false;
     
     if (error) {
         NSLog(@"FATAL: User#loginFinishedWithResponse - Parse Data Failed");
-        [self.delegate userFailedLogin:self];
+        [self.delegate failedLoginForUser:self];
         return;
     }
     
     // handle bad responses from server
     if ([json objectForKey:@"error"]) {
         NSLog(@"FATAL: User#loginFinishedWithResponse - Server Error");
-        [self.delegate userFailedLogin:self];
+        [self.delegate failedLoginForUser:self];
         return;
     }
     
     [self fromJson:json];
-    [self.delegate userSuccessfullyLoggedIn:self];
+    [self.delegate successfulLoginForUser:self];
 }
 
 - (void)loadMessages
@@ -149,7 +150,7 @@ static BOOL initialized = false;
         return;
     }
     
-    NSMutableArray* messagesJson = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:&error];
+    id messagesJson = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:&error];
     
     if (error) {
         NSLog(@"FATAL: User#loadMessagesFinishedWithResponse - Parse Data Failed");
@@ -158,7 +159,7 @@ static BOOL initialized = false;
     }
     
     // handle bad responses from server
-    if ([[messagesJson firstObject] objectForKey:@"error"]) {
+    if ([messagesJson isKindOfClass:[NSMutableDictionary class]] && [messagesJson objectForKey:@"error"]) {
         NSLog(@"FATAL: User#loadMessagesFinishedWithResponse - Server Error");
         [self.messagesDelegate failedToLoadMessagesForUser:self];
         return;
@@ -183,6 +184,42 @@ static BOOL initialized = false;
     NSString* requestBody = [NSString stringWithFormat:@"{\"facebook_id\": \"%@\", \"facebook_access_token\": \"%@\"}\n", self.facebookId, accessToken];
 
     return requestBody;
+}
+
+- (void)sync
+{
+    [[CFMRestService instance]
+     readResource:@"users"
+     guid:[self.id stringValue]
+     completionHandler:
+     ^(NSURLResponse* response, NSData* data, NSError* error) {
+         if (error) {
+             NSLog(@"FATAL: User#sync - Load Data Failed");
+             [self.delegate failedSyncForUser:self];
+             return;
+         }
+         
+         id json = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:&error];
+         
+         if (error) {
+             NSLog(@"FATAL: User#sync - Parse Data Failed");
+             [self.delegate failedSyncForUser:self];
+             return;
+         }
+         
+         // handle bad responses from server
+         if ([json isKindOfClass:[NSMutableDictionary class]] &&
+             [json objectForKey:@"error"])
+         {
+             NSLog(@"FATAL: User#sync - Server Error");
+             [self.delegate failedSyncForUser:self];
+             return;
+         }
+         
+         [self fromJson:json];
+         
+         [self.delegate successfulSyncForUser:self];
+    }];
 }
 
 - (NSString*)toJson

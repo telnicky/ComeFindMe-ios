@@ -18,6 +18,13 @@
 
 #import "CFMRestService.h"
 #import "CFMUser.h"
+@class CFMNavigationViewController;
+
+@protocol CFMNavigationViewControllerDelegate <NSObject>
+
+- (void)logoutFromCFMNavigationController:(CFMNavigationViewController*)navigationViewController;
+
+@end
 
 @interface CFMNavigationViewController : UINavigationController <
     CFMLoginViewControllerDelegate,
@@ -26,6 +33,10 @@
     CFMUserDelegate,
     CFMSelectFriendsViewControllerDelegate,
     CFMSettingsViewControllerDelegate >
+
+@property (nonatomic, assign) id < CFMNavigationViewControllerDelegate > navigationDelegate;
+
+
 @property (nonatomic) CFMUser* user;
 @property (nonatomic) CFMLoginViewController* loginViewController;
 @property (nonatomic) CFMSelectLocationViewController* selectLocationController;

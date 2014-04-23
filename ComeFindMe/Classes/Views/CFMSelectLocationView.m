@@ -115,6 +115,8 @@
     GMSCameraPosition* camera = [GMSCameraPosition cameraWithTarget:location.coordinate zoom:_camera.zoom];
     [self.mapView animateToCameraPosition:camera];
     _camera = camera;
+    
+    [_marker setPosition:location.coordinate];
 }
 
 - (void)keyboardWillHide

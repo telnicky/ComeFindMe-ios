@@ -30,6 +30,8 @@
         [self.dataSource setMessages:[[CFMUser currentUser] messages]];
         
         [self setTitle:@"Come Find Me"];
+        self.tableView.tableHeaderView = [[UIView alloc] initWithFrame:CGRectMake(0.0f, 0.0f, self.tableView.bounds.size.width, 0.01f)];
+
         
         [self.tableView setDelegate:self];
         [self.tableView setDataSource:self.dataSource];
@@ -38,7 +40,7 @@
         [self.refreshControl addTarget:self action:@selector(refresh)
                       forControlEvents:UIControlEventValueChanged];
         
-        UIImage* settingsImage = [UIImage imageNamed:@"glyphicons_070_umbrella"];
+        UIImage* settingsImage = [UIImage imageNamed:@"19-gear"];
         UIBarButtonItem* settingsButton = [[UIBarButtonItem alloc] initWithImage:settingsImage style:UIBarButtonItemStylePlain target:self action:@selector(settingsButtonPressed)];
         [self.navigationItem setRightBarButtonItem:settingsButton];
 
@@ -46,32 +48,14 @@
     return self;
 }
 
-//- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
-//{
-//    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
-//    if (self) {
-//        self.dataSource = [[CFMMessagesDataSource alloc] init];
-//        [self.dataSource setMessages:[[CFMUser currentUser] messages]];
-//        
-//        [self setTitle:@"Come Find Me"];
-//        
-//        [self.tableView setDelegate:self];
-//        [self.tableView setDataSource:self.dataSource];
-//        
-//        self.refreshControl = [[UIRefreshControl alloc] init];
-//        [self.refreshControl addTarget:self action:@selector(refresh)
-//                 forControlEvents:UIControlEventValueChanged];
-//        
-//        UIImage* settingsImage = [UIImage imageNamed:@"glyphicons_070_umbrella"];
-//        UIBarButtonItem* settingsButton = [[UIBarButtonItem alloc] initWithImage:settingsImage style:UIBarButtonItemStylePlain target:self action:@selector(settingsButtonPressed)];
-//        [self.navigationItem setRightBarButtonItem:settingsButton];
-//    }
-//    return self;
-//}
-
 - (void)settingsButtonPressed
 {
     [self.delegate settingsButtonPressedForMessagesViewController:self];
+}
+
+- (void)viewWillAppear:(BOOL)animated
+{
+    [self refresh];
 }
 
 - (void)viewDidLoad
@@ -87,23 +71,21 @@
 
 - (void)refresh
 {
-    NSLog(@"refresh!");
-    [self.refreshControl setAttributedTitle:[[NSAttributedString alloc] initWithString:@"Refreshing"]];
-    
-    [[CFMUser currentUser] loadMessages];
-    
-    [self.refreshControl endRefreshing];
+    [self.refreshControl beginRefreshing];
+    [[CFMUser currentUser] loadMessages];;
 }
 
 #pragma mark CFMUserMessagesDelegate
 - (void)successfullyLoadedMessagesForUser:(CFMUser *)user
 {
     [self.tableView reloadData];
+    [self.refreshControl endRefreshing];
 }
 
 - (void)failedToLoadMessagesForUser:(CFMUser *)user
 {
     // TODO: handle failed state
+    [self.refreshControl endRefreshing];
 }
 
 #pragma mark UITableViewDelegate

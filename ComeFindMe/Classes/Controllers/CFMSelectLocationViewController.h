@@ -27,4 +27,7 @@
 @property (nonatomic) CFMSelectLocationView* selectLocationView;
 @property (nonatomic) CFMMessagesButton* messagesButton;
 @property (nonatomic) CLLocationManager* locationManager;
+
+// Instance Methods
+- (void)updateMessagesBadgeCount;
 @end

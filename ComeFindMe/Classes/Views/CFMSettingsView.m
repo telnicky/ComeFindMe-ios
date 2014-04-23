@@ -16,6 +16,7 @@
     if (self) {
         // Initialization code
         self.logoutView = [[FBLoginView alloc] init];
+        [self.logoutView setDelegate:self];
         [self addSubview:self.logoutView];
     }
     return self;

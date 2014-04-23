@@ -64,6 +64,7 @@
     [self setSenderId:[json objectForKey:@"sender_id"]];
     [self setUserId:[json objectForKey:@"user_id"]];
     [self setCreatedAt:[json objectForKey:@"created_at"]];
+    [self setRead:[[json objectForKey:@"read"] boolValue]];
     
     // Set Relationships
     CFMLocation* location = [[CFMLocation alloc] init];
@@ -102,6 +103,11 @@
     
     if (self.locationId) {
         NSString* locationIdJson = [NSString stringWithFormat:@"\"location_id\": %@,", self.locationId];
+        body = [body stringByAppendingString:locationIdJson];
+    }
+    
+    if (self.read) {
+        NSString* locationIdJson = [NSString stringWithFormat:@"\"read\": %s,", self.read ? "true" : "false"];
         body = [body stringByAppendingString:locationIdJson];
     }
     

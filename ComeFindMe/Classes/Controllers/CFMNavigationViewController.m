@@ -65,13 +65,14 @@
     [[self.loginViewController.loginView spinner] startAnimating];
     [self.user fromFacebookJson:user];
     [self.user login];
-    [self.user loadFriends];
-    [self.user loadMessages];
 }
 
 #pragma mark CFMUserDelegate
-- (void)userSuccessfullyLoggedIn:(CFMUser *)user
+- (void)successfulLoginForUser:(CFMUser *)user
 {
+    [self.user loadFriends];
+    [self.user loadMessages];
+    
     self.selectLocationController = [[CFMSelectLocationViewController alloc] init];
     [self.selectLocationController setDelegate:self];
 
@@ -81,9 +82,19 @@
     [self setNavigationBarHidden:false];
 }
 
-- (void)userFailedLogin:(CFMUser *)user
+- (void)failedLoginForUser:(CFMUser *)user
 {
     // TODO: Implement failed state
+}
+
+- (void)successfulSyncForUser:(CFMUser*)user
+{
+    [self.selectLocationController updateMessagesBadgeCount];
+}
+
+- (void)failedSyncForUser:(CFMUser*)user
+{
+    // TODO:
 }
 
 #pragma mark CFMSelectLocationViewControllerDelegate
@@ -120,6 +131,11 @@
     self.receiveRequestViewController = [[CFMReceiveRequestViewController alloc] init];
     [self.receiveRequestViewController setMessage:message];
     [self pushViewController:self.receiveRequestViewController animated:false];
+    
+    if (![message read]) {
+        [message setRead:true];
+        [message save];
+    }
 }
 
 - (void)settingsButtonPressedForMessagesViewController:(CFMMessagesViewController *)messagesViewController
@@ -155,11 +171,7 @@
 - (void)loggedOutUserFromSettingsViewController:(CFMSettingsViewController *)settingsViewController
 {
     // TODO: fix this
-    [self initNavbar];
-    
-    self.user = [CFMUser currentUser];
-    [self.user setDelegate:self];
-    
+    [self.navigationDelegate logoutFromCFMNavigationController:self];
 }
 
 
