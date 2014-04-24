@@ -50,8 +50,8 @@
 {
     _friendsTableisVisible = false;
     self.friendsTable = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, 0, 0) style:UITableViewStyleGrouped];
-    self.friendsTable.tableHeaderView = [[UIView alloc] initWithFrame:CGRectMake(0.0f, 0.0f, self.friendsTable.bounds.size.width, 0.01f)];
     [self.friendsTable setDelegate:self];
+    [self.friendsTable setBackgroundColor:[UIColor clearColor]];
     
     [self addSubview:self.friendsTable];
 }
@@ -109,57 +109,76 @@
 
 - (void)layoutSubviews
 {
+    CGRect frame = self.bounds;
+    CGRect upperFrame = CGRectZero;
+    CGRect lowerFrame = CGRectZero;
+    _mapViewFrame = CGRectZero;
+    _friendsButtonFrame = CGRectZero;
+    _friendsTableFrame = CGRectZero;
+    
+    _mapViewFrame = frame;
+    
     if (_friendsTableisVisible)
     {
-        // layout with table
-        [self layoutWithTable];
+        CGRectDivide(frame, &upperFrame, &lowerFrame, 3 * frame.size.height / 5.0f, CGRectMinYEdge);
+        _friendsTableFrame = lowerFrame;
+        CGSize tableContent = self.friendsTable.contentSize;
+        if (_friendsTableFrame.size.height > tableContent.height) {
+
+            _friendsTableFrame.origin.y += (_friendsTableFrame.size.height - tableContent.height);
+            _friendsTableFrame.size.height = tableContent.height;
+        }
     }
     else
     {
-        // layout without table
-        [self layoutWithoutTable];
+        CGRectDivide(frame, &upperFrame, &lowerFrame, 4 * frame.size.height / 5.0f, CGRectMinYEdge);
+        _friendsButtonFrame = CGRectInset(lowerFrame, lowerFrame.size.width / 5.0f, lowerFrame.size.height / 5.0f);
     }
+    
+    [self.friendsTable setFrame:_friendsTableFrame];
+    [self.friendsButton setFrame:_friendsButtonFrame];
+    [self.mapView setFrame:_mapViewFrame];
 }
 
-- (void)layoutWithTable
-{
-    CGRect frame = self.bounds;
-    CGRect upperFrame = CGRectZero;
-    CGRect lowerFrame = CGRectZero;
-    _mapViewFrame = CGRectZero;
-    _friendsButtonFrame = CGRectZero;
-    _friendsTableFrame = CGRectZero;
-    
-    
-    CGRectDivide(frame, &upperFrame, &lowerFrame, 2 * frame.size.height / 5.0f, CGRectMinYEdge);
-    
-    _mapViewFrame = upperFrame;
-    _friendsTableFrame = lowerFrame;
-    
-    [self.mapView setFrame:upperFrame];
-    [self.friendsButton setFrame:_friendsButtonFrame];
-    [self.friendsTable setFrame:_friendsTableFrame];
-}
-
-- (void)layoutWithoutTable
-{
-    CGRect frame = self.bounds;
-    CGRect upperFrame = CGRectZero;
-    CGRect lowerFrame = CGRectZero;
-    _mapViewFrame = CGRectZero;
-    _friendsButtonFrame = CGRectZero;
-    _friendsTableFrame = CGRectZero;
-    
-    
-    CGRectDivide(frame, &upperFrame, &lowerFrame, 4 * frame.size.height / 5.0f, CGRectMinYEdge);
-    
-    _mapViewFrame = upperFrame;
-    _friendsButtonFrame = CGRectInset(lowerFrame, lowerFrame.size.width / 5.0f, lowerFrame.size.height / 5.0f);
-    
-    [self.mapView setFrame:upperFrame];
-    [self.friendsButton setFrame:_friendsButtonFrame];
-    [self.friendsTable setFrame:_friendsTableFrame];
-}
+//- (void)layoutWithTable
+//{
+//    CGRect frame = self.bounds;
+//    CGRect upperFrame = CGRectZero;
+//    CGRect lowerFrame = CGRectZero;
+//    _mapViewFrame = CGRectZero;
+//    _friendsButtonFrame = CGRectZero;
+//    _friendsTableFrame = CGRectZero;
+//    
+//    
+//    CGRectDivide(frame, &upperFrame, &lowerFrame, 2 * frame.size.height / 5.0f, CGRectMinYEdge);
+//    
+//    _mapViewFrame = upperFrame;
+//    _friendsTableFrame = lowerFrame;
+//    
+//    [self.mapView setFrame:upperFrame];
+//    [self.friendsButton setFrame:_friendsButtonFrame];
+//    [self.friendsTable setFrame:_friendsTableFrame];
+//}
+//
+//- (void)layoutWithoutTable
+//{
+//    CGRect frame = self.bounds;
+//    CGRect upperFrame = CGRectZero;
+//    CGRect lowerFrame = CGRectZero;
+//    _mapViewFrame = CGRectZero;
+//    _friendsButtonFrame = CGRectZero;
+//    _friendsTableFrame = CGRectZero;
+//    
+//    
+//    CGRectDivide(frame, &upperFrame, &lowerFrame, 4 * frame.size.height / 5.0f, CGRectMinYEdge);
+//    
+//    _mapViewFrame = upperFrame;
+//    _friendsButtonFrame = CGRectInset(lowerFrame, lowerFrame.size.width / 5.0f, lowerFrame.size.height / 5.0f);
+//    
+//    [self.mapView setFrame:upperFrame];
+//    [self.friendsButton setFrame:_friendsButtonFrame];
+//    [self.friendsTable setFrame:_friendsTableFrame];
+//}
 
 -(void)onFriendsButtonPressed
 {

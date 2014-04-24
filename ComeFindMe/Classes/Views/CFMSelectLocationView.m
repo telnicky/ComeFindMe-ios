@@ -101,11 +101,11 @@
     CGRectDivide(frame, &upperFrame, &lowerFrame, 2 * frame.size.height / 3.0f, CGRectMinYEdge);
     CGRectDivide(lowerFrame, &_descriptionViewFrame, &_selectFriendsButtonFrame, lowerFrame.size.height * 0.5f, CGRectMinYEdge);
     
-    _mapViewFrame = upperFrame;
+    _mapViewFrame = frame;
     _descriptionViewFrame = CGRectInset(_descriptionViewFrame, 10.0f, 5.0f);
     _selectFriendsButtonFrame = CGRectInset(_selectFriendsButtonFrame, _descriptionViewFrame.size.width / 5.0f, 10.0f);
     
-    [self.mapView setFrame:upperFrame];
+    [self.mapView setFrame:_mapViewFrame];
     [self.descriptionView setFrame:_descriptionViewFrame];
     [self.selectFriendsButton setFrame:_selectFriendsButtonFrame];
 }
