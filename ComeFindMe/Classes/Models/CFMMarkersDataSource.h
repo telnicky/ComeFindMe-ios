@@ -1,0 +1,24 @@
+//
+//  CFMMarkersDataSource.h
+//  ComeFindMe
+//
+//  Created by travis elnicky on 4/24/14.
+//  Copyright (c) 2014 Travis Elnicky. All rights reserved.
+//
+
+#import <Foundation/Foundation.h>
+#import <GoogleMaps/GoogleMaps.h>
+
+@protocol CFMMarkersDataSourceDelegate <NSObject>
+
+@end
+
+@interface CFMMarkersDataSource : NSObject < UITableViewDataSource >
+
+// Attributes
+@property (nonatomic) NSMutableArray* markers;
+
+// Delegates
+@property (nonatomic, assign) id < CFMMarkersDataSourceDelegate > delegate;
+
+@end

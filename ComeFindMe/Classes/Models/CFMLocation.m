@@ -53,7 +53,7 @@
      completionHandler:^(NSURLResponse* response, NSData* data, NSError* error)
      {
          if (error) {
-             // TODO: handle unsuccessful save
+             [self.delegate saveFailedForLocation:self];
              return;
          }
          

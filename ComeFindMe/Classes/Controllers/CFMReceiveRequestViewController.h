@@ -13,7 +13,13 @@
 #import "CFMUser.h"
 
 @interface CFMReceiveRequestViewController : UIViewController <
-CFMReceiveRequestViewDelegate >
+CFMReceiveRequestViewDelegate,CFMMessageBroadcastsDelegate, CFMBroadcastDelegate >
+
+// Attributes
 @property (nonatomic) CFMMessage* message;
+@property (nonatomic) CFMBroadcast* broadcast;
+
+// Views
 @property (nonatomic) CFMReceiveRequestView* receiveRequestView;
+
 @end

@@ -14,14 +14,23 @@
 
 - (void)didTapMapViewOnReceiveRequestView:(CFMReceiveRequestView*)receiveRequestView;
 
+- (void)didSelectOnMyWayButtonForReceiveRequestView:(CFMReceiveRequestView*)receiverRequestView;
+
 @end
 
 @interface CFMReceiveRequestView : UIView< CLLocationManagerDelegate, GMSMapViewDelegate, UITextViewDelegate >
-@property (nonatomic, assign) id < CFMReceiveRequestViewDelegate     > delegate;
+
+// Attributes
 @property (nonatomic) float latitude;
 @property (nonatomic) float longitude;
 @property (nonatomic) NSString* description;
+@property (nonatomic) bool isBroadcasting;
+
+// Views
 @property (nonatomic) GMSMapView* mapView;
 @property (nonatomic) UITextView* descriptionView;
 @property (nonatomic) UIButton* onMayWayButton;
+
+// Delegates
+@property (nonatomic, assign) id < CFMReceiveRequestViewDelegate > delegate;
 @end

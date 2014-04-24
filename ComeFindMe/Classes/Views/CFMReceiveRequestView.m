@@ -21,14 +21,10 @@
 {
     self = [super initWithFrame:frame];
     if (self) {
-        // Initialization code
-        self.latitude = -33.86;
-        self.longitude = 151.20;
-        
+        self.isBroadcasting = false;
         [self initMapView];
         [self initDescriptionView];
         [self initButtonView];
-        
     }
     return self;
 }
@@ -37,6 +33,7 @@
 {
     self.onMayWayButton = [[UIButton alloc] init];
     [self.onMayWayButton setTitle:@"On My Way" forState:UIControlStateNormal];
+    [self.onMayWayButton setTitle:@"Broadcasting location" forState:UIControlStateSelected];
     [self.onMayWayButton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
     self.onMayWayButton.titleLabel.font = [UIFont systemFontOfSize:18.0f];
     self.onMayWayButton.titleLabel.textColor = [UIColor blackColor];
@@ -132,11 +129,24 @@
 
 -(void)onOnMyWayPressed
 {
-    NSLog(@"On My Way!!");
+    self.onMayWayButton.enabled = false;
+    [self.delegate didSelectOnMyWayButtonForReceiveRequestView:self];
+}
+
+- (void)setIsBroadcasting:(bool)isBroadcasting
+{
+    _isBroadcasting = isBroadcasting;
+    
+    if (isBroadcasting) {
+        // TODO: may need to update button here
+
+    }
+
+    self.onMayWayButton.selected = isBroadcasting;
+    self.onMayWayButton.enabled = true;
 }
 
 #pragma mark GMSMapViewDelegate
-
 - (void)mapView:(GMSMapView *)mapView didTapAtCoordinate:(CLLocationCoordinate2D)coordinate
 {
     [self.delegate didTapMapViewOnReceiveRequestView:self];

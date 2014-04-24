@@ -19,6 +19,8 @@
 		6750702F1908240C00D8EFD5 /* 104-index-cards.png in Resources */ = {isa = PBXBuildFile; fileRef = 675070251908240C00D8EFD5 /* 104-index-cards.png */; };
 		675070301908240C00D8EFD5 /* 193-location-arrow.png in Resources */ = {isa = PBXBuildFile; fileRef = 675070261908240C00D8EFD5 /* 193-location-arrow.png */; };
 		67507032190825E600D8EFD5 /* 12-eye.png in Resources */ = {isa = PBXBuildFile; fileRef = 67507031190825E600D8EFD5 /* 12-eye.png */; };
+		675070351908BA4800D8EFD5 /* CFMBroadcast.m in Sources */ = {isa = PBXBuildFile; fileRef = 675070341908BA4800D8EFD5 /* CFMBroadcast.m */; };
+		675070381909C08900D8EFD5 /* CFMMarkersDataSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 675070371909C08900D8EFD5 /* CFMMarkersDataSource.m */; };
 		675E8C7918EDF73E00978B50 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 675E8C7818EDF73E00978B50 /* Foundation.framework */; };
 		675E8C7B18EDF73E00978B50 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 675E8C7A18EDF73E00978B50 /* CoreGraphics.framework */; };
 		675E8C7D18EDF73E00978B50 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 675E8C7C18EDF73E00978B50 /* UIKit.framework */; };
@@ -97,6 +99,10 @@
 		675070251908240C00D8EFD5 /* 104-index-cards.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "104-index-cards.png"; path = "glyphish/104-index-cards.png"; sourceTree = "<group>"; };
 		675070261908240C00D8EFD5 /* 193-location-arrow.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "193-location-arrow.png"; path = "glyphish/193-location-arrow.png"; sourceTree = "<group>"; };
 		67507031190825E600D8EFD5 /* 12-eye.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "12-eye.png"; path = "glyphish/12-eye.png"; sourceTree = "<group>"; };
+		675070331908BA4800D8EFD5 /* CFMBroadcast.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CFMBroadcast.h; path = Classes/Models/CFMBroadcast.h; sourceTree = "<group>"; };
+		675070341908BA4800D8EFD5 /* CFMBroadcast.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CFMBroadcast.m; path = Classes/Models/CFMBroadcast.m; sourceTree = "<group>"; };
+		675070361909C08900D8EFD5 /* CFMMarkersDataSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CFMMarkersDataSource.h; path = Classes/Models/CFMMarkersDataSource.h; sourceTree = "<group>"; };
+		675070371909C08900D8EFD5 /* CFMMarkersDataSource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CFMMarkersDataSource.m; path = Classes/Models/CFMMarkersDataSource.m; sourceTree = "<group>"; };
 		675E8C7518EDF73E00978B50 /* ComeFindMe.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ComeFindMe.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		675E8C7818EDF73E00978B50 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		675E8C7A18EDF73E00978B50 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -418,6 +424,10 @@
 				67EF035919057E0C00D2A40C /* CFMLocation.m */,
 				675070191906F1E400D8EFD5 /* CFMMessage.h */,
 				6750701A1906F1E400D8EFD5 /* CFMMessage.m */,
+				675070331908BA4800D8EFD5 /* CFMBroadcast.h */,
+				675070341908BA4800D8EFD5 /* CFMBroadcast.m */,
+				675070361909C08900D8EFD5 /* CFMMarkersDataSource.h */,
+				675070371909C08900D8EFD5 /* CFMMarkersDataSource.m */,
 			);
 			name = Models;
 			sourceTree = "<group>";
@@ -551,6 +561,8 @@
 				67EF032618FCD74200D2A40C /* CFMBadgeView.m in Sources */,
 				67EF031618FA297500D2A40C /* CFMNavigationViewController.m in Sources */,
 				675E8CAD18EE03AC00978B50 /* CFMLoginView.m in Sources */,
+				675070381909C08900D8EFD5 /* CFMMarkersDataSource.m in Sources */,
+				675070351908BA4800D8EFD5 /* CFMBroadcast.m in Sources */,
 				67EF03491904DAA000D2A40C /* CFMSettingsView.m in Sources */,
 				67BCEF4D18F38F63000853B6 /* CFMRestService.m in Sources */,
 				675E8C8918EDF73F00978B50 /* CFMAppDelegate.m in Sources */,

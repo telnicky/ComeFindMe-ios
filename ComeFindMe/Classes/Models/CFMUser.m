@@ -35,6 +35,7 @@ static BOOL initialized = false;
     [self setId:[json objectForKey:@"id"]];
     [self setFacebookId:[json objectForKey:@"facebook_id"]];
     [self setUnreadMessagesCount:[json objectForKey:@"unread_messages_count"]];
+    [self setCurrentLocationId:[json objectForKey:@"current_location_id"]];
 
     if ([json objectForKey:@"first_name"]) {
         [self setFirstName:[json objectForKey:@"first_name"]];
@@ -43,6 +44,13 @@ static BOOL initialized = false;
     if ([json objectForKey:@"last_name"]) {
         [self setLastName:[json objectForKey:@"last_name"]];
     }
+    
+    if ([json objectForKey:@"current_location"] != [NSNull null]) {
+        CFMLocation* currentLocation = [[CFMLocation alloc] init];
+        [currentLocation fromJson:[json objectForKey:@"current_location"]];
+        [self setCurrentLocation:currentLocation];
+    }
+    
 }
 
 - (id)init
@@ -52,6 +60,7 @@ static BOOL initialized = false;
         self.friends = [[NSMutableArray alloc] init];
         self.friendsDict = [[NSMutableDictionary alloc] init];
         self.messages = [[NSMutableArray alloc] init];
+        self.broadcasts = [[NSMutableArray alloc] init];
         self.location = [[CFMLocation alloc] init];
     }
     
@@ -135,6 +144,48 @@ static BOOL initialized = false;
     [self.delegate successfulLoginForUser:self];
 }
 
+- (void)loadBroadcasts
+{
+    [[CFMRestService instance] readResource:@"broadcasts" completionHandler:^(NSURLResponse* response, NSData* data, NSError* error) {
+        [self loadBroadcastsFinishedWithResponse:response data:data error:error];
+    }];
+}
+
+- (void)loadBroadcastsFinishedWithResponse:(NSURLResponse*)response data:(NSData*)data error:(NSError*)error
+{
+    if (error) {
+        NSLog(@"FATAL: User#loadBroadcastsFinishedWithResponse - Load Data Failed");
+        [self.broadcastsDelegate failedToLoadBroadcastsForUser:self];
+        return;
+    }
+    
+    id json = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:&error];
+    
+    if (error) {
+        NSLog(@"FATAL: User#loadBroadcastsFinishedWithResponse - Parse Data Failed");
+        [self.broadcastsDelegate failedToLoadBroadcastsForUser:self];
+        return;
+    }
+    
+    // handle bad responses from server
+    if ([json isKindOfClass:[NSMutableDictionary class]] && [json objectForKey:@"error"]) {
+        NSLog(@"FATAL: User#loadBroadcastsFinishedWithResponse - Server Error");
+        [self.broadcastsDelegate failedToLoadBroadcastsForUser:self];
+        return;
+    }
+    
+    // TODO: optimize syncing with server
+    [self.broadcasts removeAllObjects];
+    for (NSMutableDictionary* broadcastJson in json)
+    {
+        CFMBroadcast* broadcast = [[CFMBroadcast alloc] init];
+        [broadcast fromJson:broadcastJson];
+        [self.broadcasts addObject:broadcast];
+    }
+    
+    [self.broadcastsDelegate successfullyLoadedBroadcastsForUser:self];
+}
+
 - (void)loadMessages
 {
     [[CFMRestService instance] readResource:@"messages" completionHandler:^(NSURLResponse* response, NSData* data, NSError* error) {
@@ -186,6 +237,14 @@ static BOOL initialized = false;
     return requestBody;
 }
 
+- (void)save
+{
+    if (self.id)
+    {
+        [self update];
+    }
+}
+
 - (void)sync
 {
     [[CFMRestService instance]
@@ -224,8 +283,61 @@ static BOOL initialized = false;
 
 - (NSString*)toJson
 {
-    // TODO: implement
-    return @"foo";
+    NSString* body = @"{";
+    
+    if (self.currentLocation.id) {
+        NSString* currentLocationJson = [NSString stringWithFormat:@"\"current_location_id\": %@,", self.currentLocation.id];
+        body = [body stringByAppendingString:currentLocationJson];
+    }
+    
+    if (![body isEqualToString:@"{"]) {
+        // remove extra comma
+        body = [body substringToIndex:[body length] - 1];
+    }
+    
+    body = [body stringByAppendingString:@"}"];
+    
+    return body;
+}
+
+- (void)update
+{
+    [[CFMRestService instance]
+     updateResource:@"users"
+     guid:[self.id stringValue]
+     body:[[self toJson] dataUsingEncoding:NSUTF8StringEncoding]
+     completionHandler:
+     ^(NSURLResponse* response, NSData* data, NSError* error)
+     {
+         if (error) {
+             NSLog(@"FATAL: User#update - Create Failed");
+             [self.delegate failedSaveForUser:self];
+             return;
+         }
+         
+         if ([data length] == 0) {
+             [self.delegate successfulSaveForUser:self];
+             return;
+         }
+         
+         NSDictionary* json = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:&error];
+         
+         if (error) {
+             NSLog(@"FATAL: User#update - Parse Data Failed");
+             [self.delegate failedSaveForUser:self];
+             return;
+         }
+         
+         // handle bad responses from server
+         if ([json objectForKey:@"error"]) {
+             NSLog(@"FATAL: User#update - Server Error");
+             [self.delegate failedSaveForUser:self];
+             return;
+         }
+         
+         [self fromJson:json];
+         [self.delegate successfulSaveForUser:self];
+     }];
 }
 
 #pragma mark CFMMessageDelegate

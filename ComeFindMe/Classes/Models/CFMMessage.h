@@ -9,6 +9,7 @@
 #import <Foundation/Foundation.h>
 
 #import "CFMLocation.h"
+#import "CFMBroadcast.h"
 
 @class CFMMessage;
 @class CFMUser;
@@ -20,15 +21,23 @@
 
 @end
 
-@interface CFMMessage : NSObject
+@protocol CFMMessageBroadcastsDelegate <NSObject>
+
+- (void)successfullyLoadedBroadcastsForMessage:(CFMMessage*)message;
+- (void)failedToLoadBroadcastsForMessage:(CFMMessage*)message;
+
+@end
+
+@interface CFMMessage : NSObject < CFMBroadcastDelegate >
 // relationships
 @property (nonatomic) CFMUser* user;
 @property (nonatomic) CFMUser* sender;
 @property (nonatomic) CFMLocation* location;
 @property (nonatomic) NSMutableArray* receivers;
+@property (nonatomic) NSMutableArray* broadcasts;
 
 // Attributes
-@property (nonatomic) NSString* id;
+@property (nonatomic) NSNumber* id;
 @property (nonatomic) NSNumber* senderId;
 @property (nonatomic) NSNumber* locationId;
 @property (nonatomic) NSNumber* userId;
@@ -36,10 +45,13 @@
 @property (nonatomic) NSString* facebookId;
 @property (nonatomic) bool read;
 
+// Delegates
 @property (nonatomic) id < CFMMessageDelegate > delegate;
+@property (nonatomic) id < CFMMessageBroadcastsDelegate > broadcastsDelegate;
 
 // Instance Methods
 - (void)fromJson:(NSDictionary*)json;
+- (void)loadBroadcasts;
 - (NSString*)toJson;
 - (void)save;
 @end

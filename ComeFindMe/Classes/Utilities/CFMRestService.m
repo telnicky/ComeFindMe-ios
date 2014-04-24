@@ -33,7 +33,8 @@ static BOOL initialized = false;
 {
     self = [super init];
     if (self) {
-        self.baseUrl = @"https://www.elnicky.com";
+        self.baseUrl = @"http://192.168.0.12:3000";
+//        self.baseUrl = @"https://www.elnicky.com";
         self.headers = [[NSMutableDictionary alloc] init];
         [self setDefaultHeaders];
     }
@@ -59,7 +60,6 @@ static BOOL initialized = false;
     [request setHTTPMethod:@"POST"];
     [request setHTTPBody:body];
 
-    NSLog(@"Request: %@", [request allHTTPHeaderFields]);
     [NSURLConnection sendAsynchronousRequest:request
                                        queue:[NSOperationQueue mainQueue]
                            completionHandler:handler];
@@ -146,11 +146,10 @@ static BOOL initialized = false;
     [request setHTTPMethod:@"PUT"];
     [request setHTTPBody:body];
     
-    NSLog(@"Request: %@", [request allHTTPHeaderFields]);
     [NSURLConnection sendAsynchronousRequest:request
                                        queue:[NSOperationQueue mainQueue]
                            completionHandler:handler];
-    return false;
+    return true;
 }
 
 - (void)destroyResource:(NSString*)resource
@@ -160,6 +159,18 @@ static BOOL initialized = false;
     if ([self.baseUrl isEqualToString:@""]) {
         return;
     }
+    
+    NSString* urlString = [NSString stringWithFormat:@"%@/%@/%@", self.baseUrl, resource, guid];
+    NSURL* url = [NSURL URLWithString:urlString];
+    NSMutableURLRequest* request = [NSMutableURLRequest
+                                    requestWithURL:url];
+    [request setHTTPMethod:@"DELETE"];
+    [self setDefaultHeadersForRequest:request];
+    
+    [NSURLConnection sendAsynchronousRequest:request
+                                       queue:[NSOperationQueue mainQueue]
+                           completionHandler:handler];
+
 }
 
 

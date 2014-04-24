@@ -9,9 +9,35 @@
 #import <UIKit/UIKit.h>
 #import <GoogleMaps/GoogleMaps.h>
 
-@interface CFMSentRequestView : UIView < GMSMapViewDelegate >
+@class CFMSentRequestView;
+
+@protocol CFMSentRequestViewDelegate <NSObject>
+
+- (void)sentRequestView:(CFMSentRequestView*)sentRequestView didSelectRowAtIndexPath:(NSIndexPath*)indexPath;
+
+@end
+
+@interface CFMSentRequestView : UIView < GMSMapViewDelegate, UITableViewDelegate >
+
+// Delegates
+@property (nonatomic, assign) id < CFMSentRequestViewDelegate > delegate;
+
+// Controls
 @property (nonatomic) UIButton* friendsButton;
+
+// Views
 @property (nonatomic) GMSMapView* mapView;
-@property (nonatomic) CLLocationCoordinate2D coordinates;
 @property (nonatomic) UITableView* friendsTable;
+
+// Attributes
+@property (nonatomic) GMSMarker* destinationMarker;
+@property (nonatomic) CLLocationCoordinate2D coordinates;
+@property (nonatomic) NSMutableArray* markers;
+@property (nonatomic) GMSCameraPosition* camera;
+
+// Instance Methods
+- (void)addMarker:(GMSMarker*)marker;
+- (void)setCameraCoordinates:(CLLocationCoordinate2D)coordinates;
+- (void)removeMarker:(GMSMarker*)marker;
+- (void)layoutMarkers;
 @end

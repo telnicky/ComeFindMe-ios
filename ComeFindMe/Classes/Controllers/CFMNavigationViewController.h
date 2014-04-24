@@ -32,12 +32,18 @@
     CFMMessagesViewControllerDelegate,
     CFMUserDelegate,
     CFMSelectFriendsViewControllerDelegate,
-    CFMSettingsViewControllerDelegate >
+    CFMSettingsViewControllerDelegate,
+    CLLocationManagerDelegate,
+    CFMLocationDelegate,
+    CFMUserBroadcastsDelegate >
 
 @property (nonatomic, assign) id < CFMNavigationViewControllerDelegate > navigationDelegate;
 
 
 @property (nonatomic) CFMUser* user;
+@property (nonatomic) CLLocationManager* locationManager;
+@property (nonatomic) bool isBroadcasting;
+
 @property (nonatomic) CFMLoginViewController* loginViewController;
 @property (nonatomic) CFMSelectLocationViewController* selectLocationController;
 @property (nonatomic) CFMSelectFriendsViewController* selectFriendsController;

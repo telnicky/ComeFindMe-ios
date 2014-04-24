@@ -16,4 +16,5 @@
 @property (nonatomic) bool shouldAllowSelection;
 @property (nonatomic) bool shouldDisplayFullName;
 @property (nonatomic) bool shouldUseSections;
+@property (nonatomic) bool shouldAllowSelectionStyle;
 @end

@@ -21,6 +21,7 @@
 // Attributes
 @property (nonatomic) NSMutableArray* messages;
 
+// Delegates
 @property (nonatomic, assign) id < CFMMessagesDataSourceDelegate > delegate;
 
 

@@ -178,6 +178,12 @@
     NSLog(@"coordinates: %f,%f", coordinate.latitude, coordinate.longitude);
 }
 
+- (void)mapView:(GMSMapView *)mapView
+didChangeCameraPosition:(GMSCameraPosition *)position
+{
+    // TODO: fix the marker over the center
+}
+
 #pragma mark UITextViewDelegate
 - (void)textViewDidBeginEditing:(UITextView *)textView
 {

@@ -17,6 +17,7 @@
 @protocol CFMLocationDelegate <NSObject>
 
 - (void)saveSuccessfulForLocation:(CFMLocation*)location;
+- (void)saveFailedForLocation:(CFMLocation*)location;
 
 @end
 

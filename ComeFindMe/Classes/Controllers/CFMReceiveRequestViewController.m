@@ -18,12 +18,17 @@
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
+        [self initNavBarItems];
         [self initRequestView];
-        UIBarButtonItem* date = [[UIBarButtonItem alloc] initWithTitle:@"mar 27" style:UIBarButtonItemStyleBordered target:nil action:nil];
-        [date setEnabled:false];
-        [self.navigationItem setRightBarButtonItem:date];
     }
     return self;
+}
+
+- (void)initNavBarItems
+{
+    UIBarButtonItem* date = [[UIBarButtonItem alloc] initWithTitle:@"mar 27" style:UIBarButtonItemStyleBordered target:nil action:nil];
+    [date setEnabled:false];
+    [self.navigationItem setRightBarButtonItem:date];
 }
 
 - (void)initRequestView
@@ -41,6 +46,8 @@
 {
     _message = message;
     
+    [message setBroadcastsDelegate:self];
+    [self.message loadBroadcasts];
     [self updateLocation];
     [self updateNavbar];
 }
@@ -79,6 +86,31 @@
     // Dispose of any resources that can be recreated.
 }
 
+#pragma mark CFMMessageBroadcastsDelegate
+- (void)successfullyLoadedBroadcastsForMessage:(CFMMessage *)message
+{
+    for (CFMBroadcast* broadcast in message.broadcasts)
+    {
+        if ([broadcast.senderId isEqualToValue:[CFMUser currentUser].id])
+        {
+            // we should be broadcasting
+            [self.receiveRequestView setIsBroadcasting:true];
+            [self setBroadcast:broadcast];
+            [self.broadcast setDelegate:self];
+            return;
+        }
+    }
+    
+    // no longer broadcasting
+    [self setBroadcast:nil];
+    [self.receiveRequestView setIsBroadcasting:false];
+}
+
+- (void)failedToLoadBroadcastsForMessage:(CFMMessage *)message
+{
+    // TODO: more error state
+}
+
 #pragma mark CFMReceiveRequestViewDelegate
 - (void)didTapMapViewOnReceiveRequestView:(CFMReceiveRequestView *)receiveRequestView
 {
@@ -98,7 +130,57 @@
     else
     {
         // good luck having apple maps guide you
+        // TODO:
     }
+}
+
+- (void)didSelectOnMyWayButtonForReceiveRequestView:(CFMReceiveRequestView*)receiverRequestView
+{
+
+    if (!self.receiveRequestView.isBroadcasting) {
+        // create a broadcast it will fail if one exists so don't worry about that
+        // It looks confusing but the sender of the message will be the
+        // receiver of the broadcast
+        CFMBroadcast* broadcast = [[CFMBroadcast alloc] init];
+        [broadcast setMessageId:self.message.id];
+        [broadcast setUserId:self.message.senderId];
+        [broadcast setSenderId:self.message.userId];
+        [broadcast setDelegate:self];
+        [broadcast save];
+        [self setBroadcast:broadcast];
+    }
+    else {
+        [self.broadcast destroy];
+        [self setBroadcast:nil];
+    }
+    
+    // TODO: show a spinner?
+
+}
+
+#pragma mark CFMBroadcastDelegate
+- (void)saveSuccessfulForBroadcast:(CFMBroadcast *)broadcast
+{
+    [[CFMUser currentUser] loadBroadcasts];
+    [self.receiveRequestView setIsBroadcasting:true];
+}
+
+- (void)saveFailedForBroadcast:(CFMBroadcast *)broadcast
+{
+    [[CFMUser currentUser] loadBroadcasts];
+    [self.receiveRequestView setIsBroadcasting:false];
+}
+
+- (void)destroySuccessfulForBroadcast:(CFMBroadcast *)broadcast
+{
+    [[CFMUser currentUser] loadBroadcasts];
+    [self.receiveRequestView setIsBroadcasting:false];
+}
+
+- (void)destroyFailedForBroadcast:(CFMBroadcast *)broadcast
+{
+    [[CFMUser currentUser] loadBroadcasts];
+    [self.receiveRequestView setIsBroadcasting:true];
 }
 
 @end

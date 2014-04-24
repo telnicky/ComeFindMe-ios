@@ -10,8 +10,6 @@
 
 @implementation CFMSentRequestView
 {
-    GMSMarker* _marker;
-    GMSCameraPosition* _camera;
     CGRect _mapViewFrame;
     CGRect _friendsButtonFrame;
     CGRect _friendsTableFrame;
@@ -24,7 +22,8 @@
     if (self) {
         // Initialization code
         self.coordinates = CLLocationCoordinate2DMake(-33.86, 151.20);
-        
+        self.markers = [[NSMutableArray alloc] init];
+
         [self initMapView];
         [self initButtonView];
         [self initFriendsTable];
@@ -52,31 +51,60 @@
     _friendsTableisVisible = false;
     self.friendsTable = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, 0, 0) style:UITableViewStyleGrouped];
     self.friendsTable.tableHeaderView = [[UIView alloc] initWithFrame:CGRectMake(0.0f, 0.0f, self.friendsTable.bounds.size.width, 0.01f)];
+    [self.friendsTable setDelegate:self];
     
     [self addSubview:self.friendsTable];
 }
 
 - (void)initMapView
 {
-    _camera = [GMSCameraPosition cameraWithTarget:self.coordinates zoom:15];
+    self.camera = [GMSCameraPosition cameraWithTarget:self.coordinates zoom:15];
     self.mapView = [[GMSMapView alloc] init];
     [self.mapView setMyLocationEnabled:true];
-    [self.mapView setCamera:_camera];
+    [self.mapView setCamera:self.camera];
     [self.mapView setDelegate:self];
     [self addSubview:self.mapView];
     
-    _marker = [[GMSMarker alloc] init];
-    _marker.draggable = true;
-    _marker.position = self.coordinates;
-    _marker.map = self.mapView;
+    self.destinationMarker = [[GMSMarker alloc] init];
+    self.destinationMarker.position = self.coordinates;
+    self.destinationMarker.map = self.mapView;
+    self.destinationMarker.icon = [GMSMarker markerImageWithColor:[UIColor redColor]];
+    [self.markers addObject:self.destinationMarker];
+    [self layoutMarkers];
+}
+
+- (void)addMarker:(GMSMarker*)marker
+{
+    [[self markers] addObject:marker];
+    marker.map = self.mapView;
+}
+
+- (void)removeMarker:(GMSMarker*)marker
+{
+    [[self markers] removeObject:marker];
+    marker.map = nil;
+}
+
+- (void)layoutMarkers
+{
+    for (GMSMarker* marker in self.markers) {
+        marker.map = self.mapView;
+    }
+    [self setNeedsDisplay];
 }
 
 - (void)setCoordinates:(CLLocationCoordinate2D)coordinates
 {
     _coordinates = coordinates;
-    _marker.position = coordinates;
-    _camera = [GMSCameraPosition cameraWithTarget:coordinates zoom:_camera.zoom];
-    [self.mapView setCamera:_camera];
+    self.destinationMarker.position = coordinates;
+    self.destinationMarker.title = @"destination";
+    [self setCameraCoordinates:coordinates];
+}
+
+- (void)setCameraCoordinates:(CLLocationCoordinate2D)coordinates
+{
+    self.camera = [GMSCameraPosition cameraWithTarget:coordinates zoom:self.camera.zoom];
+    [self.mapView setCamera:self.camera];
 }
 
 - (void)layoutSubviews
@@ -138,6 +166,12 @@
     _friendsTableisVisible = true;
     [self layoutSubviews];
     [self setNeedsDisplay];
+}
+
+#pragma mark UITableViewDelegate
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    [self.delegate sentRequestView:self didSelectRowAtIndexPath:indexPath];
 }
 
 #pragma mark GMSMapViewDelegate

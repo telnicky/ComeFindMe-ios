@@ -17,6 +17,7 @@
     self = [super init];
     if (self) {
         self.receivers = [[NSMutableArray alloc] init];
+        self.broadcasts = [[NSMutableArray alloc] init];
     }
     
     return self;
@@ -92,6 +93,52 @@
     [self setSender:sender];
 }
 
+- (void)loadBroadcasts
+{
+    NSString* resource = [NSString stringWithFormat:@"messages/%@/broadcasts", self.id];
+    [[CFMRestService instance]
+     readResource:resource
+     completionHandler:^(NSURLResponse* response, NSData* data, NSError* error) {
+        [self loadBroadcastsFinishedWithResponse:response data:data error:error];
+    }];
+}
+
+- (void)loadBroadcastsFinishedWithResponse:(NSURLResponse*)response data:(NSData*)data error:(NSError*)error
+{
+    if (error) {
+        NSLog(@"FATAL: Broadcasts#loadMessagesFinishedWithResponse - Load Data Failed");
+        [self.broadcastsDelegate failedToLoadBroadcastsForMessage:self];
+        return;
+    }
+    
+    id json = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:&error];
+    
+    if (error) {
+        NSLog(@"FATAL: Broadcasts#loadMessagesFinishedWithResponse - Parse Data Failed");
+        [self.broadcastsDelegate failedToLoadBroadcastsForMessage:self];
+        return;
+    }
+    
+    // handle bad responses from server
+    if ([json isKindOfClass:[NSMutableDictionary class]] && [json objectForKey:@"error"]) {
+        NSLog(@"FATAL: Broadcasts#loadMessagesFinishedWithResponse - Server Error");
+        [self.broadcastsDelegate failedToLoadBroadcastsForMessage:self];
+        return;
+    }
+    
+    // TODO: optimize syncing with server
+    [self.broadcasts removeAllObjects];
+    for (NSMutableDictionary* broadcastJson in json)
+    {
+        CFMBroadcast* broadcast = [[CFMBroadcast alloc] init];
+        [broadcast fromJson:broadcastJson];
+        [broadcast setDelegate:self];
+        [self.broadcasts addObject:broadcast];
+    }
+    
+    [self.broadcastsDelegate successfullyLoadedBroadcastsForMessage:self];
+}
+
 - (NSString*)toJson
 {
     NSString* body = @"{";
@@ -158,7 +205,7 @@
 {
     [[CFMRestService instance]
      updateResource:@"messages"
-     guid:self.id
+     guid:[self.id stringValue]
      body:[[self toJson] dataUsingEncoding:NSUTF8StringEncoding]
      completionHandler:
      ^(NSURLResponse* response, NSData* data, NSError* error)
@@ -187,6 +234,27 @@
          [self fromJson:messageJson];
          [self.delegate saveSuccessfulForMessage:self];
      }];
+}
+
+#pragma mark CFMBroadcastDelegat
+- (void)saveSuccessfulForBroadcast:(CFMBroadcast *)broadcast
+{
+    // TODO: implement
+}
+
+- (void)saveFailedForBroadcast:(CFMBroadcast *)broadcast
+{
+    // TODO: implement
+}
+
+- (void)destroySuccessfulForBroadcast:(CFMBroadcast *)broadcast
+{
+    // TODO:
+}
+
+- (void)destroyFailedForBroadcast:(CFMBroadcast *)broadcast
+{
+    // TODO:
 }
 
 @end

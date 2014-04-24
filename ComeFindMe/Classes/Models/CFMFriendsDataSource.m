@@ -149,7 +149,12 @@
         }
     }
     
-    [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
+    if (self.shouldAllowSelectionStyle) {
+        [cell setSelectionStyle:UITableViewCellSelectionStyleDefault];
+    }
+    else {
+        [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
+    }
     [[cell textLabel] setText:title];
     return cell;
 }

@@ -8,13 +8,20 @@
 
 #import <UIKit/UIKit.h>
 #import <FacebookSDK/FacebookSDK.h>
+#import <GoogleMaps/GoogleMaps.h>
 
 #import "CFMSentRequestView.h"
 #import "CFMUser.h"
-#import "CFMFriendsDataSource.h"
+#import "CFMMarkersDataSource.h"
 
-@interface CFMSentRequestViewController : UIViewController
+@interface CFMSentRequestViewController : UIViewController < CFMMessageBroadcastsDelegate, CFMSentRequestViewDelegate >
+
+// Attributes
 @property (nonatomic) CFMMessage* message;
+@property (nonatomic) NSMutableDictionary* markerDictionary;
+@property (nonatomic) CFMMarkersDataSource* markersDataSource;
+
+// Views
 @property (nonatomic) CFMSentRequestView* sentRequestView;
-@property (nonatomic) CFMFriendsDataSource* friendsDataSource;
+
 @end
