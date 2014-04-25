@@ -21,6 +21,9 @@
 		67507032190825E600D8EFD5 /* 12-eye.png in Resources */ = {isa = PBXBuildFile; fileRef = 67507031190825E600D8EFD5 /* 12-eye.png */; };
 		675070351908BA4800D8EFD5 /* CFMBroadcast.m in Sources */ = {isa = PBXBuildFile; fileRef = 675070341908BA4800D8EFD5 /* CFMBroadcast.m */; };
 		675070381909C08900D8EFD5 /* CFMMarkersDataSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 675070371909C08900D8EFD5 /* CFMMarkersDataSource.m */; };
+		6750703C1909FC4C00D8EFD5 /* 18-envelope.png in Resources */ = {isa = PBXBuildFile; fileRef = 675070391909FC4C00D8EFD5 /* 18-envelope.png */; };
+		6750703D1909FC4C00D8EFD5 /* 20-gear2.png in Resources */ = {isa = PBXBuildFile; fileRef = 6750703A1909FC4C00D8EFD5 /* 20-gear2.png */; };
+		6750703E1909FC4C00D8EFD5 /* 113-navigation.png in Resources */ = {isa = PBXBuildFile; fileRef = 6750703B1909FC4C00D8EFD5 /* 113-navigation.png */; };
 		675E8C7918EDF73E00978B50 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 675E8C7818EDF73E00978B50 /* Foundation.framework */; };
 		675E8C7B18EDF73E00978B50 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 675E8C7A18EDF73E00978B50 /* CoreGraphics.framework */; };
 		675E8C7D18EDF73E00978B50 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 675E8C7C18EDF73E00978B50 /* UIKit.framework */; };
@@ -103,6 +106,9 @@
 		675070341908BA4800D8EFD5 /* CFMBroadcast.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CFMBroadcast.m; path = Classes/Models/CFMBroadcast.m; sourceTree = "<group>"; };
 		675070361909C08900D8EFD5 /* CFMMarkersDataSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CFMMarkersDataSource.h; path = Classes/Models/CFMMarkersDataSource.h; sourceTree = "<group>"; };
 		675070371909C08900D8EFD5 /* CFMMarkersDataSource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CFMMarkersDataSource.m; path = Classes/Models/CFMMarkersDataSource.m; sourceTree = "<group>"; };
+		675070391909FC4C00D8EFD5 /* 18-envelope.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "18-envelope.png"; path = "glyphish/18-envelope.png"; sourceTree = "<group>"; };
+		6750703A1909FC4C00D8EFD5 /* 20-gear2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "20-gear2.png"; path = "glyphish/20-gear2.png"; sourceTree = "<group>"; };
+		6750703B1909FC4C00D8EFD5 /* 113-navigation.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "113-navigation.png"; path = "glyphish/113-navigation.png"; sourceTree = "<group>"; };
 		675E8C7518EDF73E00978B50 /* ComeFindMe.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ComeFindMe.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		675E8C7818EDF73E00978B50 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		675E8C7A18EDF73E00978B50 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -223,6 +229,9 @@
 		6750701C190823FE00D8EFD5 /* glyphish */ = {
 			isa = PBXGroup;
 			children = (
+				675070391909FC4C00D8EFD5 /* 18-envelope.png */,
+				6750703A1909FC4C00D8EFD5 /* 20-gear2.png */,
+				6750703B1909FC4C00D8EFD5 /* 113-navigation.png */,
 				6750701D1908240B00D8EFD5 /* 07-map-marker.png */,
 				67507031190825E600D8EFD5 /* 12-eye.png */,
 				6750701E1908240B00D8EFD5 /* 19-gear.png */,
@@ -510,10 +519,12 @@
 			files = (
 				6750702B1908240C00D8EFD5 /* 71-compass.png in Resources */,
 				6750702E1908240C00D8EFD5 /* 103-map.png in Resources */,
+				6750703E1909FC4C00D8EFD5 /* 113-navigation.png in Resources */,
 				67507032190825E600D8EFD5 /* 12-eye.png in Resources */,
 				67A9D49918EFBCCA0017373B /* GoogleMaps.bundle in Resources */,
 				675070291908240C00D8EFD5 /* 63-runner_left.png in Resources */,
 				67EF033F19039AA000D2A40C /* glyphicons_345_hand_right.png in Resources */,
+				6750703C1909FC4C00D8EFD5 /* 18-envelope.png in Resources */,
 				675E8C8318EDF73E00978B50 /* InfoPlist.strings in Resources */,
 				675070281908240C00D8EFD5 /* 19-gear.png in Resources */,
 				67EF032F18FCEE5900D2A40C /* glyphicons_114_list.png in Resources */,
@@ -526,6 +537,7 @@
 				67EF034E1904DE3300D2A40C /* glyphicons_070_umbrella.png in Resources */,
 				6750702A1908240C00D8EFD5 /* 63-runner.png in Resources */,
 				6750702D1908240C00D8EFD5 /* 74-location.png in Resources */,
+				6750703D1909FC4C00D8EFD5 /* 20-gear2.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

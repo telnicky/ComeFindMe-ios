@@ -10,12 +10,13 @@
 
 @implementation CFMSelectLocationView
 {
-    GMSMarker* _marker;
+//    GMSMarker* _marker;
     GMSCameraPosition* _camera;
     BOOL _keyboardIsVisible;
     CGRect _mapViewFrame;
     CGRect _descriptionViewFrame;
     CGRect _selectFriendsButtonFrame;
+    CGRect _markerFrame;
     NSString* _placeHolderText;
     float _originalY;
 }
@@ -52,6 +53,7 @@
     self.selectFriendsButton.layer.borderWidth = 2.0f;
     self.selectFriendsButton.backgroundColor = [UIColor yellowColor];
     [self.selectFriendsButton addTarget:self action:@selector(onSelectFriendsPressed) forControlEvents:UIControlEventTouchDown];
+    [self.selectFriendsButton setHidden:true];
     [self addSubview:self.selectFriendsButton];
 }
 
@@ -67,6 +69,7 @@
     self.descriptionView.delegate = self;
     self.descriptionView.text = _placeHolderText;
     self.descriptionView.textColor = [UIColor lightGrayColor];
+    [self.descriptionView setHidden:true];
     [self addSubview:self.descriptionView];
 }
 
@@ -81,12 +84,13 @@
     [self.mapView setMyLocationEnabled:true];
     [self addSubview:self.mapView];
     
+    self.marker = [[UIImageView alloc]
+                   initWithImage:[GMSMarker markerImageWithColor:[UIColor redColor]]];
     
-    _marker = [[GMSMarker alloc] init];
-    _marker.draggable = true;
-    _marker.position = CLLocationCoordinate2DMake(self.latitude,
-                                                  self.longitude);
-    _marker.map = self.mapView;
+    // set position to the point of the marker image
+    [self.marker.layer setAnchorPoint:CGPointMake(0.5f, 1.0f)];
+    
+    [self.mapView addSubview:self.marker];
 }
 
 - (void)layoutSubviews
@@ -97,15 +101,24 @@
     _mapViewFrame = CGRectZero;
     _descriptionViewFrame = CGRectZero;
     _selectFriendsButtonFrame = CGRectZero;
+    _markerFrame = CGRectZero;
+    
     
     CGRectDivide(frame, &upperFrame, &lowerFrame, 2 * frame.size.height / 3.0f, CGRectMinYEdge);
     CGRectDivide(lowerFrame, &_descriptionViewFrame, &_selectFriendsButtonFrame, lowerFrame.size.height * 0.5f, CGRectMinYEdge);
     
     _mapViewFrame = frame;
+    _markerFrame.size = self.marker.image.size;
+    _markerFrame.origin = self.center;
+    _markerFrame.origin.x -= _markerFrame.size.width * 0.5f;
+    _markerFrame.origin.y = self.bounds.size.height * 0.25f;
+
     _descriptionViewFrame = CGRectInset(_descriptionViewFrame, 10.0f, 5.0f);
     _selectFriendsButtonFrame = CGRectInset(_selectFriendsButtonFrame, _descriptionViewFrame.size.width / 5.0f, 10.0f);
     
+
     [self.mapView setFrame:_mapViewFrame];
+    [self.marker setFrame:_markerFrame];
     [self.descriptionView setFrame:_descriptionViewFrame];
     [self.selectFriendsButton setFrame:_selectFriendsButtonFrame];
 }
@@ -115,8 +128,6 @@
     GMSCameraPosition* camera = [GMSCameraPosition cameraWithTarget:location.coordinate zoom:_camera.zoom];
     [self.mapView animateToCameraPosition:camera];
     _camera = camera;
-    
-    [_marker setPosition:location.coordinate];
 }
 
 - (void)keyboardWillHide
@@ -150,12 +161,11 @@
 
 - (CLLocationCoordinate2D)markerPosition
 {
-    return _marker.position;
+    return [[self.mapView projection] coordinateForPoint:self.marker.layer.position];
 }
 
 - (void)onSelectFriendsPressed
 {
-    NSLog(@"Select Friends!!");
     [self.delegate selectFriendsPressedFromSelectLocationView:self];
 }
 
@@ -163,6 +173,17 @@
 {
     [super touchesBegan:touches withEvent:event];
     [self.descriptionView endEditing:true];
+}
+
+- (void)showDescritionAndButton
+{
+    [self.selectFriendsButton setHidden:false];
+    [self.descriptionView setHidden:false];
+
+    [UIView animateWithDuration:1.0 animations:^{
+        [self.selectFriendsButton setAlpha:1];
+        [self.descriptionView setAlpha:1];
+    }];
 }
 
 #pragma mark GMSMapViewDelegate
@@ -174,14 +195,28 @@
         return;
     }
 
-    [_marker setPosition:coordinate];
     NSLog(@"coordinates: %f,%f", coordinate.latitude, coordinate.longitude);
 }
 
-- (void)mapView:(GMSMapView *)mapView
-didChangeCameraPosition:(GMSCameraPosition *)position
+- (void)mapView:(GMSMapView *)mapView willMove:(BOOL)gesture
 {
-    // TODO: fix the marker over the center
+    [UIView animateWithDuration:1.0 animations:^{
+        [self.selectFriendsButton setAlpha:0];
+        [self.descriptionView setAlpha:0];
+    } completion: ^(BOOL finished) {
+        [self.selectFriendsButton setHidden:finished];
+        [self.descriptionView setHidden:finished];
+    }];
+}
+
+- (void)mapView:(GMSMapView *)mapView
+idleAtCameraPosition:(GMSCameraPosition *)position
+{
+    [NSTimer scheduledTimerWithTimeInterval:1.8
+                                     target:self
+                                   selector:@selector(showDescritionAndButton)
+                                   userInfo:nil
+                                    repeats:NO];
 }
 
 #pragma mark UITextViewDelegate

@@ -22,9 +22,6 @@
 // Delegates
 @property (nonatomic, assign) id < CFMSentRequestViewDelegate > delegate;
 
-// Controls
-@property (nonatomic) UIButton* friendsButton;
-
 // Views
 @property (nonatomic) GMSMapView* mapView;
 @property (nonatomic) UITableView* friendsTable;

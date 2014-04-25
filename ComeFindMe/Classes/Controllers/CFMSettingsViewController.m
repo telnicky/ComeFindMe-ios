@@ -18,6 +18,7 @@
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
+        [self setTitle:@"Settings"];
         self.settingsView = [[CFMSettingsView alloc] init];
         [self.settingsView setDelegate:self];
     }

@@ -60,8 +60,6 @@
 
 - (void)updateNavbar
 {
-    [self setTitle:[NSString stringWithFormat:@"%@", self.message.sender.firstName]];
-    
     NSDateFormatter* dateFormatter = [[NSDateFormatter alloc] init];
     [dateFormatter setTimeZone:[NSTimeZone systemTimeZone]];
     [dateFormatter setDateFormat:@"Y-MM-dd HH:mm:ss Z"];
@@ -70,6 +68,7 @@
     [dateFormatter setDateFormat:@"h:mm a M/d"];
     dateString = [dateFormatter stringFromDate:date];
     [self.navigationItem.rightBarButtonItem setTitle:dateString];
+    
 }
 
 - (void)updateDataSource

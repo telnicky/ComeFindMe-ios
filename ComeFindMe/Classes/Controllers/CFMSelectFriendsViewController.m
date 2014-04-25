@@ -19,6 +19,12 @@
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
         [self setTitle:@"Select Friends"];
+        
+        // Setup select location nav button
+        UIImage* selectLocationImage = [UIImage imageNamed:@"07-map-marker"];
+        UIBarButtonItem* selectLocationButton = [[UIBarButtonItem alloc] initWithImage:selectLocationImage style:UIBarButtonItemStylePlain target:self action:@selector(backButtonPressed)];
+        [self.navigationItem setLeftBarButtonItem:selectLocationButton];
+        
         self.selectFriendsView = [[CFMSelectFriendsView alloc] init];
         [self.selectFriendsView setDelegate:self];
         
@@ -50,6 +56,11 @@
 - (void)loadView
 {
     [self setView:self.selectFriendsView];
+}
+
+- (void)backButtonPressed
+{
+    [self.navigationController popViewControllerAnimated:false];
 }
 
 #pragma mark CFMSelectFriendsDelegate

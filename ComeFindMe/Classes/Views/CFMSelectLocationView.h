@@ -16,13 +16,21 @@
 @end
 
 @interface CFMSelectLocationView : UIView< CLLocationManagerDelegate, GMSMapViewDelegate, UITextViewDelegate >
-@property (nonatomic, assign) id< CFMSelectLocationViewDelegate > delegate;
+
+// Attributes
 @property (nonatomic) float latitude;
 @property (nonatomic) float longitude;
+
+// Views
 @property (nonatomic) GMSMapView* mapView;
 @property (nonatomic) UITextView* descriptionView;
 @property (nonatomic) UIButton* selectFriendsButton;
+@property (nonatomic) UIImageView* marker;
 
+// Delegates
+@property (nonatomic, assign) id< CFMSelectLocationViewDelegate > delegate;
+
+// Instance Methods
 - (NSString*)locationDescription;
 - (CLLocationCoordinate2D)markerPosition;
 - (void)moveCameraToLocation:(CLLocation*)location;

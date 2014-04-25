@@ -34,18 +34,22 @@
     CFMMessage* message = [self.messages objectAtIndex:[indexPath row]];
 
     UIImage* image;
+    NSString* title;
     if ([[message senderId] isEqualToValue:[CFMUser currentUser].id])
     {
         // this is one of our messages
-        image = [UIImage imageNamed:@"63-runner_left"];
+        image = [UIImage imageNamed:@"113-navigation"];
+        title = @"Sent Location";
     }
     else
     {
         // this is a message we have received
-        image = [UIImage imageNamed:@"74-location"];
+        image = [UIImage imageNamed:@"18-envelope"];
         if ([message read]) {
             image = [UIImage imageNamed:@"63-runner"];
         }
+
+        title = [NSString stringWithFormat:@"%@ %@", message.sender.firstName, message.sender.lastName];
     }
 
     UITableViewCell* cell = [tableView dequeueReusableCellWithIdentifier:NSStringFromClass([CFMMessagesDataSource class])];
@@ -59,7 +63,6 @@
     [cell.imageView setFrame:CGRectMake(0, 0, 20, 20)];
     
     // name
-    NSString* title = [NSString stringWithFormat:@"%@ %@", message.sender.firstName, message.sender.lastName];
     [[cell textLabel] setText:title];
     
     // date

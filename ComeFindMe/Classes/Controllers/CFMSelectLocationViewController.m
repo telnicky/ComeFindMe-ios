@@ -45,7 +45,8 @@
 
 - (void)initNavButtons
 {
-    self.messagesButton = [[CFMMessagesButton alloc] initWithFrame:CGRectMake(0, 0, 40, 40)];
+    self.messagesButton = [CFMMessagesButton buttonWithType:UIButtonTypeSystem];
+    [self.messagesButton setFrame:CGRectMake(0, 0, 40, 40)];
     [self.messagesButton addTarget:self action:@selector(messagesButtonPressed) forControlEvents:UIControlEventTouchDown];
     UIBarButtonItem* messages = [[UIBarButtonItem alloc] initWithCustomView:self.messagesButton];
     [self.messagesButton.badge setCount:[[[CFMUser currentUser] unreadMessagesCount] intValue]];

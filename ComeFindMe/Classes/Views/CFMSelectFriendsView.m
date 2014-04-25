@@ -51,13 +51,14 @@
     CGRect friendsTableFrame = CGRectZero;
     CGRect sendButtonFrame = CGRectZero;
     
-    CGRectDivide(frame, &upperFrame, &lowerFrame, 2 * frame.size.height / 3.0f, CGRectMinYEdge);
-    CGRectDivide(lowerFrame, &lowerFrame, &sendButtonFrame, lowerFrame.size.height * 0.5f, CGRectMinYEdge);
+    CGRectDivide(frame, &upperFrame, &lowerFrame, 5 * frame.size.height / 6.0f, CGRectMinYEdge);
+//    CGRectDivide(lowerFrame, &lowerFrame, &sendButtonFrame, lowerFrame.size.height * 0.5f, CGRectMinYEdge);
     
     friendsTableFrame = upperFrame;
+    sendButtonFrame = lowerFrame;
     sendButtonFrame = CGRectInset(sendButtonFrame, sendButtonFrame.size.width / 5.0f, 10.0f);
     
-    [self.friendsTable setFrame:upperFrame];
+    [self.friendsTable setFrame:friendsTableFrame];
     [self.sendButton setFrame:sendButtonFrame];
 }
 

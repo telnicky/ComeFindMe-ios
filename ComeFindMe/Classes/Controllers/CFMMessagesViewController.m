@@ -30,8 +30,20 @@
         [self.dataSource setMessages:[[CFMUser currentUser] messages]];
         
         [self setTitle:@"Come Find Me"];
-        self.tableView.tableHeaderView = [[UIView alloc] initWithFrame:CGRectMake(0.0f, 0.0f, self.tableView.bounds.size.width, 0.01f)];
 
+        self.tableView.tableHeaderView = [[UIView alloc] initWithFrame:CGRectMake(0.0f, 0.0f, self.tableView.bounds.size.width, 0.01f)];
+        
+        // Setup select location nav button
+        UIImage* selectLocationImage = [UIImage imageNamed:@"07-map-marker"];
+        UIBarButtonItem* selectLocationButton = [[UIBarButtonItem alloc] initWithImage:selectLocationImage style:UIBarButtonItemStylePlain target:self action:@selector(backButtonPressed)];
+        [self.navigationItem setLeftBarButtonItem:selectLocationButton];
+        
+        // setup our back button
+        self.navigationItem.backBarButtonItem =
+        [[UIBarButtonItem alloc] initWithTitle:@""
+                                         style:UIBarButtonItemStyleBordered
+                                        target:nil
+                                        action:nil];
         
         [self.tableView setDelegate:self];
         [self.tableView setDataSource:self.dataSource];
@@ -40,8 +52,8 @@
         [self.refreshControl addTarget:self action:@selector(refresh)
                       forControlEvents:UIControlEventValueChanged];
         
-        UIImage* settingsImage = [UIImage imageNamed:@"19-gear"];
-        UIBarButtonItem* settingsButton = [[UIBarButtonItem alloc] initWithImage:settingsImage style:UIBarButtonItemStylePlain target:self action:@selector(settingsButtonPressed)];
+        UIImage* settingsImage = [UIImage imageNamed:@"20-gear2"];
+        UIBarButtonItem* settingsButton = [[UIBarButtonItem alloc] initWithImage:settingsImage style:UIBarButtonItemStyleBordered target:self action:@selector(settingsButtonPressed)];
         [self.navigationItem setRightBarButtonItem:settingsButton];
 
     }
@@ -73,6 +85,11 @@
 {
     [self.refreshControl beginRefreshing];
     [[CFMUser currentUser] loadMessages];;
+}
+
+- (void)backButtonPressed
+{
+    [self.navigationController popViewControllerAnimated:false];
 }
 
 #pragma mark CFMUserMessagesDelegate
