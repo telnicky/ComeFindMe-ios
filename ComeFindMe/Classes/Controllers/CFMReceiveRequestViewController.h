@@ -9,6 +9,7 @@
 #import <UIKit/UIKit.h>
 #import <FacebookSDK/FacebookSDK.h>
 
+#import "CFMColors.h"
 #import "CFMReceiveRequestView.h"
 #import "CFMUser.h"
 

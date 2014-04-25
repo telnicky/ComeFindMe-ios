@@ -8,6 +8,8 @@
 
 #import <UIKit/UIKit.h>
 #import <GoogleMaps/GoogleMaps.h>
+#import "CFMColors.h"
+
 @class CFMReceiveRequestView;
 
 @protocol CFMReceiveRequestViewDelegate <NSObject>

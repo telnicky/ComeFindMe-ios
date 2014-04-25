@@ -7,7 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
-
+#import "CFMColors.h"
 #import "CFMMessage.h"
 
 @class CFMMessagesDataSource;

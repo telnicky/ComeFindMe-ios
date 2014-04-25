@@ -15,20 +15,24 @@
     self = [super initWithFrame:frame];
     if (self) {
         // Initialization code
-        [self setBackgroundColor:[UIColor yellowColor]];
+        [self setBackgroundColor:UIColorFromRGB(MainColor)];
         self.loggedIn = false;
 
         [self setLoginView:[[FBLoginView alloc] init]];
         [self.loginView setDelegate:self];
         [self addSubview:self.loginView];
         
-        self.nameLabel = [[UILabel alloc] init];
-        [self.nameLabel setText:@"Come Find Me"];
-        [self.nameLabel setAdjustsFontSizeToFitWidth:true];
-        [self.nameLabel setTextAlignment:NSTextAlignmentCenter];
-        [self addSubview:self.nameLabel];
+        self.topNameLabel = [[UILabel alloc] init];
+        [self.topNameLabel setText:@"Come Find\nMe"];
+        [self.topNameLabel setLineBreakMode:NSLineBreakByWordWrapping];
+        [self.topNameLabel setNumberOfLines:0];
+        [self.topNameLabel setAdjustsFontSizeToFitWidth:true];
+        [self.topNameLabel setTextAlignment:NSTextAlignmentCenter];
+        [self.topNameLabel setFont:[UIFont boldSystemFontOfSize:48]];
+        [self addSubview:self.topNameLabel];
         
-        self.spinner = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
+        self.spinner = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhiteLarge];
+        [self.spinner setColor:[UIColor darkGrayColor]];
         [self addSubview:self.spinner];
 
     }
@@ -38,19 +42,22 @@
 - (void)layoutSubviews
 {
     CGRect frame = [self bounds];
-    [self.spinner setFrame:frame];
-    
+    CGRect upperFrame = CGRectZero;
+    CGRect lowerFrame = CGRectZero;
     CGRect loginFrame = self.loginView.frame;
+    CGRect topNameLabelFrame = CGRectZero;
+    CGRect spinnerFrame = CGRectZero;
+    
+    CGRectDivide(frame, &upperFrame, &lowerFrame, 2 * frame.size.height / 3.0f, CGRectMinYEdge);
+    CGRectDivide(upperFrame, &topNameLabelFrame, &spinnerFrame, 2 * frame.size.height / 3.0f, CGRectMinYEdge);
+
+    // login frame
     loginFrame.origin.x = CGRectGetMidX(frame) - loginFrame.size.width * 0.5f;
     loginFrame.origin.y = CGRectGetMidY(frame) + loginFrame.size.height;
     
     [self.loginView setFrame:loginFrame];
-    
-    CGRect nameLabelFrame = CGRectMake(frame.origin.x + 50,
-                                       frame.origin.y + 100,
-                                       frame.size.width,
-                                       30);
-    [self.nameLabel setFrame:nameLabelFrame];
+    [self.topNameLabel setFrame:topNameLabelFrame];
+    [self.spinner setFrame:spinnerFrame];
 }
 
 - (void)hideLoginView

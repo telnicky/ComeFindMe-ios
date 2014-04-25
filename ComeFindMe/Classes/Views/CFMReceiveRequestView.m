@@ -39,7 +39,7 @@
     self.onMayWayButton.titleLabel.textColor = [UIColor blackColor];
     self.onMayWayButton.layer.borderColor = [[UIColor blackColor] CGColor];
     self.onMayWayButton.layer.borderWidth = 2.0f;
-    self.onMayWayButton.backgroundColor = [UIColor yellowColor];
+    self.onMayWayButton.backgroundColor = UIColorFromRGB(MainColor);
     [self.onMayWayButton addTarget:self action:@selector(onOnMyWayPressed) forControlEvents:UIControlEventTouchDown];
     [self addSubview:self.onMayWayButton];
 }

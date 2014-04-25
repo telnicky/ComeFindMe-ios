@@ -10,6 +10,7 @@
 #import <FacebookSDK/FacebookSDK.h>
 #import <GoogleMaps/GoogleMaps.h>
 
+#import "CFMColors.h"
 #import "CFMSentRequestView.h"
 #import "CFMUser.h"
 #import "CFMMarkersDataSource.h"

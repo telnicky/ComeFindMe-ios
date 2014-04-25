@@ -16,6 +16,7 @@
     if (self) {
         [self setImage:[UIImage imageNamed:@"103-map"] forState:UIControlStateNormal];
         [self setShowsTouchWhenHighlighted:true];
+        [self setTintColor:UIColorFromRGB(Black)];
         self.badge = [[CFMBadgeView alloc] init];
         [self addSubview:self.badge];
     }

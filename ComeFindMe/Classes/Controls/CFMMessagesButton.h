@@ -7,7 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
-
+#import "CFMColors.h"
 #import "CFMBadgeView.h"
 
 @interface CFMMessagesButton : UIButton

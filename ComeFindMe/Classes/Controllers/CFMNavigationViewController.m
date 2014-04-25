@@ -8,13 +8,6 @@
 
 #import "CFMNavigationViewController.h"
 
-
-// TODO: use this to define the colors we want
-#define UIColorFromRGB(rgbValue) \
-[UIColor colorWithRed:((float)((rgbValue & 0xFF0000) >> 16))/255.0 \
-                green:((float)((rgbValue & 0xFF00) >> 8))/255.0 \
-                 blue:((float)(rgbValue & 0xFF))/255.0 alpha:1.0]
-
 // TODO: change accuracy of location based on distance from target
 
 
@@ -46,9 +39,10 @@
 
 - (void)initNavbar
 {
-    [[UINavigationBar appearance] setBarTintColor:[UIColor yellowColor]];
+    [[UINavigationBar appearance] setBarTintColor:UIColorFromRGB(MainColor)];
     [self.navigationBar setTranslucent:false];
     [self setNavigationBarHidden:true];
+    [self.navigationBar setTintColor:UIColorFromRGB(Black)];
 }
 
 - (void)viewDidLoad

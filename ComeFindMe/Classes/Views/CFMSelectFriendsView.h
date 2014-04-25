@@ -7,6 +7,8 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "CFMColors.h"
+
 @class CFMSelectFriendsView;
 
 @protocol CFMSelectFriendsView <NSObject>

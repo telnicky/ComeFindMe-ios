@@ -23,6 +23,7 @@
         // Setup select location nav button
         UIImage* selectLocationImage = [UIImage imageNamed:@"07-map-marker"];
         UIBarButtonItem* selectLocationButton = [[UIBarButtonItem alloc] initWithImage:selectLocationImage style:UIBarButtonItemStylePlain target:self action:@selector(backButtonPressed)];
+        [selectLocationButton setTintColor:UIColorFromRGB(Black)];
         [self.navigationItem setLeftBarButtonItem:selectLocationButton];
         
         self.selectFriendsView = [[CFMSelectFriendsView alloc] init];

@@ -33,8 +33,8 @@ static BOOL initialized = false;
 {
     self = [super init];
     if (self) {
-        self.baseUrl = @"http://192.168.0.12:3000";
-//        self.baseUrl = @"https://www.elnicky.com";
+//        self.baseUrl = @"http://192.168.0.12:3000";
+        self.baseUrl = @"https://www.elnicky.com";
         self.headers = [[NSMutableDictionary alloc] init];
         [self setDefaultHeaders];
     }

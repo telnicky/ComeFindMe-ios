@@ -15,9 +15,10 @@
 #import "CFMReceiveRequestViewController.h"
 #import "CFMSentRequestViewController.h"
 #import "CFMSettingsViewController.h"
-
 #import "CFMRestService.h"
 #import "CFMUser.h"
+#import "CFMColors.h"
+
 @class CFMNavigationViewController;
 
 @protocol CFMNavigationViewControllerDelegate <NSObject>

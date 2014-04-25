@@ -10,7 +10,6 @@
 
 @implementation CFMSelectLocationView
 {
-//    GMSMarker* _marker;
     GMSCameraPosition* _camera;
     BOOL _keyboardIsVisible;
     CGRect _mapViewFrame;
@@ -31,7 +30,6 @@
         [self initDescriptionView];
         [self initButtonView];
         
-
         // Keyboard events
         _keyboardIsVisible = false;
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillShow:) name:UIKeyboardWillShowNotification object:nil];
@@ -51,7 +49,7 @@
     self.selectFriendsButton.titleLabel.textColor = [UIColor blackColor];
     self.selectFriendsButton.layer.borderColor = [[UIColor blackColor] CGColor];
     self.selectFriendsButton.layer.borderWidth = 2.0f;
-    self.selectFriendsButton.backgroundColor = [UIColor yellowColor];
+    self.selectFriendsButton.backgroundColor = UIColorFromRGB(MainColor);
     [self.selectFriendsButton addTarget:self action:@selector(onSelectFriendsPressed) forControlEvents:UIControlEventTouchDown];
     [self.selectFriendsButton setHidden:true];
     [self addSubview:self.selectFriendsButton];
@@ -194,8 +192,6 @@
         [self.descriptionView endEditing:true];
         return;
     }
-
-    NSLog(@"coordinates: %f,%f", coordinate.latitude, coordinate.longitude);
 }
 
 - (void)mapView:(GMSMapView *)mapView willMove:(BOOL)gesture

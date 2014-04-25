@@ -38,7 +38,7 @@
     self.sendButton.titleLabel.textColor = [UIColor blackColor];
     self.sendButton.layer.borderColor = [[UIColor blackColor] CGColor];
     self.sendButton.layer.borderWidth = 2.0f;
-    self.sendButton.backgroundColor = [UIColor yellowColor];
+    self.sendButton.backgroundColor = UIColorFromRGB(MainColor);
     [self.sendButton addTarget:self action:@selector(onSendPressed) forControlEvents:UIControlEventTouchDown];
     [self addSubview:self.sendButton];
 }
@@ -52,7 +52,6 @@
     CGRect sendButtonFrame = CGRectZero;
     
     CGRectDivide(frame, &upperFrame, &lowerFrame, 5 * frame.size.height / 6.0f, CGRectMinYEdge);
-//    CGRectDivide(lowerFrame, &lowerFrame, &sendButtonFrame, lowerFrame.size.height * 0.5f, CGRectMinYEdge);
     
     friendsTableFrame = upperFrame;
     sendButtonFrame = lowerFrame;

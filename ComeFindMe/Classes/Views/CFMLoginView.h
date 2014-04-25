@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import <FacebookSDK/FacebookSDK.h>
+#import "CFMColors.h"
 
 @class CFMLoginView;
 
@@ -19,7 +20,7 @@
 
 @interface CFMLoginView : UIView < FBLoginViewDelegate >
 @property (nonatomic, assign) id< CFMLoginViewDelegate > delegate;
-@property (nonatomic) UILabel* nameLabel;
+@property (nonatomic) UILabel* topNameLabel;
 @property (nonatomic) FBLoginView* loginView;
 @property (nonatomic) UIActivityIndicatorView* spinner;
 @property (nonatomic) bool loggedIn;

@@ -7,7 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
-
+#import "CFMColors.h"
 #import "CFMUser.h"
 #import "CFMMessagesDataSource.h"
 

@@ -36,6 +36,7 @@
         // Setup select location nav button
         UIImage* selectLocationImage = [UIImage imageNamed:@"07-map-marker"];
         UIBarButtonItem* selectLocationButton = [[UIBarButtonItem alloc] initWithImage:selectLocationImage style:UIBarButtonItemStylePlain target:self action:@selector(backButtonPressed)];
+        [selectLocationButton setTintColor:UIColorFromRGB(Black)];
         [self.navigationItem setLeftBarButtonItem:selectLocationButton];
         
         // setup our back button
@@ -54,6 +55,7 @@
         
         UIImage* settingsImage = [UIImage imageNamed:@"20-gear2"];
         UIBarButtonItem* settingsButton = [[UIBarButtonItem alloc] initWithImage:settingsImage style:UIBarButtonItemStyleBordered target:self action:@selector(settingsButtonPressed)];
+        [settingsButton setTintColor:UIColorFromRGB(Black)];
         [self.navigationItem setRightBarButtonItem:settingsButton];
 
     }
