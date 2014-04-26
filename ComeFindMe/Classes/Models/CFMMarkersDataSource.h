@@ -21,4 +21,8 @@
 // Delegates
 @property (nonatomic, assign) id < CFMMarkersDataSourceDelegate > delegate;
 
+// Instance Methods
+- (void)turnOnMarker:(GMSMarker*)marker;
+- (void)turnOffMarker:(GMSMarker*)marker;
+
 @end

@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import <FacebookSDK/FacebookSDK.h>
+#import <GoogleMaps/GoogleMaps.h>
 
 @class CFMSettingsView;
 
@@ -20,4 +21,5 @@
 @interface CFMSettingsView : UIView < FBLoginViewDelegate >
 @property (nonatomic, assign) id< CFMSettingsViewDelegate > delegate;
 @property (nonatomic) FBLoginView* logoutView;
+@property (nonatomic) UITextView* attribution;
 @end

@@ -20,6 +20,17 @@
     return self;
 }
 
+- (void)turnOnMarker:(GMSMarker*)marker
+{
+    [marker.userData setValue:@"true" forKey:@"isVisible"];
+}
+
+- (void)turnOffMarker:(GMSMarker*)marker
+{
+    [marker.userData setValue:@"false" forKey:@"isVisible"];
+}
+
+
 #pragma mark UITableViewDataSource
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
@@ -43,8 +54,8 @@
     // name
     NSString* title = [NSString stringWithFormat:@"%@", marker.title];
     [[cell textLabel] setText:title];
-    
-    if (CLLocationCoordinate2DIsValid(marker.position))
+    NSLog(@"UserData: %@", marker.userData);
+    if ([[marker.userData objectForKey:@"isVisible"] isEqualToString:@"true"] && CLLocationCoordinate2DIsValid(marker.position))
     {
         [cell setSelectionStyle:UITableViewCellSelectionStyleDefault];
         [cell setUserInteractionEnabled:true];

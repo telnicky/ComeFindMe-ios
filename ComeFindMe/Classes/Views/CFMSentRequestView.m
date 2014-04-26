@@ -51,20 +51,22 @@
     self.destinationMarker.position = self.coordinates;
     self.destinationMarker.map = self.mapView;
     self.destinationMarker.icon = [GMSMarker markerImageWithColor:[UIColor redColor]];
+    self.destinationMarker.title = @"destination";
+    self.destinationMarker.userData = [[NSMutableDictionary alloc] init];
     [self.markers addObject:self.destinationMarker];
     [self layoutMarkers];
 }
 
-- (void)addMarker:(GMSMarker*)marker
+- (void)turnOnMarker:(GMSMarker*)marker
 {
-    [[self markers] addObject:marker];
     marker.map = self.mapView;
+    [self.friendsTable reloadData];
 }
 
-- (void)removeMarker:(GMSMarker*)marker
+- (void)turnOffMarker:(GMSMarker*)marker
 {
-    [[self markers] removeObject:marker];
     marker.map = nil;
+    [self.friendsTable reloadData];
 }
 
 - (void)layoutMarkers
@@ -79,7 +81,6 @@
 {
     _coordinates = coordinates;
     self.destinationMarker.position = coordinates;
-    self.destinationMarker.title = @"destination";
     [self setCameraCoordinates:coordinates];
 }
 

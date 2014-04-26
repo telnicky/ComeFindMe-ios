@@ -217,7 +217,6 @@
 #pragma mark CFMSettingsViewControllerDelegate
 - (void)loggedOutUserFromSettingsViewController:(CFMSettingsViewController *)settingsViewController
 {
-    // TODO: fix this
     [self.navigationDelegate logoutFromCFMNavigationController:self];
 }
 
@@ -226,7 +225,7 @@
 	didUpdateToLocation:(CLLocation *)newLocation
 		   fromLocation:(CLLocation *)oldLocation
 {
-    NSLog(@"%@ - %@", newLocation, oldLocation);
+    NSLog(@"%@", newLocation);
     [self stopBroadcasting];
     
     // Accuracy to three decimal places
@@ -236,7 +235,7 @@
     int roundedOldLongitude = self.user.currentLocation.coordinates.longitude * 1000;
     
     // user does not have a current location
-    if (!self.user.currentLocationId)
+    if (!self.user.currentLocation)
     {
         _currentLocation = [[CFMLocation alloc] init];
         [_currentLocation setUserId:self.user.id];
@@ -295,7 +294,7 @@
 - (void)failedToLoadBroadcastsForUser:(CFMUser *)user
 {
     // handle error state
-    self.isBroadcasting = false;
+    [user loadBroadcasts];
 }
 
 @end

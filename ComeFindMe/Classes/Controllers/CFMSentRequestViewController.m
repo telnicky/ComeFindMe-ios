@@ -21,8 +21,10 @@
     if (self) {
         self.markersDataSource = [[CFMMarkersDataSource alloc] init];
         self.markerDictionary = [[NSMutableDictionary alloc] init];
-
+        
         [self initRequestView];
+
+
         
         UIBarButtonItem* date = [[UIBarButtonItem alloc] initWithTitle:@"mar 27" style:UIBarButtonItemStyleBordered target:nil action:nil];
         [date setEnabled:false];
@@ -34,9 +36,15 @@
 - (void)initRequestView
 {
     self.sentRequestView = [[CFMSentRequestView alloc] init];
+    [self.sentRequestView setDelegate:self];
+
     [[self.sentRequestView friendsTable]
      setDataSource:self.markersDataSource];
-    [self.sentRequestView setDelegate:self];
+//    NSLog(@"UserData: %@", self.sentRequestView.destinationMarker.userData);
+    [self.markersDataSource turnOnMarker:self.sentRequestView.destinationMarker];
+//    NSLog(@"UserData: %@", self.sentRequestView.destinationMarker);
+    [self.markerDictionary setValue:self.sentRequestView.destinationMarker
+                             forKey:self.sentRequestView.destinationMarker.title];
 }
 
 - (void)loadView
@@ -78,13 +86,15 @@
         if (![self.markerDictionary objectForKey:[user.id stringValue]]) {
             GMSMarker* marker = [[GMSMarker alloc] init];
             marker.icon = [GMSMarker markerImageWithColor:[UIColor orangeColor]];
-            [self.sentRequestView addMarker:marker];
             [self.markerDictionary setValue:marker forKey:[user.id stringValue]];
             marker.title = user.firstName;
+            marker.userData = [[NSMutableDictionary alloc] init];
+            [self.sentRequestView.markers addObject:marker];
         }
     }
-    
+
     [self.markersDataSource setMarkers:self.sentRequestView.markers];
+    
     [[self.sentRequestView friendsTable]
      setDataSource:self.markersDataSource];
     [self.sentRequestView.friendsTable reloadData];
@@ -121,31 +131,44 @@
 #pragma mark CFMMessageBroadcastsDelegate
 - (void)successfullyLoadedBroadcastsForMessage:(CFMMessage *)message
 {
-    bool updateDatasource = false;
+    NSMutableArray* userIds = [[NSMutableArray alloc] init];
+    [userIds addObject:self.sentRequestView.destinationMarker.title];
     
     // update locations of users
     for (CFMBroadcast* broadcast in message.broadcasts)
     {
+        // create marker if it does not exist
         if (![self.markerDictionary objectForKey:[broadcast.senderId stringValue]]) {
-            // this should never happen but if it does add a marker
             GMSMarker* marker = [[GMSMarker alloc] init];
             marker.icon = [GMSMarker markerImageWithColor:[UIColor orangeColor]];
-            [self.sentRequestView addMarker:marker];
             [self.markerDictionary setValue:marker forKey:[broadcast.senderId stringValue]];
             marker.title = broadcast.sender.firstName;
-            
-            updateDatasource = true;
+            marker.userData = [[NSMutableDictionary alloc] init];
         }
         
+        [userIds addObject:[broadcast.senderId stringValue]];
         GMSMarker* marker = [self.markerDictionary
                              objectForKey:[broadcast.senderId stringValue]];
+
         marker.position = broadcast.sender.currentLocation.coordinates;
+        
+        if (CLLocationCoordinate2DIsValid(marker.position))
+        {
+            [self.sentRequestView turnOnMarker:marker];
+            [self.markersDataSource turnOnMarker:marker];
+        }
     }
     
-    if (updateDatasource) {
-        [self updateDataSource];
+    NSMutableArray* deletedBroadcasts = [self.markerDictionary.allKeys mutableCopy];
+    [deletedBroadcasts removeObjectsInArray:userIds];
+    
+    for (NSString* deletedBroadcastId in deletedBroadcasts)
+    {
+        GMSMarker* marker = [self.markerDictionary objectForKey:deletedBroadcastId];
+        [self.sentRequestView turnOffMarker:marker];
+        [self.markersDataSource turnOffMarker:marker];
     }
-
+    
     // load broadcasts again
     [NSTimer scheduledTimerWithTimeInterval:1.0
                                      target:self.message

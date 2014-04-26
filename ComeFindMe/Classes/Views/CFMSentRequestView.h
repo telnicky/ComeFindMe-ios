@@ -33,8 +33,8 @@
 @property (nonatomic) GMSCameraPosition* camera;
 
 // Instance Methods
-- (void)addMarker:(GMSMarker*)marker;
 - (void)setCameraCoordinates:(CLLocationCoordinate2D)coordinates;
-- (void)removeMarker:(GMSMarker*)marker;
+- (void)turnOffMarker:(GMSMarker*)marker;
+- (void)turnOnMarker:(GMSMarker*)marker;
 - (void)layoutMarkers;
 @end
