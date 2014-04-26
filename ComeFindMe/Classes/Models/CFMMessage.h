@@ -7,7 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
-
+#import "CFMBase.h"
 #import "CFMLocation.h"
 #import "CFMBroadcast.h"
 
@@ -28,7 +28,8 @@
 
 @end
 
-@interface CFMMessage : NSObject < CFMBroadcastDelegate >
+@interface CFMMessage : NSObject < CFMBroadcastDelegate, CFMBaseProtocol >
+
 // relationships
 @property (nonatomic) CFMUser* user;
 @property (nonatomic) CFMUser* sender;
@@ -38,6 +39,8 @@
 
 // Attributes
 @property (nonatomic) NSNumber* id;
+@property (nonatomic) NSString* error;
+
 @property (nonatomic) NSNumber* senderId;
 @property (nonatomic) NSNumber* locationId;
 @property (nonatomic) NSNumber* userId;

@@ -114,6 +114,10 @@
 #pragma mark UITableViewDataSource
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
+    if (self.friends.count == 0) {
+        return 1; // this will be used for the zero data state case
+    }
+    
     if ([self shouldUseSections]) {
         NSString* sectionName = [self.sections
                                  objectAtIndex:section];
@@ -127,9 +131,14 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if ([indexPath row] > self.friends.count) {
-        NSLog(@"her");
+    if (self.friends.count == 0) {
+        // cell for zero data state
+        UITableViewCell *cell = [[UITableViewCell alloc] init];
+        cell.textLabel.text = @"No friends have app installed yet!";
+        [cell setBackgroundColor:UIColorFromRGB(Accent4)];
+        return cell;
     }
+    
     CFMUser* friend = [self friendFromIndexPath:indexPath];
     NSString* title = [self titleForFriend:friend];
     
@@ -155,13 +164,16 @@
     else {
         [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
     }
+    
     [[cell textLabel] setText:title];
+
+    
     return cell;
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-    if (![self shouldUseSections]) {
+    if (![self shouldUseSections] || self.friends.count == 0) {
         return 1;
     }
     
@@ -170,7 +182,7 @@
 
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
 {
-    if (![self shouldUseSections]) {
+    if (![self shouldUseSections] || self.friends.count == 0) {
         return nil;
     }
     
@@ -179,7 +191,7 @@
 
 - (NSArray *)sectionIndexTitlesForTableView:(UITableView *)tableView
 {
-    if (![self shouldUseSections]) {
+    if (![self shouldUseSections] || self.friends.count == 0) {
         return nil;
     }
 

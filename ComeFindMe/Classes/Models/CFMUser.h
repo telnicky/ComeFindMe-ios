@@ -9,6 +9,7 @@
 #import <Foundation/Foundation.h>
 #import <FacebookSDK/FacebookSDK.h>
 
+#import "CFMBase.h"
 #import "CFMLocation.h"
 #import "CFMMessage.h"
 #import "CFMBroadcast.h"
@@ -50,16 +51,19 @@
 
 @end
 
-@interface CFMUser : NSObject < CFMMessageDelegate >
+@interface CFMUser : NSObject < CFMMessageDelegate, CFMBaseProtocol >
 
 // Attributes
 @property (nonatomic) NSNumber* id;
+@property (nonatomic) NSString* error;
+
 @property (nonatomic) NSString* firstName;
 @property (nonatomic) NSString* lastName;
 @property (nonatomic) NSString* facebookId;
 @property (nonatomic) NSMutableDictionary* friendsDict;
 @property (nonatomic) NSNumber* unreadMessagesCount;
 @property (nonatomic) NSNumber* currentLocationId;
+@property (nonatomic) BOOL installed;
 
 // Relationships
 @property (nonatomic) NSMutableArray* friends;
@@ -73,15 +77,13 @@
 
 // Instance Methods
 - (void)fromFacebookJson:(NSDictionary<FBGraphUser>*)json;
-- (void)fromJson:(NSDictionary*)json;
 - (bool)isCurrentUser;
 - (void)loadBroadcasts;
 - (void)loadMessages;
 - (void)loadFriends;
 - (void)login;
-- (void)save;
 - (void)sync;
-- (NSString*)toJson;
+
 
 // Delegates
 @property (nonatomic) id < CFMUserDelegate > delegate;

@@ -27,6 +27,7 @@ static BOOL initialized = false;
     [self setFacebookId:json.id];
     [self setFirstName:json.first_name];
     [self setLastName:json.last_name];
+    [self setInstalled:[[json objectForKey:@"installed"] boolValue]];
 }
 
 - (void)fromJson:(NSDictionary *)json
@@ -74,7 +75,12 @@ static BOOL initialized = false;
 
 - (void)loadFriends
 {
-    FBRequest* friendsRequest = [FBRequest requestForMyFriends];
+    FBRequest* friendsRequest =
+    [FBRequest
+     requestWithGraphPath:@"me/friends"
+     parameters:@{@"fields":@"id,installed,first_name,last_name"}
+     HTTPMethod:@"GET"];
+    
     [friendsRequest startWithCompletionHandler:
      ^(FBRequestConnection *connection,
        NSDictionary* result,
@@ -116,32 +122,19 @@ static BOOL initialized = false;
 
 - (void)loginFinishedWithResponse:(NSURLResponse*)response data:(NSData*)data error:(NSError*)error
 {
-    if (error) {
-        NSLog(@"FATAL: User#loginFinishedWithResponse - Load Data Failed");
-        [self.delegate failedLoginForUser:self];
+    BOOL isValid = [[CFMRestService instance] parseObject:self
+                                                 response:response
+                                                     data:data
+                                                    error:error];
+
+    if (isValid)
+    {
+        [self.delegate successfulLoginForUser:self];
         return;
     }
-    
-    NSDictionary* json = [NSJSONSerialization
-                          JSONObjectWithData:data
-                          options:NSJSONReadingMutableContainers
-                          error:&error];
-    
-    if (error) {
-        NSLog(@"FATAL: User#loginFinishedWithResponse - Parse Data Failed");
-        [self.delegate failedLoginForUser:self];
-        return;
-    }
-    
-    // handle bad responses from server
-    if ([json objectForKey:@"error"]) {
-        NSLog(@"FATAL: User#loginFinishedWithResponse - Server Error");
-        [self.delegate failedLoginForUser:self];
-        return;
-    }
-    
-    [self fromJson:json];
-    [self.delegate successfulLoginForUser:self];
+
+    NSLog(@"FATAL: User#loginFinishedWithResponse - %@", self.error);
+    [self.delegate failedLoginForUser:self];
 }
 
 - (void)loadBroadcasts
@@ -153,37 +146,22 @@ static BOOL initialized = false;
 
 - (void)loadBroadcastsFinishedWithResponse:(NSURLResponse*)response data:(NSData*)data error:(NSError*)error
 {
-    if (error) {
-        NSLog(@"FATAL: User#loadBroadcastsFinishedWithResponse - Load Data Failed");
-        [self.broadcastsDelegate failedToLoadBroadcastsForUser:self];
-        return;
-    }
+    BOOL isValid = [[CFMRestService instance]
+                    parseCollection:self.broadcasts
+                    object:self
+                    className:@"Broadcast"
+                    response:response
+                    data:data
+                    error:error];
     
-    id json = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:&error];
-    
-    if (error) {
-        NSLog(@"FATAL: User#loadBroadcastsFinishedWithResponse - Parse Data Failed");
-        [self.broadcastsDelegate failedToLoadBroadcastsForUser:self];
-        return;
-    }
-    
-    // handle bad responses from server
-    if ([json isKindOfClass:[NSMutableDictionary class]] && [json objectForKey:@"error"]) {
-        NSLog(@"FATAL: User#loadBroadcastsFinishedWithResponse - Server Error");
-        [self.broadcastsDelegate failedToLoadBroadcastsForUser:self];
-        return;
-    }
-    
-    // TODO: optimize syncing with server
-    [self.broadcasts removeAllObjects];
-    for (NSMutableDictionary* broadcastJson in json)
+    if (isValid)
     {
-        CFMBroadcast* broadcast = [[CFMBroadcast alloc] init];
-        [broadcast fromJson:broadcastJson];
-        [self.broadcasts addObject:broadcast];
+        [self.broadcastsDelegate successfullyLoadedBroadcastsForUser:self];
+        return;
     }
     
-    [self.broadcastsDelegate successfullyLoadedBroadcastsForUser:self];
+    NSLog(@"FATAL: User#loadBroadcastsFinishedWithResponse - %@", self.error);
+    [self.broadcastsDelegate failedToLoadBroadcastsForUser:self];
 }
 
 - (void)loadMessages
@@ -195,37 +173,22 @@ static BOOL initialized = false;
 
 - (void)loadMessagesFinishedWithResponse:(NSURLResponse*)response data:(NSData*)data error:(NSError*)error
 {
-    if (error) {
-        NSLog(@"FATAL: User#loadMessagesFinishedWithResponse - Load Data Failed");
-        [self.messagesDelegate failedToLoadMessagesForUser:self];
-        return;
-    }
     
-    id messagesJson = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:&error];
+    BOOL isValid = [[CFMRestService instance]
+                    parseCollection:self.messages
+                    object:self
+                    className:@"Message"
+                    response:response
+                    data:data
+                    error:error];
     
-    if (error) {
-        NSLog(@"FATAL: User#loadMessagesFinishedWithResponse - Parse Data Failed");
-        [self.messagesDelegate failedToLoadMessagesForUser:self];
-        return;
-    }
-    
-    // handle bad responses from server
-    if ([messagesJson isKindOfClass:[NSMutableDictionary class]] && [messagesJson objectForKey:@"error"]) {
-        NSLog(@"FATAL: User#loadMessagesFinishedWithResponse - Server Error");
-        [self.messagesDelegate failedToLoadMessagesForUser:self];
-        return;
-    }
-    
-    // TODO: optimize syncing with server
-    [self.messages removeAllObjects];
-    for (NSMutableDictionary* messageJson in messagesJson)
+    if (isValid)
     {
-        CFMMessage* message = [[CFMMessage alloc] init];
-        [message fromJson:messageJson];
-        [message setDelegate:self];
-        [self.messages addObject:message];
+        [self.messagesDelegate failedToLoadMessagesForUser:self];
+        return;
     }
     
+    NSLog(@"FATAL: User#loadBroadcastsFinishedWithResponse - %@", self.error);
     [self.messagesDelegate successfullyLoadedMessagesForUser:self];
 }
 
@@ -252,32 +215,18 @@ static BOOL initialized = false;
      guid:[self.id stringValue]
      completionHandler:
      ^(NSURLResponse* response, NSData* data, NSError* error) {
-         if (error) {
-             NSLog(@"FATAL: User#sync - Load Data Failed");
-             [self.delegate failedSyncForUser:self];
-             return;
-         }
-         
-         id json = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:&error];
-         
-         if (error) {
-             NSLog(@"FATAL: User#sync - Parse Data Failed");
-             [self.delegate failedSyncForUser:self];
-             return;
-         }
-         
-         // handle bad responses from server
-         if ([json isKindOfClass:[NSMutableDictionary class]] &&
-             [json objectForKey:@"error"])
+         BOOL isValid = [[CFMRestService instance] parseObject:self
+                                                      response:response
+                                                          data:data
+                                                         error:error];
+         if (isValid)
          {
-             NSLog(@"FATAL: User#sync - Server Error");
-             [self.delegate failedSyncForUser:self];
+             [self.delegate successfulSyncForUser:self];
              return;
          }
          
-         [self fromJson:json];
-         
-         [self.delegate successfulSyncForUser:self];
+         NSLog(@"FATAL: User#sync - %@", self.error);
+         [self.delegate failedSyncForUser:self];
     }];
 }
 
@@ -309,34 +258,18 @@ static BOOL initialized = false;
      completionHandler:
      ^(NSURLResponse* response, NSData* data, NSError* error)
      {
-         if (error) {
-             NSLog(@"FATAL: User#update - Create Failed");
-             [self.delegate failedSaveForUser:self];
-             return;
-         }
-         
-         if ([data length] == 0) {
+         BOOL isValid = [[CFMRestService instance] parseObject:self
+                                                      response:response
+                                                          data:data
+                                                         error:error];
+         if (isValid)
+         {
              [self.delegate successfulSaveForUser:self];
              return;
          }
          
-         NSDictionary* json = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:&error];
-         
-         if (error) {
-             NSLog(@"FATAL: User#update - Parse Data Failed");
-             [self.delegate failedSaveForUser:self];
-             return;
-         }
-         
-         // handle bad responses from server
-         if ([json objectForKey:@"error"]) {
-             NSLog(@"FATAL: User#update - Server Error");
-             [self.delegate failedSaveForUser:self];
-             return;
-         }
-         
-         [self fromJson:json];
-         [self.delegate successfulSaveForUser:self];
+         NSLog(@"FATAL: User#update - %@", self.error);
+         [self.delegate failedSaveForUser:self];
      }];
 }
 

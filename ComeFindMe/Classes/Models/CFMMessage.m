@@ -31,29 +31,18 @@
      completionHandler:
      ^(NSURLResponse* response, NSData* data, NSError* error)
      {
-         if (error) {
-             NSLog(@"FATAL: Message#create - Create Failed");
-             [self.delegate savefailedForMessage:self];
+         BOOL isValid = [[CFMRestService instance] parseObject:self
+                                                      response:response
+                                                          data:data
+                                                         error:error];
+         if (isValid)
+         {
+             [self.delegate saveSuccessfulForMessage:self];
              return;
          }
          
-         NSDictionary* messageJson = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:&error];
-         
-         if (error) {
-             NSLog(@"FATAL: Message#create - Parse Data Failed");
-             [self.delegate savefailedForMessage:self];
-             return;
-         }
-         
-         // handle bad responses from server
-         if ([messageJson objectForKey:@"error"]) {
-             NSLog(@"FATAL: Message#create - Server Error");
-             [self.delegate savefailedForMessage:self];
-             return;
-         }
-         
-         [self fromJson:messageJson];
-         [self.delegate saveSuccessfulForMessage:self];
+         NSLog(@"FATAL: Message#create - %@", self.error);
+         [self.delegate savefailedForMessage:self];
      }];
 }
 
@@ -210,29 +199,18 @@
      completionHandler:
      ^(NSURLResponse* response, NSData* data, NSError* error)
      {
-         if (error) {
-             NSLog(@"FATAL: Message#update - Create Failed");
-             [self.delegate savefailedForMessage:self];
+         BOOL isValid = [[CFMRestService instance] parseObject:self
+                                                      response:response
+                                                          data:data
+                                                         error:error];
+         if (isValid)
+         {
+             [self.delegate saveSuccessfulForMessage:self];
              return;
          }
          
-         NSDictionary* messageJson = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:&error];
-         
-         if (error) {
-             NSLog(@"FATAL: Message#update - Parse Data Failed");
-             [self.delegate savefailedForMessage:self];
-             return;
-         }
-         
-         // handle bad responses from server
-         if ([messageJson objectForKey:@"error"]) {
-             NSLog(@"FATAL: Message#update - Server Error");
-             [self.delegate savefailedForMessage:self];
-             return;
-         }
-         
-         [self fromJson:messageJson];
-         [self.delegate saveSuccessfulForMessage:self];
+         NSLog(@"FATAL: Message#update - %@", self.error);
+         [self.delegate savefailedForMessage:self];
      }];
 }
 

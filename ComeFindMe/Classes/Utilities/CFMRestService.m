@@ -8,6 +8,10 @@
 
 #import "CFMRestService.h"
 
+#import "CFMBroadcast.h"
+#import "CFMUser.h"
+#import "CFMMessage.h"
+
 @implementation CFMRestService
 {
     NSURLConnection* _connection;
@@ -33,8 +37,8 @@ static BOOL initialized = false;
 {
     self = [super init];
     if (self) {
-//        self.baseUrl = @"http://192.168.0.12:3000";
-        self.baseUrl = @"https://www.elnicky.com";
+        self.baseUrl = @"http://192.168.0.12:3000";
+//        self.baseUrl = @"https://www.elnicky.com";
         self.headers = [[NSMutableDictionary alloc] init];
         [self setDefaultHeaders];
     }
@@ -171,6 +175,100 @@ static BOOL initialized = false;
                                        queue:[NSOperationQueue mainQueue]
                            completionHandler:handler];
 
+}
+
+- (BOOL)parseObject:(id< CFMBaseProtocol >)object
+           response:(NSURLResponse*)response
+               data:(NSData*)data
+              error:(NSError*)error
+
+{
+    if (error) {
+        NSLog(@"FATAL: CFMRestService#parseResponse - Load Data Failed");
+        object.error = @"unable to connect to Come Find Me";
+        return false;
+    }
+    
+    id json = [NSJSONSerialization
+               JSONObjectWithData:data
+               options:NSJSONReadingMutableContainers
+               error:&error];
+    
+    if (error) {
+        NSLog(@"FATAL: CFMRestService#parseResponse - Parse Data Failed");
+        object.error = @"unable to connect to Come Find Me";
+        return false;
+    }
+    
+    // handle bad responses from server
+    if ([json isKindOfClass:[NSMutableArray class]] ||
+        [json objectForKey:@"error"])
+    {
+        NSLog(@"FATAL: CFMRestService#parseResponse - Server Error");
+        object.error = [json objectForKey:@"error"];
+        return false;
+    }
+    
+    [object fromJson:json];
+    return true;
+}
+
+- (BOOL)parseCollection:(NSMutableArray*)objects
+                 object:(id< CFMBaseProtocol >)object
+              className:(NSString*)className
+               response:(NSURLResponse*)response
+                   data:(NSData*)data
+                  error:(NSError*)error
+
+{
+    
+    if (error) {
+        NSLog(@"FATAL: CFMRestService#parseResponse - Load Data Failed");
+        [object setError:@"unable to connect to Come Find Me"];
+        return false;
+    }
+    
+    id json = [NSJSONSerialization
+               JSONObjectWithData:data
+               options:NSJSONReadingMutableContainers
+               error:&error];
+    
+    if (error) {
+        NSLog(@"FATAL: CFMRestService#parseResponse - Parse Data Failed");
+        object.error = @"unable to connect to Come Find Me";
+        return false;
+    }
+    
+    // handle bad responses from server
+    if ([json isKindOfClass:[NSMutableDictionary class]]) {
+        NSLog(@"FATAL: CFMRestService#parseResponse - Server Error");
+        object.error = [json objectForKey:@"error"];
+        return false;
+    }
+    
+    // TODO: optimize syncing with server
+    [objects removeAllObjects];
+    for (NSMutableDictionary* objectJson in json)
+    {
+        id < CFMBaseProtocol > model;
+        if ([className isEqualToString:@"Broadcast"])
+        {
+            model = [[CFMBroadcast alloc] init];
+        }
+        else if ([className isEqualToString:@"Message"])
+        {
+            model = [[CFMMessage alloc] init];
+        }
+        else if ([className isEqualToString:@"User"])
+        {
+            model = [[CFMUser alloc] init];
+        }
+        
+        [model fromJson:objectJson];
+        [objects addObject:model];
+    }
+    
+    return true;
 }
 
 

@@ -8,6 +8,7 @@
 
 #import <Foundation/Foundation.h>
 #import <FacebookSDK/FacebookSDK.h>
+#import "CFMBase.h"
 
 @class CFMRestService;
 
@@ -45,5 +46,17 @@
 - (void)destroyResource:(NSString*)resource
                    guid:(NSString*)guid
       completionHandler:(void (^)(NSURLResponse*, NSData*, NSError*))handler;
+
+- (BOOL)parseObject:(id< CFMBaseProtocol >)object
+           response:(NSURLResponse*)response
+               data:(NSData*)data
+              error:(NSError*)error;
+
+- (BOOL)parseCollection:(NSMutableArray*)objects
+                 object:(id< CFMBaseProtocol >)object
+              className:(NSString*)className
+               response:(NSURLResponse*)response
+                   data:(NSData*)data
+                  error:(NSError*)error;
 
 @end

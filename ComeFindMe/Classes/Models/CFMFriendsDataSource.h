@@ -8,6 +8,7 @@
 
 #import <Foundation/Foundation.h>
 #import "CFMUser.h"
+#import "CFMColors.h"
 
 @interface CFMFriendsDataSource : NSObject < UITableViewDataSource >
 @property (nonatomic) NSMutableArray* friends;

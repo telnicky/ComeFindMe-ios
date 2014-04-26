@@ -24,6 +24,8 @@
 		6750703C1909FC4C00D8EFD5 /* 18-envelope.png in Resources */ = {isa = PBXBuildFile; fileRef = 675070391909FC4C00D8EFD5 /* 18-envelope.png */; };
 		6750703D1909FC4C00D8EFD5 /* 20-gear2.png in Resources */ = {isa = PBXBuildFile; fileRef = 6750703A1909FC4C00D8EFD5 /* 20-gear2.png */; };
 		6750703E1909FC4C00D8EFD5 /* 113-navigation.png in Resources */ = {isa = PBXBuildFile; fileRef = 6750703B1909FC4C00D8EFD5 /* 113-navigation.png */; };
+		67507043190C262400D8EFD5 /* Reachability.m in Sources */ = {isa = PBXBuildFile; fileRef = 67507042190C262400D8EFD5 /* Reachability.m */; };
+		67507046190C297E00D8EFD5 /* CFMBase.m in Sources */ = {isa = PBXBuildFile; fileRef = 67507045190C297E00D8EFD5 /* CFMBase.m */; };
 		675E8C7918EDF73E00978B50 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 675E8C7818EDF73E00978B50 /* Foundation.framework */; };
 		675E8C7B18EDF73E00978B50 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 675E8C7A18EDF73E00978B50 /* CoreGraphics.framework */; };
 		675E8C7D18EDF73E00978B50 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 675E8C7C18EDF73E00978B50 /* UIKit.framework */; };
@@ -110,6 +112,10 @@
 		6750703A1909FC4C00D8EFD5 /* 20-gear2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "20-gear2.png"; path = "glyphish/20-gear2.png"; sourceTree = "<group>"; };
 		6750703B1909FC4C00D8EFD5 /* 113-navigation.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "113-navigation.png"; path = "glyphish/113-navigation.png"; sourceTree = "<group>"; };
 		6750703F190A30A100D8EFD5 /* CFMColors.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CFMColors.h; sourceTree = "<group>"; };
+		67507041190C262400D8EFD5 /* Reachability.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Reachability.h; path = Classes/Vendor/Reachability.h; sourceTree = "<group>"; };
+		67507042190C262400D8EFD5 /* Reachability.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Reachability.m; path = Classes/Vendor/Reachability.m; sourceTree = "<group>"; };
+		67507044190C297E00D8EFD5 /* CFMBase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CFMBase.h; path = Classes/Models/CFMBase.h; sourceTree = "<group>"; };
+		67507045190C297E00D8EFD5 /* CFMBase.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CFMBase.m; path = Classes/Models/CFMBase.m; sourceTree = "<group>"; };
 		675E8C7518EDF73E00978B50 /* ComeFindMe.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ComeFindMe.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		675E8C7818EDF73E00978B50 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		675E8C7A18EDF73E00978B50 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -194,8 +200,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				67A9D4B018EFBD900017373B /* QuartzCore.framework in Frameworks */,
 				67A9D4B118EFBD900017373B /* SystemConfiguration.framework in Frameworks */,
+				67A9D4B018EFBD900017373B /* QuartzCore.framework in Frameworks */,
 				67A9D4AD18EFBD820017373B /* OpenGLES.framework in Frameworks */,
 				67A9D4A618EFBD770017373B /* CoreText.framework in Frameworks */,
 				67A9D4A718EFBD770017373B /* GLKit.framework in Frameworks */,
@@ -246,6 +252,15 @@
 				675070261908240C00D8EFD5 /* 193-location-arrow.png */,
 			);
 			name = glyphish;
+			sourceTree = "<group>";
+		};
+		67507040190C258800D8EFD5 /* Vendor */ = {
+			isa = PBXGroup;
+			children = (
+				67507041190C262400D8EFD5 /* Reachability.h */,
+				67507042190C262400D8EFD5 /* Reachability.m */,
+			);
+			name = Vendor;
 			sourceTree = "<group>";
 		};
 		675E8C6C18EDF73E00978B50 = {
@@ -343,6 +358,7 @@
 				67EF032318FCD6BA00D2A40C /* Controls */,
 				67EF031318FA290000D2A40C /* Controllers */,
 				675E8CA818EDF78300978B50 /* Views */,
+				67507040190C258800D8EFD5 /* Vendor */,
 				67BCEF4A18F38F0A000853B6 /* Utilities */,
 			);
 			name = Classes;
@@ -439,6 +455,8 @@
 				675070341908BA4800D8EFD5 /* CFMBroadcast.m */,
 				675070361909C08900D8EFD5 /* CFMMarkersDataSource.h */,
 				675070371909C08900D8EFD5 /* CFMMarkersDataSource.m */,
+				67507044190C297E00D8EFD5 /* CFMBase.h */,
+				67507045190C297E00D8EFD5 /* CFMBase.m */,
 			);
 			name = Models;
 			sourceTree = "<group>";
@@ -579,10 +597,12 @@
 				675070351908BA4800D8EFD5 /* CFMBroadcast.m in Sources */,
 				67EF03491904DAA000D2A40C /* CFMSettingsView.m in Sources */,
 				67BCEF4D18F38F63000853B6 /* CFMRestService.m in Sources */,
+				67507046190C297E00D8EFD5 /* CFMBase.m in Sources */,
 				675E8C8918EDF73F00978B50 /* CFMAppDelegate.m in Sources */,
 				67EF03461904ADD300D2A40C /* CFMUser.m in Sources */,
 				67EF035A19057E0C00D2A40C /* CFMLocation.m in Sources */,
 				67EF032218FB406A00D2A40C /* CFMSelectFriendsViewController.m in Sources */,
+				67507043190C262400D8EFD5 /* Reachability.m in Sources */,
 				67EF031F18FB3A1000D2A40C /* CFMSelectFriendsView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

@@ -9,6 +9,8 @@
 #import <Foundation/Foundation.h>
 #import <GoogleMaps/GoogleMaps.h>
 
+#import "CFMColors.h"
+
 @protocol CFMMarkersDataSourceDelegate <NSObject>
 
 @end

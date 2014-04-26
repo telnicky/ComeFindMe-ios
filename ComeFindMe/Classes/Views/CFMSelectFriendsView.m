@@ -14,7 +14,7 @@
 {
     self = [super initWithFrame:frame];
     if (self) {
-        // Initialization code
+        [self setBackgroundColor:UIColorFromRGB(Accent4)];
         [self initFriendsTable];
         [self initSendButton];
     }
@@ -38,7 +38,7 @@
     self.sendButton.titleLabel.textColor = [UIColor blackColor];
     self.sendButton.layer.borderColor = [[UIColor blackColor] CGColor];
     self.sendButton.layer.borderWidth = 2.0f;
-    self.sendButton.backgroundColor = UIColorFromRGB(MainColor);
+    self.sendButton.backgroundColor = UIColorFromRGB(MainColor1);
     [self.sendButton addTarget:self action:@selector(onSendPressed) forControlEvents:UIControlEventTouchDown];
     [self addSubview:self.sendButton];
 }
@@ -71,6 +71,7 @@
 {
     UITableViewCell* cell = [tableView cellForRowAtIndexPath:indexPath];
     [cell setAccessoryType:UITableViewCellAccessoryCheckmark];
+    [cell.accessoryView setTintColor:UIColorFromRGB(MainColor2)];
 }
 
 - (void)tableView:(UITableView *)tableView didDeselectRowAtIndexPath:(NSIndexPath *)indexPath

@@ -15,7 +15,7 @@
     self = [super initWithFrame:frame];
     if (self) {
         // Initialization code
-        [self setBackgroundColor:UIColorFromRGB(MainColor)];
+        [self setBackgroundColor:UIColorFromRGB(MainColor1)];
         self.loggedIn = false;
 
         [self setLoginView:[[FBLoginView alloc] init]];

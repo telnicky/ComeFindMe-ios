@@ -20,29 +20,19 @@
      completionHandler:
      ^(NSURLResponse* response, NSData* data, NSError* error)
      {
-         if (error) {
-             NSLog(@"FATAL: Broadcast#create - Create Failed");
-             [self.delegate saveFailedForBroadcast:self];
+         
+         BOOL isValid = [[CFMRestService instance] parseObject:self
+                                                      response:response
+                                                          data:data
+                                                         error:error];
+         if (isValid)
+         {
+             [self.delegate saveSuccessfulForBroadcast:self];
              return;
          }
          
-         NSDictionary* json = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:&error];
-         
-         if (error) {
-             NSLog(@"FATAL: Broadcast#create - Parse Data Failed");
-             [self.delegate saveFailedForBroadcast:self];
-             return;
-         }
-         
-         // handle bad responses from server
-         if (![json objectForKey:@"id"]) {
-             NSLog(@"FATAL: Broadcast#create - Server Error");
-             [self.delegate saveFailedForBroadcast:self];
-             return;
-         }
-         
-         [self fromJson:json];
-         [self.delegate saveSuccessfulForBroadcast:self];
+         NSLog(@"FATAL: Broadcasts#create - %@", self.error);
+         [self.delegate saveFailedForBroadcast:self];
      }];
 }
 

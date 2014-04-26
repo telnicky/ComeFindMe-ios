@@ -50,11 +50,12 @@
     
     // image
     [cell.imageView setFrame:CGRectMake(0, 0, 20, 20)];
+    [cell setBackgroundColor:UIColorFromRGB(Accent4)];
     
     // name
     NSString* title = [NSString stringWithFormat:@"%@", marker.title];
     [[cell textLabel] setText:title];
-    NSLog(@"UserData: %@", marker.userData);
+
     if ([[marker.userData objectForKey:@"isVisible"] isEqualToString:@"true"] && CLLocationCoordinate2DIsValid(marker.position))
     {
         [cell setSelectionStyle:UITableViewCellSelectionStyleDefault];

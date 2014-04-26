@@ -9,7 +9,7 @@
 #import <Foundation/Foundation.h>
 #import <CoreLocation/CoreLocation.h>
 
-
+#import "CFMBase.h"
 #import "CFMRestService.h"
 
 @class CFMLocation;
@@ -21,13 +21,15 @@
 
 @end
 
-@interface CFMLocation : NSObject
+@interface CFMLocation : NSObject < CFMBaseProtocol >
 
 // Attributes
+@property (nonatomic) NSNumber* id;
+@property (nonatomic) NSString* error;
+
 @property (nonatomic) CLLocationCoordinate2D coordinates;
 @property (nonatomic) NSString* description;
 @property (nonatomic) NSNumber* userId;
-@property (nonatomic) NSNumber* id;
 
 // Delegates
 @property (nonatomic) id < CFMLocationDelegate > delegate;

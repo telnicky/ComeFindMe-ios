@@ -22,20 +22,44 @@
     return self;
 }
 
+- (BOOL)isBroadcastingForMessage:(CFMMessage*)message
+{
+    for (CFMBroadcast* broadcast in [[CFMUser currentUser] broadcasts])
+    {
+        if ([broadcast.senderId isEqualToValue:[CFMUser currentUser].id] &&
+            [broadcast.messageId isEqualToValue:message.id])
+        {
+            return true;
+        }
+    }
+    
+    return false;
+}
+
 #pragma mark UITableViewDataSource
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
+    if (self.messages.count == 0) {
+        return 1; // this will be used for the zero data state case
+    }
     return self.messages.count;
 }
 
 - (UITableViewCell*)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    if (self.messages.count == 0) {
+        // cell for zero data state
+        UITableViewCell *cell = [[UITableViewCell alloc] init];
+        cell.textLabel.text = @"No messages to display";
+        [cell setBackgroundColor:UIColorFromRGB(Accent4)];
+        return cell;
+    }
 
     CFMMessage* message = [self.messages objectAtIndex:[indexPath row]];
-
     UIImage* image;
     NSString* title;
-    if ([[message senderId] isEqualToValue:[CFMUser currentUser].id])
+    bool isSentMessage = [[message senderId] isEqualToValue:[CFMUser currentUser].id];
+    if (isSentMessage)
     {
         // this is one of our messages
         image = [UIImage imageNamed:@"113-navigation"];
@@ -77,6 +101,32 @@
     [[cell detailTextLabel] setFont:[UIFont systemFontOfSize:12]];
     
     [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
+
+    if (!isSentMessage && [self isBroadcastingForMessage:message])
+    {
+        [UIView
+         animateWithDuration:1.0f
+         delay:0.0f
+         options: UIViewAnimationOptionRepeat |
+         UIViewAnimationOptionAutoreverse |
+         UIViewAnimationOptionAllowUserInteraction
+         animations: ^(void) {
+             [cell setBackgroundColor:UIColorFromRGB(MainColor1)];
+             [cell setBackgroundColor:UIColorFromRGB(Accent1)];
+             [cell setBackgroundColor:UIColorFromRGB(Accent2)];
+             [cell setBackgroundColor:UIColorFromRGB(Accent3)];
+             [cell setBackgroundColor:UIColorFromRGB(Accent4)];
+         }
+         completion:NULL];
+        
+    }
+    else
+    {
+        [UIView animateWithDuration:1.0f animations:^(void) {
+            [cell setBackgroundColor:UIColorFromRGB(Accent4)];
+        }];
+    }
+    
     return cell;
 }
 

@@ -31,7 +31,7 @@
 // Views
 @property (nonatomic) GMSMapView* mapView;
 @property (nonatomic) UITextView* descriptionView;
-@property (nonatomic) UIButton* onMayWayButton;
+@property (nonatomic) UIButton* onMyWayButton;
 
 // Delegates
 @property (nonatomic, assign) id < CFMReceiveRequestViewDelegate > delegate;

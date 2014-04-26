@@ -6,6 +6,7 @@
 //  Copyright (c) 2014 Travis Elnicky. All rights reserved.
 //
 
+#import "Reachability.h"
 #import "CFMNavigationViewController.h"
 
 // TODO: change accuracy of location based on distance from target
@@ -39,7 +40,7 @@
 
 - (void)initNavbar
 {
-    [[UINavigationBar appearance] setBarTintColor:UIColorFromRGB(MainColor)];
+    [[UINavigationBar appearance] setBarTintColor:UIColorFromRGB(MainColor1)];
     [self.navigationBar setTranslucent:false];
     [self setNavigationBarHidden:true];
     [self.navigationBar setTintColor:UIColorFromRGB(Black)];
@@ -121,7 +122,14 @@
 
 - (void)failedLoginForUser:(CFMUser *)user
 {
-    // TODO: Implement failed state
+    [[[UIAlertView alloc] initWithTitle:@"Something Went Wrong"
+                                message:user.error
+                               delegate:self
+                      cancelButtonTitle:@"OK"
+                      otherButtonTitles:nil] show];
+    
+    [[FBSession activeSession] closeAndClearTokenInformation];
+
 }
 
 - (void)successfulSyncForUser:(CFMUser*)user
@@ -131,17 +139,22 @@
 
 - (void)failedSyncForUser:(CFMUser*)user
 {
-    // TODO:
+    // Ignore, we just won't have any updated messages
 }
 
 - (void)successfulSaveForUser:(CFMUser *)user
 {
-    // TODO:
+    // Ignore, glad we saved though
 }
 
 - (void)failedSaveForUser:(CFMUser *)user
 {
-    // TODO:
+    // lets try again in 30 seconds
+    [NSTimer scheduledTimerWithTimeInterval:30.0f
+                                     target:user
+                                   selector:@selector(save)
+                                   userInfo:nil
+                                    repeats:NO];
 }
 
 #pragma mark CFMSelectLocationViewControllerDelegate
@@ -257,8 +270,6 @@
     CFMLocation* location = self.user.currentLocation;
     [location setCoordinates:newLocation.coordinate];
     [location save];
-    
-    // TODO: check for lost signal
 }
 
 #pragma mark CFMLocationDelegate
@@ -293,8 +304,18 @@
 
 - (void)failedToLoadBroadcastsForUser:(CFMUser *)user
 {
-    // handle error state
-    [user loadBroadcasts];
+    // lets try again in 10 seconds
+    [NSTimer scheduledTimerWithTimeInterval:10.0f
+                                     target:user
+                                   selector:@selector(loadBroadcasts)
+                                   userInfo:nil
+                                    repeats:NO];
+}
+
+#pragma mark UIAlertViewDelegate
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
+{
+    [self.navigationDelegate logoutFromCFMNavigationController:self];
 }
 
 @end

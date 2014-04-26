@@ -29,12 +29,19 @@
         self.selectFriendsView = [[CFMSelectFriendsView alloc] init];
         [self.selectFriendsView setDelegate:self];
         
+        // Get friends who have the app installed
+        NSMutableArray* friends = [[NSMutableArray alloc] init];
+        for (CFMUser* friend in [[CFMUser currentUser] friends]) {
+            if (friend.installed) {
+                [friends addObject:friend];
+            }
+        }
+        
         self.friendsDataSource = [[CFMFriendsDataSource alloc] init];
         [self.friendsDataSource setShouldAllowSelection:true];
         [self.friendsDataSource setShouldUseSections:true];
         [self.friendsDataSource setShouldDisplayFullName:true];
-        [self.friendsDataSource
-         setFriends:[[CFMUser currentUser] friends]];
+        [self.friendsDataSource setFriends:friends];
 
         [self.selectFriendsView.friendsTable
          setDataSource:self.friendsDataSource];

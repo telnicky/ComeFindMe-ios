@@ -15,11 +15,18 @@
                      blue:((float)(rgbValue & 0xFF))/255.0 \
                     alpha:1.0f]
 
-#define MainColor 0xffe454
-#define Accent1   0x54ff99
-#define Accent2   0x5495ff
-#define Accent3   0xff54e1
+// Hue Friends
+#define MainColor1 0xffe454
+#define MainColor2 0x54ff99
+#define MainColor3 0x5495ff
+#define MainColor4 0xff54e1
 
-#define Black 0x000000
+// Chroma Friends
+#define Accent1  0xffea91
+#define Accent2  0xfff0b8
+#define Accent3  0xfff6d7
+#define Accent4  0xfffbf1
+
+#define Black     0x000000
 
 #endif

@@ -27,20 +27,18 @@
 {
     [[CFMRestService instance] createResource:@"locations" body:[[self toJson] dataUsingEncoding:NSUTF8StringEncoding]  completionHandler:^(NSURLResponse* response, NSData* data, NSError* error)
      {
-         if (error) {
-             // TODO: handle unsuccessful save
+         BOOL isValid = [[CFMRestService instance] parseObject:self
+                                                      response:response
+                                                          data:data
+                                                         error:error];
+         if (isValid)
+         {
+             [self.delegate saveSuccessfulForLocation:self];
              return;
          }
          
-         id jsonObject = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:&error];
-         
-         if (error) {
-             // TODO: handle unsuccessful save
-             return;
-         }
-         
-         [self setId:[jsonObject objectForKey:@"id"]];
-         [self.delegate saveSuccessfulForLocation:self];
+         NSLog(@"FATAL: Location#create - %@", self.error);
+         [self.delegate saveFailedForLocation:self];
      }];
 }
 
@@ -52,12 +50,18 @@
      body:[[self toJson] dataUsingEncoding:NSUTF8StringEncoding]
      completionHandler:^(NSURLResponse* response, NSData* data, NSError* error)
      {
-         if (error) {
-             [self.delegate saveFailedForLocation:self];
+         BOOL isValid = [[CFMRestService instance] parseObject:self
+                                                      response:response
+                                                          data:data
+                                                         error:error];
+         if (isValid)
+         {
+             [self.delegate saveSuccessfulForLocation:self];
              return;
          }
          
-         [self.delegate saveSuccessfulForLocation:self];
+         NSLog(@"FATAL: Location#update - %@", self.error);
+         [self.delegate saveFailedForLocation:self];
      }];
 }
 

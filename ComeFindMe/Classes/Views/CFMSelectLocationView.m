@@ -49,9 +49,9 @@
     self.selectFriendsButton.titleLabel.textColor = [UIColor blackColor];
     self.selectFriendsButton.layer.borderColor = [[UIColor blackColor] CGColor];
     self.selectFriendsButton.layer.borderWidth = 2.0f;
-    self.selectFriendsButton.backgroundColor = UIColorFromRGB(MainColor);
+    self.selectFriendsButton.backgroundColor = UIColorFromRGB(MainColor1);
     [self.selectFriendsButton addTarget:self action:@selector(onSelectFriendsPressed) forControlEvents:UIControlEventTouchDown];
-    [self.selectFriendsButton setHidden:true];
+//    [self.selectFriendsButton setHidden:true];
     [self addSubview:self.selectFriendsButton];
 }
 
@@ -67,7 +67,8 @@
     self.descriptionView.delegate = self;
     self.descriptionView.text = _placeHolderText;
     self.descriptionView.textColor = [UIColor lightGrayColor];
-    [self.descriptionView setHidden:true];
+//    [self.descriptionView setHidden:true];
+    [self.descriptionView setBackgroundColor:UIColorFromRGB(Accent4)];
     [self addSubview:self.descriptionView];
 }
 
@@ -196,23 +197,23 @@
 
 - (void)mapView:(GMSMapView *)mapView willMove:(BOOL)gesture
 {
-    [UIView animateWithDuration:1.0 animations:^{
-        [self.selectFriendsButton setAlpha:0];
-        [self.descriptionView setAlpha:0];
-    } completion: ^(BOOL finished) {
-        [self.selectFriendsButton setHidden:finished];
-        [self.descriptionView setHidden:finished];
-    }];
+//    [UIView animateWithDuration:1.0 animations:^{
+//        [self.selectFriendsButton setAlpha:0];
+//        [self.descriptionView setAlpha:0];
+//    } completion: ^(BOOL finished) {
+//        [self.selectFriendsButton setHidden:finished];
+//        [self.descriptionView setHidden:finished];
+//    }];
 }
 
 - (void)mapView:(GMSMapView *)mapView
 idleAtCameraPosition:(GMSCameraPosition *)position
 {
-    [NSTimer scheduledTimerWithTimeInterval:1.8
-                                     target:self
-                                   selector:@selector(showDescritionAndButton)
-                                   userInfo:nil
-                                    repeats:NO];
+//    [NSTimer scheduledTimerWithTimeInterval:1.8
+//                                     target:self
+//                                   selector:@selector(showDescritionAndButton)
+//                                   userInfo:nil
+//                                    repeats:NO];
 }
 
 #pragma mark UITextViewDelegate

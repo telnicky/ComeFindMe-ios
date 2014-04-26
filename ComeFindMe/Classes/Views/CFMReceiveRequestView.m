@@ -31,17 +31,17 @@
 
 - (void)initButtonView
 {
-    self.onMayWayButton = [[UIButton alloc] init];
-    [self.onMayWayButton setTitle:@"On My Way" forState:UIControlStateNormal];
-    [self.onMayWayButton setTitle:@"Broadcasting location" forState:UIControlStateSelected];
-    [self.onMayWayButton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
-    self.onMayWayButton.titleLabel.font = [UIFont systemFontOfSize:18.0f];
-    self.onMayWayButton.titleLabel.textColor = [UIColor blackColor];
-    self.onMayWayButton.layer.borderColor = [[UIColor blackColor] CGColor];
-    self.onMayWayButton.layer.borderWidth = 2.0f;
-    self.onMayWayButton.backgroundColor = UIColorFromRGB(MainColor);
-    [self.onMayWayButton addTarget:self action:@selector(onOnMyWayPressed) forControlEvents:UIControlEventTouchDown];
-    [self addSubview:self.onMayWayButton];
+    self.onMyWayButton = [[UIButton alloc] init];
+    [self.onMyWayButton setTitle:@"On My Way" forState:UIControlStateNormal];
+    [self.onMyWayButton setTitle:@"Broadcasting location" forState:UIControlStateSelected];
+    [self.onMyWayButton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+    self.onMyWayButton.titleLabel.font = [UIFont systemFontOfSize:18.0f];
+    self.onMyWayButton.titleLabel.textColor = [UIColor blackColor];
+    self.onMyWayButton.layer.borderColor = [[UIColor blackColor] CGColor];
+    self.onMyWayButton.layer.borderWidth = 2.0f;
+    self.onMyWayButton.backgroundColor = UIColorFromRGB(MainColor1);
+    [self.onMyWayButton addTarget:self action:@selector(onOnMyWayPressed) forControlEvents:UIControlEventTouchDown];
+    [self addSubview:self.onMyWayButton];
 }
 
 - (void)initDescriptionView
@@ -56,6 +56,7 @@
     self.descriptionView.delegate = self;
     self.descriptionView.text = self.description;
     self.descriptionView.textColor = [UIColor blackColor];
+    [self.descriptionView setBackgroundColor:UIColorFromRGB(Accent4)];
     [self addSubview:self.descriptionView];
 }
 
@@ -124,12 +125,12 @@
     
     [self.mapView setFrame:_mapViewFrame];
     [self.descriptionView setFrame:_descriptionViewFrame];
-    [self.onMayWayButton setFrame:_onMyWayButtonFrame];
+    [self.onMyWayButton setFrame:_onMyWayButtonFrame];
 }
 
 -(void)onOnMyWayPressed
 {
-    self.onMayWayButton.enabled = false;
+    self.onMyWayButton.enabled = false;
     [self.delegate didSelectOnMyWayButtonForReceiveRequestView:self];
 }
 
@@ -137,13 +138,31 @@
 {
     _isBroadcasting = isBroadcasting;
     
-    if (isBroadcasting) {
-        // TODO: may need to update button here
-
+    if (isBroadcasting)
+    {
+        [UIView
+         animateWithDuration:1.0f
+         delay:0.0f
+         options: UIViewAnimationOptionRepeat |
+                  UIViewAnimationOptionAutoreverse |
+                  UIViewAnimationOptionBeginFromCurrentState |
+                  UIViewAnimationOptionAllowUserInteraction
+         animations: ^(void) {
+             [self.onMyWayButton setBackgroundColor:UIColorFromRGB(Accent1)];
+             [self.onMyWayButton setBackgroundColor:UIColorFromRGB(Accent2)];
+             [self.onMyWayButton setBackgroundColor:UIColorFromRGB(Accent3)];
+             [self.onMyWayButton setBackgroundColor:UIColorFromRGB(Accent4)];
+         }
+         completion:NULL];
+    }
+    else {
+        [UIView animateWithDuration:1.0f animations:^(void) {
+            [self.onMyWayButton setBackgroundColor:UIColorFromRGB(MainColor1)];
+        }];
     }
 
-    self.onMayWayButton.selected = isBroadcasting;
-    self.onMayWayButton.enabled = true;
+    self.onMyWayButton.selected = isBroadcasting;
+    self.onMyWayButton.enabled = true;
 }
 
 #pragma mark GMSMapViewDelegate
