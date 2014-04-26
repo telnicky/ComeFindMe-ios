@@ -24,6 +24,7 @@
          BOOL isValid = [[CFMRestService instance] parseObject:self
                                                       response:response
                                                           data:data
+                                                      loadData:true
                                                          error:error];
          if (isValid)
          {

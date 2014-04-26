@@ -28,7 +28,7 @@
 
 @end
 
-@interface CFMMessage : NSObject < CFMBroadcastDelegate, CFMBaseProtocol >
+@interface CFMMessage : NSObject < CFMBaseProtocol, CFMBroadcastDelegate >
 
 // relationships
 @property (nonatomic) CFMUser* user;

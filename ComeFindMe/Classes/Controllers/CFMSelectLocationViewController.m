@@ -104,7 +104,7 @@
 	didUpdateToLocation:(CLLocation *)newLocation
 		   fromLocation:(CLLocation *)oldLocation
 {
-    // TODO: move the marker over cuurent location
+    // TODO: move the marker over curent location
     [self.selectLocationView moveCameraToLocation:newLocation];
     [self.locationManager stopUpdatingLocation];
 }

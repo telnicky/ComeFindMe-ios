@@ -25,7 +25,7 @@
 		6750703D1909FC4C00D8EFD5 /* 20-gear2.png in Resources */ = {isa = PBXBuildFile; fileRef = 6750703A1909FC4C00D8EFD5 /* 20-gear2.png */; };
 		6750703E1909FC4C00D8EFD5 /* 113-navigation.png in Resources */ = {isa = PBXBuildFile; fileRef = 6750703B1909FC4C00D8EFD5 /* 113-navigation.png */; };
 		67507043190C262400D8EFD5 /* Reachability.m in Sources */ = {isa = PBXBuildFile; fileRef = 67507042190C262400D8EFD5 /* Reachability.m */; };
-		67507046190C297E00D8EFD5 /* CFMBase.m in Sources */ = {isa = PBXBuildFile; fileRef = 67507045190C297E00D8EFD5 /* CFMBase.m */; };
+		67507048190C425B00D8EFD5 /* FacebookSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 67507047190C425B00D8EFD5 /* FacebookSDK.framework */; };
 		675E8C7918EDF73E00978B50 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 675E8C7818EDF73E00978B50 /* Foundation.framework */; };
 		675E8C7B18EDF73E00978B50 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 675E8C7A18EDF73E00978B50 /* CoreGraphics.framework */; };
 		675E8C7D18EDF73E00978B50 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 675E8C7C18EDF73E00978B50 /* UIKit.framework */; };
@@ -38,7 +38,6 @@
 		675E8C9418EDF73F00978B50 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 675E8C7C18EDF73E00978B50 /* UIKit.framework */; };
 		675E8C9C18EDF73F00978B50 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 675E8C9A18EDF73F00978B50 /* InfoPlist.strings */; };
 		675E8C9E18EDF73F00978B50 /* ComeFindMeTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 675E8C9D18EDF73F00978B50 /* ComeFindMeTests.m */; };
-		675E8CAA18EDFE9C00978B50 /* FacebookSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 675E8CA918EDFE9C00978B50 /* FacebookSDK.framework */; };
 		675E8CAD18EE03AC00978B50 /* CFMLoginView.m in Sources */ = {isa = PBXBuildFile; fileRef = 675E8CAC18EE03AC00978B50 /* CFMLoginView.m */; };
 		67A9D49518EFBB9B0017373B /* CFMSelectLocationView.m in Sources */ = {isa = PBXBuildFile; fileRef = 67A9D49418EFBB9B0017373B /* CFMSelectLocationView.m */; };
 		67A9D49718EFBCA30017373B /* GoogleMaps.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 67A9D49618EFBCA30017373B /* GoogleMaps.framework */; };
@@ -115,7 +114,7 @@
 		67507041190C262400D8EFD5 /* Reachability.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Reachability.h; path = Classes/Vendor/Reachability.h; sourceTree = "<group>"; };
 		67507042190C262400D8EFD5 /* Reachability.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Reachability.m; path = Classes/Vendor/Reachability.m; sourceTree = "<group>"; };
 		67507044190C297E00D8EFD5 /* CFMBase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CFMBase.h; path = Classes/Models/CFMBase.h; sourceTree = "<group>"; };
-		67507045190C297E00D8EFD5 /* CFMBase.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CFMBase.m; path = Classes/Models/CFMBase.m; sourceTree = "<group>"; };
+		67507047190C425B00D8EFD5 /* FacebookSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = FacebookSDK.framework; sourceTree = "<group>"; };
 		675E8C7518EDF73E00978B50 /* ComeFindMe.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ComeFindMe.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		675E8C7818EDF73E00978B50 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		675E8C7A18EDF73E00978B50 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -208,12 +207,12 @@
 				67A9D4A818EFBD770017373B /* ImageIO.framework in Frameworks */,
 				67A9D4A918EFBD770017373B /* libc++.dylib in Frameworks */,
 				67A9D4AA18EFBD770017373B /* libicucore.dylib in Frameworks */,
+				67507048190C425B00D8EFD5 /* FacebookSDK.framework in Frameworks */,
 				67A9D4AB18EFBD770017373B /* libz.dylib in Frameworks */,
 				67A9D49F18EFBD2B0017373B /* CoreData.framework in Frameworks */,
 				67A9D49D18EFBD210017373B /* CoreLocation.framework in Frameworks */,
 				67A9D49B18EFBD0A0017373B /* AVFoundation.framework in Frameworks */,
 				675E8C7B18EDF73E00978B50 /* CoreGraphics.framework in Frameworks */,
-				675E8CAA18EDFE9C00978B50 /* FacebookSDK.framework in Frameworks */,
 				675E8C7D18EDF73E00978B50 /* UIKit.framework in Frameworks */,
 				67A9D49718EFBCA30017373B /* GoogleMaps.framework in Frameworks */,
 				675E8C7918EDF73E00978B50 /* Foundation.framework in Frameworks */,
@@ -285,6 +284,7 @@
 		675E8C7718EDF73E00978B50 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				67507047190C425B00D8EFD5 /* FacebookSDK.framework */,
 				67A9D4AE18EFBD900017373B /* QuartzCore.framework */,
 				67A9D4AF18EFBD900017373B /* SystemConfiguration.framework */,
 				67A9D4AC18EFBD820017373B /* OpenGLES.framework */,
@@ -456,7 +456,6 @@
 				675070361909C08900D8EFD5 /* CFMMarkersDataSource.h */,
 				675070371909C08900D8EFD5 /* CFMMarkersDataSource.m */,
 				67507044190C297E00D8EFD5 /* CFMBase.h */,
-				67507045190C297E00D8EFD5 /* CFMBase.m */,
 			);
 			name = Models;
 			sourceTree = "<group>";
@@ -597,7 +596,6 @@
 				675070351908BA4800D8EFD5 /* CFMBroadcast.m in Sources */,
 				67EF03491904DAA000D2A40C /* CFMSettingsView.m in Sources */,
 				67BCEF4D18F38F63000853B6 /* CFMRestService.m in Sources */,
-				67507046190C297E00D8EFD5 /* CFMBase.m in Sources */,
 				675E8C8918EDF73F00978B50 /* CFMAppDelegate.m in Sources */,
 				67EF03461904ADD300D2A40C /* CFMUser.m in Sources */,
 				67EF035A19057E0C00D2A40C /* CFMLocation.m in Sources */,

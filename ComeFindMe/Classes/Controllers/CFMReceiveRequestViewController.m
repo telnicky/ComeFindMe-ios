@@ -108,7 +108,7 @@
 
 - (void)failedToLoadBroadcastsForMessage:(CFMMessage *)message
 {
-    // TODO: more error state
+    // shh don't tell
 }
 
 #pragma mark CFMReceiveRequestViewDelegate
@@ -130,7 +130,12 @@
     else
     {
         // good luck having apple maps guide you
-        // TODO:
+        // TODO: maybe later...
+        [[[UIAlertView alloc] initWithTitle:@"Google Maps not Installed"
+                                    message:@"I tried to open Google maps but it is not on your phone"
+                                   delegate:self
+                          cancelButtonTitle:@"OK"
+                          otherButtonTitles:nil] show];
     }
 }
 
@@ -153,9 +158,6 @@
         [self.broadcast destroy];
         [self setBroadcast:nil];
     }
-    
-    // TODO: show a spinner?
-
 }
 
 #pragma mark CFMBroadcastDelegate

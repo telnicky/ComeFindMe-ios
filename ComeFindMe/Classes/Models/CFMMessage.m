@@ -34,6 +34,7 @@
          BOOL isValid = [[CFMRestService instance] parseObject:self
                                                       response:response
                                                           data:data
+                                                      loadData:true
                                                          error:error];
          if (isValid)
          {
@@ -178,18 +179,6 @@
     }
 }
 
-- (void)setUserId:(NSNumber *)userId
-{
-    _userId = userId;
-    // TODO: set User
-}
-
-- (void)setSenderId:(NSNumber *)senderId
-{
-    _senderId = senderId;
-    // TODO: set Sender
-}
-
 - (void)update
 {
     [[CFMRestService instance]
@@ -202,6 +191,7 @@
          BOOL isValid = [[CFMRestService instance] parseObject:self
                                                       response:response
                                                           data:data
+                                                      loadData:true
                                                          error:error];
          if (isValid)
          {
@@ -214,15 +204,15 @@
      }];
 }
 
-#pragma mark CFMBroadcastDelegat
+#pragma mark CFMBroadcastDelegate
 - (void)saveSuccessfulForBroadcast:(CFMBroadcast *)broadcast
 {
-    // TODO: implement
+    // TODO: We will need these for when we enable notifications
 }
 
 - (void)saveFailedForBroadcast:(CFMBroadcast *)broadcast
 {
-    // TODO: implement
+    // TODO:
 }
 
 - (void)destroySuccessfulForBroadcast:(CFMBroadcast *)broadcast

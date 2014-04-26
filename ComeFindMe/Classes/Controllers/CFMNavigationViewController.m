@@ -10,7 +10,7 @@
 #import "CFMNavigationViewController.h"
 
 // TODO: change accuracy of location based on distance from target
-
+//       also when backgrounded and such.
 
 @implementation CFMNavigationViewController
 {

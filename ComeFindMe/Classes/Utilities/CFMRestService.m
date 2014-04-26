@@ -37,8 +37,8 @@ static BOOL initialized = false;
 {
     self = [super init];
     if (self) {
-        self.baseUrl = @"http://192.168.0.12:3000";
-//        self.baseUrl = @"https://www.elnicky.com";
+//        self.baseUrl = @"http://192.168.0.12:3000";
+        self.baseUrl = @"https://www.elnicky.com";
         self.headers = [[NSMutableDictionary alloc] init];
         [self setDefaultHeaders];
     }
@@ -180,6 +180,7 @@ static BOOL initialized = false;
 - (BOOL)parseObject:(id< CFMBaseProtocol >)object
            response:(NSURLResponse*)response
                data:(NSData*)data
+           loadData:(BOOL)loadData
               error:(NSError*)error
 
 {
@@ -209,7 +210,10 @@ static BOOL initialized = false;
         return false;
     }
     
-    [object fromJson:json];
+    if (loadData) {
+        [object fromJson:json];
+    }
+
     return true;
 }
 

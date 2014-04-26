@@ -50,6 +50,7 @@
 - (BOOL)parseObject:(id< CFMBaseProtocol >)object
            response:(NSURLResponse*)response
                data:(NSData*)data
+           loadData:(BOOL)loadData
               error:(NSError*)error;
 
 - (BOOL)parseCollection:(NSMutableArray*)objects

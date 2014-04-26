@@ -125,6 +125,7 @@ static BOOL initialized = false;
     BOOL isValid = [[CFMRestService instance] parseObject:self
                                                  response:response
                                                      data:data
+                                                 loadData:true
                                                     error:error];
 
     if (isValid)
@@ -184,12 +185,12 @@ static BOOL initialized = false;
     
     if (isValid)
     {
-        [self.messagesDelegate failedToLoadMessagesForUser:self];
+        [self.messagesDelegate successfullyLoadedMessagesForUser:self];
         return;
     }
     
     NSLog(@"FATAL: User#loadBroadcastsFinishedWithResponse - %@", self.error);
-    [self.messagesDelegate successfullyLoadedMessagesForUser:self];
+    [self.messagesDelegate failedToLoadMessagesForUser:self];
 }
 
 - (NSString*)sessionCreateBody
@@ -218,6 +219,7 @@ static BOOL initialized = false;
          BOOL isValid = [[CFMRestService instance] parseObject:self
                                                       response:response
                                                           data:data
+                                                      loadData:true
                                                          error:error];
          if (isValid)
          {
@@ -258,9 +260,11 @@ static BOOL initialized = false;
      completionHandler:
      ^(NSURLResponse* response, NSData* data, NSError* error)
      {
+
          BOOL isValid = [[CFMRestService instance] parseObject:self
                                                       response:response
                                                           data:data
+                                                      loadData:false
                                                          error:error];
          if (isValid)
          {
@@ -270,6 +274,7 @@ static BOOL initialized = false;
          
          NSLog(@"FATAL: User#update - %@", self.error);
          [self.delegate failedSaveForUser:self];
+
      }];
 }
 

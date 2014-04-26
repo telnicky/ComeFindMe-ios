@@ -18,7 +18,10 @@
 // return a list of url's that will return paginated records
 
 // TODO:
-// refresh the messages list on pull-down
+// Add ability to delete messages
+
+// TODO:
+// Add badges for sent requests with broadcasting users
 
 @implementation CFMMessagesViewController
 
@@ -112,7 +115,7 @@
 
 - (void)failedToLoadMessagesForUser:(CFMUser *)user
 {
-    // TODO: handle failed state
+    // Silently fail :)
     [self.refreshControl endRefreshing];
 }
 

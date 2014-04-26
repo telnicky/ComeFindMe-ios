@@ -30,6 +30,7 @@
          BOOL isValid = [[CFMRestService instance] parseObject:self
                                                       response:response
                                                           data:data
+                                                      loadData:true
                                                          error:error];
          if (isValid)
          {
@@ -53,6 +54,7 @@
          BOOL isValid = [[CFMRestService instance] parseObject:self
                                                       response:response
                                                           data:data
+                                                      loadData:false
                                                          error:error];
          if (isValid)
          {

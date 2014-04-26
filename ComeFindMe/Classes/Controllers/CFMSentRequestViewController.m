@@ -179,7 +179,12 @@
 
 - (void)failedToLoadBroadcastsForMessage:(CFMMessage *)message
 {
-    // TODO: handle failed state
+    // lets try again in 10 seconds
+    [NSTimer scheduledTimerWithTimeInterval:10.0f
+                                     target:message
+                                   selector:@selector(loadBroadcasts)
+                                   userInfo:nil
+                                    repeats:NO];
 }
 
 

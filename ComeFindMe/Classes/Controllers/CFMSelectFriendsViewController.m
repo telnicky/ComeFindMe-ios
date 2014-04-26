@@ -104,7 +104,7 @@
 
 - (void)failedToLoadFriendsForUser:(CFMUser *)user
 {
-    // TODO: handle failed state
+    // hmm, yeah lets ignore that...
 }
 
 @end
