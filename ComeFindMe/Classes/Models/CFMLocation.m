@@ -11,6 +11,16 @@
 
 @implementation CFMLocation
 
+- (id)init
+{
+    self = [super init];
+    if (self) {
+        self.broadcasts = [[NSMutableArray alloc] init];
+    }
+    
+    return self;
+}
+
 - (void)fromJson:(NSDictionary*)json
 {
     CLLocationCoordinate2D coordinates = CLLocationCoordinate2DMake(0, 0);
@@ -41,6 +51,36 @@
          NSLog(@"FATAL: Location#create - %@", self.error);
          [self.delegate saveFailedForLocation:self];
      }];
+}
+
+- (void)loadBroadcasts
+{
+    NSString* resource = [NSString stringWithFormat:@"locations/%@/broadcasts", self.id];
+    [[CFMRestService instance]
+     readResource:resource
+     completionHandler:^(NSURLResponse* response, NSData* data, NSError* error) {
+         [self loadBroadcastsFinishedWithResponse:response data:data error:error];
+     }];
+}
+
+- (void)loadBroadcastsFinishedWithResponse:(NSURLResponse*)response data:(NSData*)data error:(NSError*)error
+{
+    BOOL isValid = [[CFMRestService instance]
+                    parseCollection:self.broadcasts
+                    object:self
+                    className:@"Broadcast"
+                    response:response
+                    data:data
+                    error:error];
+    
+    if (isValid)
+    {
+        [self.broadcastsDelegate successfullyLoadedBroadcastsForLocation:self];
+        return;
+    }
+    
+    NSLog(@"FATAL: User#loadBroadcastsFinishedWithResponse - %@", self.error);
+    [self.broadcastsDelegate failedToLoadBroadcastsForLocation:self];
 }
 
 - (void)update

@@ -62,10 +62,31 @@ static BOOL initialized = false;
         self.friendsDict = [[NSMutableDictionary alloc] init];
         self.messages = [[NSMutableArray alloc] init];
         self.broadcasts = [[NSMutableArray alloc] init];
+        self.receivedBroadcasts = [[NSMutableDictionary alloc] init];
         self.location = [[CFMLocation alloc] init];
     }
     
     return self;
+}
+
+- (void)buildReceivedBroadcasts
+{
+    // TODO:
+    [self.receivedBroadcasts removeAllObjects];
+    for (CFMBroadcast* broadcast in self.broadcasts)
+    {
+        if (![broadcast.userId isEqualToValue:self.id]) {
+            continue;
+        }
+        
+        NSString* key = [broadcast.message.locationId stringValue];
+        if (![self.receivedBroadcasts objectForKey:key]) {
+            [self.receivedBroadcasts setValue:[[NSMutableArray alloc] init]
+                                       forKey:key];
+        }
+        
+        [[self.receivedBroadcasts objectForKey:key] addObject:broadcast];
+    }
 }
 
 - (bool)isCurrentUser
@@ -157,6 +178,7 @@ static BOOL initialized = false;
     
     if (isValid)
     {
+        [self buildReceivedBroadcasts];  // TODO: hacky
         [self.broadcastsDelegate successfullyLoadedBroadcastsForUser:self];
         return;
     }
@@ -185,12 +207,38 @@ static BOOL initialized = false;
     
     if (isValid)
     {
+        [self aggregateMessages];
         [self.messagesDelegate successfullyLoadedMessagesForUser:self];
         return;
     }
     
     NSLog(@"FATAL: User#loadBroadcastsFinishedWithResponse - %@", self.error);
     [self.messagesDelegate failedToLoadMessagesForUser:self];
+}
+
+- (void)aggregateMessages
+{
+    NSMutableDictionary* hashedMessages = [[NSMutableDictionary alloc] init];
+    NSMutableArray* duplicatedMessages = [[NSMutableArray alloc] init];
+
+    // TODO:
+    // slight hack, find the messages that correspond to a single location and
+    // only show one of those.
+    
+    for (CFMMessage* message in self.messages) {
+        NSString* key = [message.locationId stringValue];
+        if (![hashedMessages objectForKey:key])
+        {
+            [hashedMessages setValue:[[NSMutableArray alloc] init] forKey:key];
+            [[hashedMessages objectForKey:key] addObject:message];
+        }
+        else if (message.senderId == self.id)
+        {
+            [duplicatedMessages addObject:message];
+        }
+    }
+    
+    [self.messages removeObjectsInArray:duplicatedMessages];
 }
 
 - (NSString*)sessionCreateBody

@@ -95,38 +95,22 @@
 
 - (void)loadBroadcastsFinishedWithResponse:(NSURLResponse*)response data:(NSData*)data error:(NSError*)error
 {
-    if (error) {
-        NSLog(@"FATAL: Broadcasts#loadMessagesFinishedWithResponse - Load Data Failed");
-        [self.broadcastsDelegate failedToLoadBroadcastsForMessage:self];
-        return;
-    }
+    BOOL isValid = [[CFMRestService instance]
+                    parseCollection:self.broadcasts
+                    object:self
+                    className:@"Broadcast"
+                    response:response
+                    data:data
+                    error:error];
     
-    id json = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:&error];
-    
-    if (error) {
-        NSLog(@"FATAL: Broadcasts#loadMessagesFinishedWithResponse - Parse Data Failed");
-        [self.broadcastsDelegate failedToLoadBroadcastsForMessage:self];
-        return;
-    }
-    
-    // handle bad responses from server
-    if ([json isKindOfClass:[NSMutableDictionary class]] && [json objectForKey:@"error"]) {
-        NSLog(@"FATAL: Broadcasts#loadMessagesFinishedWithResponse - Server Error");
-        [self.broadcastsDelegate failedToLoadBroadcastsForMessage:self];
-        return;
-    }
-    
-    // TODO: optimize syncing with server
-    [self.broadcasts removeAllObjects];
-    for (NSMutableDictionary* broadcastJson in json)
+    if (isValid)
     {
-        CFMBroadcast* broadcast = [[CFMBroadcast alloc] init];
-        [broadcast fromJson:broadcastJson];
-        [broadcast setDelegate:self];
-        [self.broadcasts addObject:broadcast];
+        [self.broadcastsDelegate successfullyLoadedBroadcastsForMessage:self];
+        return;
     }
     
-    [self.broadcastsDelegate successfullyLoadedBroadcastsForMessage:self];
+    NSLog(@"FATAL: User#loadBroadcastsFinishedWithResponse - %@", self.error);
+    [self.broadcastsDelegate failedToLoadBroadcastsForMessage:self];
 }
 
 - (NSString*)toJson

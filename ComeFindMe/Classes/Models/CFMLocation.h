@@ -14,6 +14,13 @@
 
 @class CFMLocation;
 
+@protocol CFMLocationBroadcastsDelegate <NSObject>
+
+- (void)successfullyLoadedBroadcastsForLocation:(CFMLocation*)location;
+- (void)failedToLoadBroadcastsForLocation:(CFMLocation*)location;
+
+@end
+
 @protocol CFMLocationDelegate <NSObject>
 
 - (void)saveSuccessfulForLocation:(CFMLocation*)location;
@@ -30,12 +37,15 @@
 @property (nonatomic) CLLocationCoordinate2D coordinates;
 @property (nonatomic) NSString* description;
 @property (nonatomic) NSNumber* userId;
+@property (nonatomic) NSMutableArray* broadcasts;
 
 // Delegates
 @property (nonatomic) id < CFMLocationDelegate > delegate;
+@property (nonatomic) id < CFMLocationBroadcastsDelegate > broadcastsDelegate;
 
 // Instance Methods
 - (void)fromJson:(NSDictionary*)json;
+- (void)loadBroadcasts;
 - (NSString*)toJson;
 - (void)save;
 

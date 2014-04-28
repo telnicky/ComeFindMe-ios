@@ -21,7 +21,7 @@
     if (self) {
         self.markersDataSource = [[CFMMarkersDataSource alloc] init];
         self.markerDictionary = [[NSMutableDictionary alloc] init];
-        
+        self.user = [CFMUser currentUser];
         [self initRequestView];
 
 
@@ -40,9 +40,8 @@
 
     [[self.sentRequestView friendsTable]
      setDataSource:self.markersDataSource];
-//    NSLog(@"UserData: %@", self.sentRequestView.destinationMarker.userData);
+
     [self.markersDataSource turnOnMarker:self.sentRequestView.destinationMarker];
-//    NSLog(@"UserData: %@", self.sentRequestView.destinationMarker);
     [self.markerDictionary setValue:self.sentRequestView.destinationMarker
                              forKey:self.sentRequestView.destinationMarker.title];
 }
@@ -103,13 +102,13 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    [self.message setBroadcastsDelegate:self];
-    [self.message loadBroadcasts];
+    [self.message.location setBroadcastsDelegate:self];
+    [self.message.location loadBroadcasts];
 }
 
 - (void)viewDidDisappear:(BOOL)animated
 {
-    [self.message setBroadcastsDelegate:nil];
+    [self.message.location setBroadcastsDelegate:nil];
 }
 
 - (void)didReceiveMemoryWarning
@@ -128,14 +127,15 @@
     [self.sentRequestView.mapView setSelectedMarker:marker];
 }
 
-#pragma mark CFMMessageBroadcastsDelegate
-- (void)successfullyLoadedBroadcastsForMessage:(CFMMessage *)message
+#pragma mark CFMLocationBroadcastsDelegate
+- (void)successfullyLoadedBroadcastsForLocation:(CFMLocation*)location
 {
+    
     NSMutableArray* userIds = [[NSMutableArray alloc] init];
     [userIds addObject:self.sentRequestView.destinationMarker.title];
     
     // update locations of users
-    for (CFMBroadcast* broadcast in message.broadcasts)
+    for (CFMBroadcast* broadcast in location.broadcasts)
     {
         // create marker if it does not exist
         if (![self.markerDictionary objectForKey:[broadcast.senderId stringValue]]) {
@@ -171,17 +171,17 @@
     
     // load broadcasts again
     [NSTimer scheduledTimerWithTimeInterval:1.0
-                                     target:self.message
+                                     target:location
                                    selector:@selector(loadBroadcasts)
                                    userInfo:nil
                                     repeats:NO];
 }
 
-- (void)failedToLoadBroadcastsForMessage:(CFMMessage *)message
+- (void)failedToLoadBroadcastsForLocation:(CFMLocation*)location
 {
     // lets try again in 10 seconds
     [NSTimer scheduledTimerWithTimeInterval:10.0f
-                                     target:message
+                                     target:location
                                    selector:@selector(loadBroadcasts)
                                    userInfo:nil
                                     repeats:NO];

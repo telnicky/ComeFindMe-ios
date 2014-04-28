@@ -299,6 +299,7 @@
             return;
         }
     }
+    
     self.isBroadcasting = false;
 }
 

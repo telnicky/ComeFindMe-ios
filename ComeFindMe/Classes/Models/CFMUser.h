@@ -72,6 +72,8 @@
 @property (nonatomic) CFMLocation* location;
 @property (nonatomic) CFMLocation* currentLocation;
 
+@property (nonatomic) NSMutableDictionary* receivedBroadcasts;
+
 // Class Methods
 + (CFMUser*)currentUser;
 

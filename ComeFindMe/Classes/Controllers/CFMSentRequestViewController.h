@@ -15,12 +15,13 @@
 #import "CFMUser.h"
 #import "CFMMarkersDataSource.h"
 
-@interface CFMSentRequestViewController : UIViewController < CFMMessageBroadcastsDelegate, CFMSentRequestViewDelegate >
+@interface CFMSentRequestViewController : UIViewController < CFMLocationBroadcastsDelegate, CFMSentRequestViewDelegate >
 
 // Attributes
 @property (nonatomic) CFMMessage* message;
 @property (nonatomic) NSMutableDictionary* markerDictionary;
 @property (nonatomic) CFMMarkersDataSource* markersDataSource;
+@property (nonatomic) CFMUser* user;
 
 // Views
 @property (nonatomic) CFMSentRequestView* sentRequestView;
